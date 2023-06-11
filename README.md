@@ -17,9 +17,16 @@ Install-Package CoinMarketCapDotNet
 ### .NET CLI
 
 Run the following command in your project directory:
-
+```
 dotnet add package CoinMarketCapDotNet
+```
 
+### Package Manager
+
+Run the following command:
+```
+NuGet\Install-Package CoinMarketCapDotNet
+```
 ## Usage
 
 To use CoinMarketCapDotNet, follow these steps:
