@@ -40,7 +40,7 @@ CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey);
 To use sandbox mode:
 string apiKey = "YOUR_API_KEY";
 CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey,true);
-
+```
 
 Access the available endpoints through the instantiated API object:
 ## CoinMarketCapAPI
@@ -107,7 +107,7 @@ Access the available endpoints through the instantiated API object:
 - **GetQuotesLatestAsync**: Retrieves the latest exchange quotes asynchronously.
 
 
-
+```
 For example, to get metadata:
 
 var data = await api.Cryptocurrency.GetMapAsync();  // Retrieves a mapping of all supported fiat currencies to unique CoinMarketCap IDs.
