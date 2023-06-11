@@ -1,8 +1,9 @@
-using CoinMarketCapSdk.Extensions;
-using CoinMarketCapSdk.Models.Enums;
+using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Enums;
+using System.Collections.Generic;
 using Xunit;
 
-namespace CoinMarketCapSdk_Tests
+namespace CoinMarketCapDotNet_Tests
 {
     public class EnumExtensionsTests
     {

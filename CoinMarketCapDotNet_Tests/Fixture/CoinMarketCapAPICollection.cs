@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace CoinMarketCapSdk_Tests.Collection
+namespace CoinMarketCapDotNet_Tests.Collection
 {
     [CollectionDefinition("CoinMarketCapAPICollection")]
     public class CoinMarketCapAPICollection : ICollectionFixture<CoinMarketCapAPIFixture>

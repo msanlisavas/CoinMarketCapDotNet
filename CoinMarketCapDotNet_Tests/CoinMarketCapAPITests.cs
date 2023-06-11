@@ -1,8 +1,11 @@
-using CoinMarketCapSdk.Api;
-using CoinMarketCapSdk_Tests.Collection;
+using CoinMarketCapDotNet.Api;
+using CoinMarketCapDotNet_Tests.Collection;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
-namespace CoinMarketCapSdk_Tests
+namespace CoinMarketCapDotNet_Tests
 {
     [Collection("CoinMarketCapAPICollection")]
     public class CoinMarketCapAPITests

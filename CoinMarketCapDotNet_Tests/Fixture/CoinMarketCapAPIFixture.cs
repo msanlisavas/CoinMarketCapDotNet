@@ -1,6 +1,7 @@
-﻿using CoinMarketCapSdk.Api;
+﻿using CoinMarketCapDotNet.Api;
+using System;
 
-namespace CoinMarketCapSdk_Tests.Collection
+namespace CoinMarketCapDotNet_Tests.Collection
 {
     public class CoinMarketCapAPIFixture : IDisposable
     {

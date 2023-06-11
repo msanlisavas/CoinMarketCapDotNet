@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>2d438807-2be5-43e0-a06f-736ffd8ad86d</ProjectGuid>
+    <ProjectGuid>{2D438807-2BE5-43E0-A06F-736FFD8AD86D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoinMarketCapDotNet</RootNamespace>
@@ -31,24 +31,157 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Api\CoinMarketCapAPI.cs" />
+    <Compile Include="Api\General\Endpoints.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\Blockchain\Statistics\BlockchainData.cs" />
+    <Compile Include="Models\Blockchain\Statistics\Query\BlockchainQueryParameters.cs" />
+    <Compile Include="Models\Community\Trending\Query\TrendingTokenQueryParameters.cs" />
+    <Compile Include="Models\Community\Trending\TrendingTokenData.cs" />
+    <Compile Include="Models\Community\Trending\TrendingTopicData.cs" />
+    <Compile Include="Models\Content\Latest\ContentAssetsData.cs" />
+    <Compile Include="Models\Content\Latest\ContentLatestData.cs" />
+    <Compile Include="Models\Content\Latest\Query\ContentLatestQueryParameters.cs" />
+    <Compile Include="Models\Content\Posts\Comments\OwnerData.cs" />
+    <Compile Include="Models\Content\Posts\Comments\PostCommentsData.cs" />
+    <Compile Include="Models\Content\Posts\Comments\Query\PostCommentsQueryParameters.cs" />
+    <Compile Include="Models\Content\Posts\ContentPostsLatestData.cs" />
+    <Compile Include="Models\Content\Posts\ContentPostsListData.cs" />
+    <Compile Include="Models\Content\Posts\CurrenciesData.cs" />
+    <Compile Include="Models\Content\Posts\Latest\Query\ContentPostsLatestQueryParameters.cs" />
+    <Compile Include="Models\Content\Posts\Top\Query\ContentPostsTopQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Airdrops\AirdropData.cs" />
+    <Compile Include="Models\Cryptocurrency\Airdrops\AirdropsData.cs" />
+    <Compile Include="Models\Cryptocurrency\Airdrops\Query\AirdropsQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Categories\CategoriesData.cs" />
+    <Compile Include="Models\Cryptocurrency\Categories\Query\CategoriesQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Category\CategoryData.cs" />
+    <Compile Include="Models\Cryptocurrency\Category\Query\CategoryQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Info\InfoData.cs" />
+    <Compile Include="Models\Cryptocurrency\Info\Query\InfoQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\Historical\HistoricalData.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\Latest\LatestData.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\ListingBaseData.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\New\NewData.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\Query\HistoricalQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\Query\LatestQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Listing\Query\NewQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Map\MapData.cs" />
+    <Compile Include="Models\Cryptocurrency\Map\Query\MapQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\MarketPairs\Latest\MarketPairsLatestData.cs" />
+    <Compile Include="Models\Cryptocurrency\MarketPairs\MarketPairBaseData.cs" />
+    <Compile Include="Models\Cryptocurrency\MarketPairs\MarketPairData.cs" />
+    <Compile Include="Models\Cryptocurrency\MarketPairs\MarketPairQuoteData.cs" />
+    <Compile Include="Models\Cryptocurrency\MarketPairs\Query\MarketPairsLatestQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Ohlcv\Historical\OHLCVHistoricalData.cs" />
+    <Compile Include="Models\Cryptocurrency\Ohlcv\Latest\OHLCVLatestData.cs" />
+    <Compile Include="Models\Cryptocurrency\Ohlcv\OHLCVHistoricalQuoteData.cs" />
+    <Compile Include="Models\Cryptocurrency\Ohlcv\Query\OHLCVHistoricalQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Ohlcv\Query\OHLCVLatestQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\PricePerformanceStats\Latest\PricePerformanceStatsLatestData.cs" />
+    <Compile Include="Models\Cryptocurrency\PricePerformanceStats\Query\PricePerformanceStatsQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\HistoricalMarketDetailsData.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\HistoricalQuoteData.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\Historical\QuotesHistoricalData.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\Latest\QuotesLatestData.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\Query\QuotesHistoricalQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\Query\QuotesLatestQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Trending\GainersLosers\GainersLosersData.cs" />
+    <Compile Include="Models\Cryptocurrency\Trending\Latest\TrendingLatestData.cs" />
+    <Compile Include="Models\Cryptocurrency\Trending\MostVisited\MostVisitedData.cs" />
+    <Compile Include="Models\Cryptocurrency\Trending\Query\TrendingGainersLosersQueryParameters.cs" />
+    <Compile Include="Models\Enums\CategoryEnum.cs" />
+    <Compile Include="Models\Enums\ContentTypeEnum.cs" />
+    <Compile Include="Models\Enums\CryptocurrencyTypeEnum.cs" />
+    <Compile Include="Models\Enums\CurrencyEnum.cs" />
+    <Compile Include="Models\Enums\ExchangeCategoryEnum.cs" />
+    <Compile Include="Models\Enums\ExchangeListingSortEnum.cs" />
+    <Compile Include="Models\Enums\ExchangeMapSortEnum.cs" />
+    <Compile Include="Models\Enums\FeeTypeEnum.cs" />
+    <Compile Include="Models\Enums\IntervalEnum.cs" />
+    <Compile Include="Models\Enums\LanguageEnum.cs" />
+    <Compile Include="Models\Enums\MarketTypeEnum.cs" />
+    <Compile Include="Models\Enums\NewsTypeEnum.cs" />
+    <Compile Include="Models\Enums\PriceTimePeriodEnum.cs" />
+    <Compile Include="Models\Enums\SortDirectionEnum.cs" />
+    <Compile Include="Models\Enums\SortFiatMapEnum.cs" />
+    <Compile Include="Models\Enums\SortListingHistoricalEnum.cs" />
+    <Compile Include="Models\Enums\SortListingLatestEnum.cs" />
+    <Compile Include="Models\Enums\SortMapEnum.cs" />
+    <Compile Include="Models\Enums\SortMarketPairsLatestEnum.cs" />
+    <Compile Include="Models\Enums\SortTrendingGainersLosersEnum.cs" />
+    <Compile Include="Models\Enums\StatusEnum.cs" />
+    <Compile Include="Models\Enums\TagEnum.cs" />
+    <Compile Include="Models\Enums\TimePeriodEnum.cs" />
+    <Compile Include="Models\Enums\TimePeriodOHLCVEnum.cs" />
+    <Compile Include="Models\Exchange\Assets\AssetCurrencyData.cs" />
+    <Compile Include="Models\Exchange\Assets\AssetPlatformData.cs" />
+    <Compile Include="Models\Exchange\Assets\AssetsData.cs" />
+    <Compile Include="Models\Exchange\Assets\Query\AssetsQueryParameters.cs" />
+    <Compile Include="Models\Exchange\Info\ExchangeInfoData.cs" />
+    <Compile Include="Models\Exchange\Listing\Latest\ExchangeListingLatestData.cs" />
+    <Compile Include="Models\Exchange\Listing\Latest\ExchangeQuoteData.cs" />
+    <Compile Include="Models\Exchange\Listing\Latest\Query\ExchangeLatestQueryParameters.cs" />
+    <Compile Include="Models\Exchange\Map\ExchangeMapData.cs" />
+    <Compile Include="Models\Exchange\Map\Query\ExchangeMapQueryParameters.cs" />
+    <Compile Include="Models\Exchange\MarketPairs\Latest\ExchangeMarketPairLatestData.cs" />
+    <Compile Include="Models\Exchange\Quotes\Historical\ExchangeHistoricalData.cs" />
+    <Compile Include="Models\Exchange\Quotes\Historical\ExchangeHistoricalMarketDetailsData.cs" />
+    <Compile Include="Models\Exchange\Quotes\Historical\ExchangeHistoricalQuotesData.cs" />
+    <Compile Include="Models\Exchange\Quotes\Historical\Query\ExchangeHistoricalQueryParameters.cs" />
+    <Compile Include="Models\Exchange\Quotes\Latest\ExchangeLatestData.cs" />
+    <Compile Include="Models\Exchange\Quotes\Latest\ExchangeQuoteData.cs" />
+    <Compile Include="Models\Exchange\Quotes\Latest\Query\ExchangeQuotesLatestQueryParameters.cs" />
+    <Compile Include="Models\Fiat\Map\FiatMapData.cs" />
+    <Compile Include="Models\Fiat\Map\Query\FiatMapQueryParameters.cs" />
+    <Compile Include="Models\General\CoinData.cs" />
+    <Compile Include="Models\General\CoinsData.cs" />
+    <Compile Include="Models\General\CurrenciesData.cs" />
+    <Compile Include="Models\General\DataContainer.cs" />
+    <Compile Include="Models\General\ExchangeData.cs" />
+    <Compile Include="Models\General\MarketQuoteData.cs" />
+    <Compile Include="Models\General\NestedResponseList.cs" />
+    <Compile Include="Models\General\PlatformData.cs" />
+    <Compile Include="Models\General\QueryParameters.cs" />
+    <Compile Include="Models\General\QuoteData.cs" />
+    <Compile Include="Models\General\Response.cs" />
+    <Compile Include="Models\General\ResponseDict.cs" />
+    <Compile Include="Models\General\ResponseList.cs" />
+    <Compile Include="Models\General\Status.cs" />
+    <Compile Include="Models\General\TimePeriodData.cs" />
+    <Compile Include="Models\General\TimePeriodQuoteData.cs" />
+    <Compile Include="Models\General\UrlsData.cs" />
+    <Compile Include="Models\GlobalMetrics\Historical\GlobalMetricsHistoricalData.cs" />
+    <Compile Include="Models\GlobalMetrics\Historical\GlobalMetricsHistoricalQuoteData.cs" />
+    <Compile Include="Models\GlobalMetrics\Historical\GlobalMetricsHistoricalQuotesData.cs" />
+    <Compile Include="Models\GlobalMetrics\Historical\Query\GlobalMetricsHistoricalQueryParameters.cs" />
+    <Compile Include="Models\GlobalMetrics\Latest\GlobalMetricsLatestData.cs" />
+    <Compile Include="Models\GlobalMetrics\Latest\GlobalMetricsLatestQuoteData.cs" />
+    <Compile Include="Models\Key\CurrentDayData.cs" />
+    <Compile Include="Models\Key\CurrentMinuteData.cs" />
+    <Compile Include="Models\Key\CurrentMonthData.cs" />
+    <Compile Include="Models\Key\KeyInfoData.cs" />
+    <Compile Include="Models\Key\PlanData.cs" />
+    <Compile Include="Models\Key\UsageData.cs" />
+    <Compile Include="Models\Tools\PriceConversionData.cs" />
+    <Compile Include="Models\Tools\PriceConvertionQuoteData.cs" />
+    <Compile Include="Models\Tools\Query\PriceConvertionQueryParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>
