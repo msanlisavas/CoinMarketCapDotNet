@@ -60,38 +60,50 @@ For example, to get metadata:
 
 var data = await api.Cryptocurrency.GetMapAsync();  // Retrieves a mapping of all supported fiat currencies to unique CoinMarketCap IDs.
 ```
-Extensions to make life easier:
+
+**Extensions to make life easier:**
+Enum Extensions:
+
+.GetEnumMemberValue():
+Example:
 ```
-Enum Extensions: 
-**## .GetEnumMemberValue():**
-Example: 
 CurrencyEnum currency = CurrencyEnum.EUR;
 string enumMemberValue = currency.GetEnumMemberValue(); // Should return "USD" you can use this to fetch USD from endpoints.
+```
 
-**## .GetId():**
-Example: 
+.GetId():
+Example:
+```
 CurrencyEnum currency = CurrencyEnum.USD;
-int id = currency.GetId(); // You should get the cmc equilavent of EUR id.
+int id = currency.GetId(); // You should get the cmc equivalent of EUR id.
+```
 
-**## .GetSymbol():**
-Example: 
+.GetSymbol():
+Example:
+```
 CurrencyEnum currency = CurrencyEnum.TRY; // You should get "TRY"
 string symbol = currency.GetSymbol();
+```
 
-**## .GetCurrencyIds():**
-Example: 
+.GetCurrencyIds():
+Example:
+```
 string symbols = "USD,EUR,TRY";
 List<int> ids = symbols.GetCurrencyIds(); // Returns the symbol strings as a id list to be used in endpoints.
-
-**## .GetAllIds():**
-Example: 
-List<int> allIds = EnumExtensions.GetAllIds<CategoryEnum>(); // Will return all the ids of a given enum
-
-**## .GetAllSymbols():**
-Example: 
-  List<string> enumMemberValues = EnumExtensions.GetAllSymbols<CurrencyEnum>(); // Will return all the symbols of a given enum
-
 ```
+
+.GetAllIds():
+Example:
+```
+List<int> allIds = EnumExtensions.GetAllIds<CategoryEnum>(); // Will return all the ids of a given enum
+```
+
+.GetAllSymbols():
+Example:
+```
+List<string> enumMemberValues = EnumExtensions.GetAllSymbols<CurrencyEnum>(); // Will return all the symbols of a given enum
+```
+  
 Refer to the CoinMarketCap API documentation for more information on available endpoints and their usage.
 
 Contributing
