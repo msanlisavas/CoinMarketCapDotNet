@@ -45,9 +45,8 @@ CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey,true);
 Access the available endpoints through the instantiated API object:
 ## CoinMarketCapAPI
 
-### Methods
+### Endpoints
 
-- **GetDataAsync**: Retrieves data asynchronously.
 - **CryptocurrencyEndpoint**: Provides endpoints related to cryptocurrencies.
 - **FiatEndpoint**: Provides endpoints related to fiat currencies.
 - **ExchangeEndpoint**: Provides endpoints related to exchanges.
@@ -157,6 +156,7 @@ Access the available endpoints through the instantiated API object:
 - **GetTrendingTokenAsync**: Retrieves the latest trending tokens from the CMC Community asynchronously.
 - **GetTrendingTopicAsync**: Retrieves the latest trending topics from the CMC Community asynchronously.
 
+---
 
 ```
 For example, to get metadata:
