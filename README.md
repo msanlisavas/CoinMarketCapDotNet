@@ -43,89 +43,70 @@ CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey,true);
 
 
 Access the available endpoints through the instantiated API object:
+## CoinMarketCapAPI
 
-CoinMarketCapAPI
-Methods:
-GetDataAsync
-Description: Retrieves data asynchronously.
-CryptocurrencyEndpoint
-Description: Provides endpoints related to cryptocurrencies.
-FiatEndpoint
-Description: Provides endpoints related to fiat currencies.
-ExchangeEndpoint
-Description: Provides endpoints related to exchanges.
-GlobalMetricsEndpoint
-Description: Provides endpoints related to global market metrics.
-ToolsEndpoint
-Description: Provides miscellaneous tools and utilities.
-BlockchainEndpoint
-Description: Provides endpoints related to blockchain statistics.
-KeyEndpoint
-Description: Provides endpoints related to API keys.
-ContentEndpoint
-Description: Provides endpoints related to content (news, articles, etc.).
-CommunityEndpoint
-Description: Provides endpoints related to the community.
-CryptocurrencyEndpoint
-Methods:
-GetAirdropAsync
-Description: Retrieves airdrop details asynchronously.
-GetAirdropsAsync
-Description: Retrieves a list of airdrops asynchronously.
-GetCategoriesAsync
-Description: Retrieves a list of cryptocurrency categories asynchronously.
-GetCategoryAsync
-Description: Retrieves category details asynchronously.
-GetMapAsync
-Description: Retrieves a mapping of all cryptocurrencies to unique CoinMarketCap IDs asynchronously.
-GetInfoAsync
-Description: Retrieves cryptocurrency information asynchronously.
-GetListingLatestAsync
-Description: Retrieves the latest cryptocurrency listings asynchronously.
-GetListingHistoricalAsync
-Description: Retrieves historical cryptocurrency listings asynchronously.
-GetListingNewAsync
-Description: Retrieves new cryptocurrency listings asynchronously.
-GetTrendingGainersLosersAsync
-Description: Retrieves trending gainers and losers asynchronously.
-GetTrendingLatestAsync
-Description: Retrieves the latest trending cryptocurrencies asynchronously.
-GetTrendingMostVisitedAsync
-Description: Retrieves the most visited trending cryptocurrencies asynchronously.
-GetMarketPairsLatestAsync
-Description: Retrieves the latest cryptocurrency market pairs asynchronously.
-GetOHLCVLatestAsync
-Description: Retrieves the latest cryptocurrency OHLCV (Open, High, Low, Close, Volume) data asynchronously.
-GetOHCLVHistoricalAsync
-Description: Retrieves historical cryptocurrency OHLCV (Open, High, Low, Close, Volume) data asynchronously.
-GetPricePerformanceStatsLatestAsync
-Description: Retrieves the latest cryptocurrency price performance statistics asynchronously.
-GetQuotesHistoricalV2Async
-Description: Retrieves historical cryptocurrency quotes using V2 endpoint asynchronously.
-GetQuotesLatestAsync
-Description: Retrieves the latest cryptocurrency quotes asynchronously.
-GetQuotesHistoricalV3Async
-Description: Retrieves historical cryptocurrency quotes using V3 endpoint asynchronously.
-FiatEndpoint
-Methods:
-GetMapAsync
-Description: Retrieves a mapping of all fiat currencies to unique CoinMarketCap IDs asynchronously.
-ExchangeEndpoint
-Methods:
-GetAssetsAsync
-Description: Retrieves a list of exchange assets asynchronously.
-GetInfoAsync
-Description: Retrieves exchange information asynchronously.
-GetMapAsync
-Description: Retrieves a mapping of all exchanges to unique CoinMarketCap IDs asynchronously.
-GetListingLatestAsync
-Description: Retrieves the latest exchange listings asynchronously.
-GetMarketPairsAsync
-Description: Retrieves exchange market pairs asynchronously.
-GetQuotesHistoricalAsync
-Description: Retrieves historical exchange quotes asynchronously.
-GetQuotesLatestAsync
-Description: Retrieves the latest exchange quotes asynchronously.
+### Methods
+
+- **GetDataAsync**: Retrieves data asynchronously.
+- **CryptocurrencyEndpoint**: Provides endpoints related to cryptocurrencies.
+- **FiatEndpoint**: Provides endpoints related to fiat currencies.
+- **ExchangeEndpoint**: Provides endpoints related to exchanges.
+- **GlobalMetricsEndpoint**: Provides endpoints related to global market metrics.
+- **ToolsEndpoint**: Provides miscellaneous tools and utilities.
+- **BlockchainEndpoint**: Provides endpoints related to blockchain statistics.
+- **KeyEndpoint**: Provides endpoints related to API keys.
+- **ContentEndpoint**: Provides endpoints related to content (news, articles, etc.).
+- **CommunityEndpoint**: Provides endpoints related to the community.
+
+---
+
+## CryptocurrencyEndpoint
+
+### Methods
+
+- **GetAirdropAsync**: Retrieves airdrop details asynchronously.
+- **GetAirdropsAsync**: Retrieves a list of airdrops asynchronously.
+- **GetCategoriesAsync**: Retrieves a list of cryptocurrency categories asynchronously.
+- **GetCategoryAsync**: Retrieves category details asynchronously.
+- **GetMapAsync**: Retrieves a mapping of all cryptocurrencies to unique CoinMarketCap IDs asynchronously.
+- **GetInfoAsync**: Retrieves cryptocurrency information asynchronously.
+- **GetListingLatestAsync**: Retrieves the latest cryptocurrency listings asynchronously.
+- **GetListingHistoricalAsync**: Retrieves historical cryptocurrency listings asynchronously.
+- **GetListingNewAsync**: Retrieves new cryptocurrency listings asynchronously.
+- **GetTrendingGainersLosersAsync**: Retrieves trending gainers and losers asynchronously.
+- **GetTrendingLatestAsync**: Retrieves the latest trending cryptocurrencies asynchronously.
+- **GetTrendingMostVisitedAsync**: Retrieves the most visited trending cryptocurrencies asynchronously.
+- **GetMarketPairsLatestAsync**: Retrieves the latest cryptocurrency market pairs asynchronously.
+- **GetOHLCVLatestAsync**: Retrieves the latest cryptocurrency OHLCV (Open, High, Low, Close, Volume) data asynchronously.
+- **GetOHCLVHistoricalAsync**: Retrieves historical cryptocurrency OHLCV (Open, High, Low, Close, Volume) data asynchronously.
+- **GetPricePerformanceStatsLatestAsync**: Retrieves the latest cryptocurrency price performance statistics asynchronously.
+- **GetQuotesHistoricalV2Async**: Retrieves historical cryptocurrency quotes using V2 endpoint asynchronously.
+- **GetQuotesLatestAsync**: Retrieves the latest cryptocurrency quotes asynchronously.
+- **GetQuotesHistoricalV3Async**: Retrieves historical cryptocurrency quotes using V3 endpoint asynchronously.
+
+---
+
+## FiatEndpoint
+
+### Methods
+
+- **GetMapAsync**: Retrieves a mapping of all fiat currencies to unique CoinMarketCap IDs asynchronously.
+
+---
+
+## ExchangeEndpoint
+
+### Methods
+
+- **GetAssetsAsync**: Retrieves a list of exchange assets asynchronously.
+- **GetInfoAsync**: Retrieves exchange information asynchronously.
+- **GetMapAsync**: Retrieves a mapping of all exchanges to unique CoinMarketCap IDs asynchronously.
+- **GetListingLatestAsync**: Retrieves the latest exchange listings asynchronously.
+- **GetMarketPairsAsync**: Retrieves exchange market pairs asynchronously.
+- **GetQuotesHistoricalAsync**: Retrieves historical exchange quotes asynchronously.
+- **GetQuotesLatestAsync**: Retrieves the latest exchange quotes asynchronously.
+
+
 
 For example, to get metadata:
 
