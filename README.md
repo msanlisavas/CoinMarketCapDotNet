@@ -30,6 +30,10 @@ To use CoinMarketCapDotNet, follow these steps:
 string apiKey = "YOUR_API_KEY";
 CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey);
 
+To use sandbox mode:
+string apiKey = "YOUR_API_KEY";
+CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey,true);
+
 
 Access the available endpoints through the instantiated API object. 
 CryptocurrencyEndpoint -> await api.Cryptocurrency.
