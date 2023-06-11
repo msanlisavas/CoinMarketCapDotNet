@@ -167,41 +167,41 @@ var data = await api.Cryptocurrency.GetMapAsync();  // Retrieves a mapping of al
 **Extensions to make life easier:**
 Enum Extensions:
 
-.GetEnumMemberValue():
+**.GetEnumMemberValue():**
 Example:
 ```
 CurrencyEnum currency = CurrencyEnum.EUR;
 string enumMemberValue = currency.GetEnumMemberValue(); // Should return "USD" you can use this to fetch USD from endpoints.
 ```
 
-.GetId():
+**.GetId():**
 Example:
 ```
 CurrencyEnum currency = CurrencyEnum.USD;
 int id = currency.GetId(); // You should get the cmc equivalent of EUR id.
 ```
 
-.GetSymbol():
+**.GetSymbol():**
 Example:
 ```
 CurrencyEnum currency = CurrencyEnum.TRY; // You should get "TRY"
 string symbol = currency.GetSymbol();
 ```
 
-.GetCurrencyIds():
+**.GetCurrencyIds():**
 Example:
 ```
 string symbols = "USD,EUR,TRY";
 List<int> ids = symbols.GetCurrencyIds(); // Returns the symbol strings as a id list to be used in endpoints.
 ```
 
-.GetAllIds():
+**.GetAllIds():**
 Example:
 ```
 List<int> allIds = EnumExtensions.GetAllIds<CategoryEnum>(); // Will return all the ids of a given enum
 ```
 
-.GetAllSymbols():
+**.GetAllSymbols():**
 Example:
 ```
 List<string> enumMemberValues = EnumExtensions.GetAllSymbols<CurrencyEnum>(); // Will return all the symbols of a given enum
