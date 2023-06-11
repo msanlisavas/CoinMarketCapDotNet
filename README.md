@@ -1,28 +1,28 @@
 # CoinMarketCap C# Wrapper
 
-# CoinMarketCapSharp
+# CoinMarketCapDotNet
 
-CoinMarketCapSharp is a C# wrapper for the CoinMarketCap API, providing convenient access to cryptocurrency market data.
+CoinMarketCapDotNet is a C# wrapper for the CoinMarketCap API, providing convenient access to cryptocurrency market data.
 
 ## Installation
 
-You can install CoinMarketCapSharp via NuGet Package Manager or by using the .NET CLI:
+You can install CoinMarketCapDotNet via NuGet Package Manager or by using the .NET CLI:
 
 ### NuGet Package Manager
 
-Search for `CoinMarketCapSharp` in the NuGet Package Manager UI or run the following command in the Package Manager Console:
+Search for `CoinMarketCapDotNet` in the NuGet Package Manager UI or run the following command in the Package Manager Console:
 
-Install-Package CoinMarketCapSharp
+Install-Package CoinMarketCapDotNet
 
 ### .NET CLI
 
 Run the following command in your project directory:
 
-dotnet add package CoinMarketCapSharp
+dotnet add package CoinMarketCapDotNet
 
 ## Usage
 
-To use CoinMarketCapSharp, follow these steps:
+To use CoinMarketCapDotNet, follow these steps:
 
 1. Instantiate the `CoinMarketCapAPI` class with your API key:
 
