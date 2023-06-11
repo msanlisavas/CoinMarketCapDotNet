@@ -106,6 +106,57 @@ Access the available endpoints through the instantiated API object:
 - **GetQuotesHistoricalAsync**: Retrieves historical exchange quotes asynchronously.
 - **GetQuotesLatestAsync**: Retrieves the latest exchange quotes asynchronously.
 
+## GlobalMetricsEndpoint
+
+### Methods
+
+- **GetQuotesHistoricalAsync**: Retrieves historical global market metrics quotes asynchronously.
+- **GetQuotesLatestAsync**: Retrieves the latest global market metrics quotes asynchronously.
+
+---
+
+## ToolsEndpoint
+
+### Methods
+
+- **GetPriceConversionAsync**: Retrieves price conversion data asynchronously.
+
+---
+
+## BlockchainEndpoint
+
+### Methods
+
+- **GetStatisticsLatestAsync**: Retrieves the latest blockchain statistics data asynchronously.
+
+---
+
+## KeyEndpoint
+
+### Methods
+
+- **GetKeyInfoAsync**: Retrieves API key details and usage stats asynchronously.
+
+---
+
+## ContentEndpoint
+
+### Methods
+
+- **GetContentLatestAsync**: Retrieves the latest crypto-related posts from the CMC Community asynchronously.
+- **GetPostCommentsAsync**: Retrieves comments of a CMC Community post asynchronously.
+- **GetPostLatestAsync**: Retrieves the latest crypto-related posts from the CMC Community asynchronously.
+- **GetPostTopAsync**: Retrieves the top crypto-related posts from the CMC Community asynchronously.
+
+---
+
+## CommunityEndpoint
+
+### Methods
+
+- **GetTrendingTokenAsync**: Retrieves the latest trending tokens from the CMC Community asynchronously.
+- **GetTrendingTopicAsync**: Retrieves the latest trending topics from the CMC Community asynchronously.
+
 
 ```
 For example, to get metadata:
