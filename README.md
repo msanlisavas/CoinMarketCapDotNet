@@ -42,16 +42,19 @@ string apiKey = "YOUR_API_KEY";
 CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey,true);
 
 
-Access the available endpoints through the instantiated API object. 
-CryptocurrencyEndpoint -> await api.Cryptocurrency.
-FiatEndpoint -> await api.Fiat.
-ExchangeEndpoint -> await api.Exchange.
-GlobalMetricsEndpoint -> await api.GlobalMetrics.
-ToolsEndpoint -> await api.Tools.
-BlockchainEndpoint -> await api.Blockchain.
-KeyEndpoint -> await api.Key.
-ContentEndpoint -> await api.Content.
-CommunityEndpoint -> await api.Community.
+Access the available endpoints through the instantiated API object:
+
+- CryptocurrencyEndpoint: `api.Cryptocurrency`
+- FiatEndpoint: `api.Fiat`
+- ExchangeEndpoint: `api.Exchange`
+- GlobalMetricsEndpoint: `api.GlobalMetrics`
+- ToolsEndpoint: `api.Tools`
+- BlockchainEndpoint: `api.Blockchain`
+- KeyEndpoint: `api.Key`
+- ContentEndpoint: `api.Content`
+- CommunityEndpoint: `api.Community`
+
+
 
 For example, to get metadata:
 
