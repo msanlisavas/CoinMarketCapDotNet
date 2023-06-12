@@ -215,3 +215,11 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 License
 MIT License
 
+**Buy me a coffee?**
+---
+```
+BTC: 1NxUuEQcR4Scw8ge3oto6ykLqBpe9LGikS
+ETH: 0x9cda155f73220073a9f024daaa72eb06b5c06c86
+```
+
+
