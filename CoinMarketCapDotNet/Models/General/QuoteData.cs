@@ -9,7 +9,7 @@ namespace CoinMarketCapDotNet.Models.General
         public double? Price { get; set; }
 
         [JsonProperty("volume_24h")]
-        public double Volume24h { get; set; }
+        public double? Volume24h { get; set; }
 
         [JsonProperty("volume_change_24h")]
         public double? VolumeChange24h { get; set; }

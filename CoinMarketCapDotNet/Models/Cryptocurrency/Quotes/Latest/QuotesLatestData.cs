@@ -1,5 +1,6 @@
 ﻿using CoinMarketCapDotNet.Models.General;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
@@ -19,7 +20,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
         public string Slug { get; set; }
 
         [JsonProperty("is_active")]
-        public int IsActive { get; set; }
+        public int? IsActive { get; set; }
 
         [JsonProperty("is_fiat")]
         public int? IsFiat { get; set; }
@@ -43,7 +44,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
         public double? MaxSupply { get; set; }
 
         [JsonProperty("date_added")]
-        public string DateAdded { get; set; }
+        public DateTime? DateAdded { get; set; }
 
         [JsonProperty("tags")]
         public List<TagData> Tags { get; set; }

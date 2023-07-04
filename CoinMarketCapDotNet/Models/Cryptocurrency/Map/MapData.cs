@@ -10,7 +10,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Map
         public int Id { get; set; }
 
         [JsonProperty("rank")]
-        public int Rank { get; set; }
+        public int? Rank { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -25,10 +25,10 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Map
         public bool IsActive { get; set; }
 
         [JsonProperty("first_historical_data")]
-        public DateTime FirstHistoricalData { get; set; }
+        public DateTime? FirstHistoricalData { get; set; }
 
         [JsonProperty("last_historical_data")]
-        public DateTime LastHistoricalData { get; set; }
+        public DateTime? LastHistoricalData { get; set; }
 
         [JsonProperty("platform")]
         public PlatformData Platform { get; set; }

@@ -15,7 +15,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs.Latest
         public string Symbol { get; set; }
 
         [JsonProperty("num_market_pairs")]
-        public int NumMarketPairs { get; set; }
+        public int? NumMarketPairs { get; set; }
         [JsonProperty("market_pairs")]
         public List<MarketPairData> MarketPairs { get; set; }
     }

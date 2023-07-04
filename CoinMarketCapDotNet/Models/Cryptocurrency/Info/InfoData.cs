@@ -30,10 +30,10 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Info
         public string Description { get; set; }
 
         [JsonProperty("date_added")]
-        public DateTime DateAdded { get; set; }
+        public DateTime? DateAdded { get; set; }
 
         [JsonProperty("date_launched")]
-        public DateTime DateLaunched { get; set; }
+        public DateTime? DateLaunched { get; set; }
 
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }

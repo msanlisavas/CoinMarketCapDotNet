@@ -21,7 +21,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.PricePerformanceStats.Latest
         public string Slug { get; set; }
 
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
         [JsonProperty("periods")]
         public Dictionary<string, TimePeriodData> Periods { get; set; }
 

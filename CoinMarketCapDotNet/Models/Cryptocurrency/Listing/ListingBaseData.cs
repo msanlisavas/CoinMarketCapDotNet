@@ -19,16 +19,16 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing
         [JsonProperty("slug")]
         public string Slug { get; set; }
         [JsonProperty("cmc_rank")]
-        public int CMCRank { get; set; }
+        public int? CMCRank { get; set; }
 
         [JsonProperty("num_market_pairs")]
-        public int NumMarketPairs { get; set; }
+        public int? NumMarketPairs { get; set; }
 
         [JsonProperty("circulating_supply")]
-        public decimal CirculatingSupply { get; set; }
+        public decimal? CirculatingSupply { get; set; }
 
         [JsonProperty("total_supply")]
-        public decimal TotalSupply { get; set; }
+        public decimal? TotalSupply { get; set; }
 
         [JsonProperty("max_supply")]
         public decimal? MaxSupply { get; set; }
@@ -37,10 +37,10 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing
         public bool? InfiniteSupply { get; set; }
 
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
         [JsonProperty("date_added")]
-        public DateTime DateAdded { get; set; }
+        public DateTime? DateAdded { get; set; }
 
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }

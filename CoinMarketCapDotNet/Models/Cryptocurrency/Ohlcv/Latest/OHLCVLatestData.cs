@@ -17,16 +17,16 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Ohlcv.Latest
         public string Symbol { get; set; }
 
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
         [JsonProperty("time_open")]
-        public DateTime TimeOpen { get; set; }
+        public DateTime? TimeOpen { get; set; }
 
         [JsonProperty("time_high")]
-        public DateTime TimeHigh { get; set; }
+        public DateTime? TimeHigh { get; set; }
 
         [JsonProperty("time_low")]
-        public DateTime TimeLow { get; set; }
+        public DateTime? TimeLow { get; set; }
 
         [JsonProperty("time_close")]
         public DateTime? TimeClose { get; set; }

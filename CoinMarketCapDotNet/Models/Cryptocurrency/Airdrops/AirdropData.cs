@@ -19,16 +19,16 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Airdrops
         public string Status { get; set; }
 
         [JsonProperty("start_date")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [JsonProperty("end_date")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [JsonProperty("total_prize")]
-        public int TotalPrize { get; set; }
+        public int? TotalPrize { get; set; }
 
         [JsonProperty("winner_count")]
-        public int WinnerCount { get; set; }
+        public int? WinnerCount { get; set; }
 
         [JsonProperty("link")]
         public string Link { get; set; }

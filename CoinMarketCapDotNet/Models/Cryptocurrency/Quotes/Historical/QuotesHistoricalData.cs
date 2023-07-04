@@ -15,7 +15,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Historical
         public string Symbol { get; set; }
 
         [JsonProperty("is_active")]
-        public int IsActive { get; set; }
+        public int? IsActive { get; set; }
 
         [JsonProperty("is_fiat")]
         public int? IsFiat { get; set; }

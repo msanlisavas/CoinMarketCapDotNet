@@ -18,22 +18,22 @@ namespace CoinMarketCapDotNet.Models.General
         public string Slug { get; set; }
 
         [JsonProperty("cmc_rank")]
-        public int CmcRank { get; set; }
+        public int? CmcRank { get; set; }
 
         [JsonProperty("num_market_pairs")]
-        public int NumMarketPairs { get; set; }
+        public int? NumMarketPairs { get; set; }
 
         [JsonProperty("circulating_supply")]
-        public double CirculatingSupply { get; set; }
+        public double? CirculatingSupply { get; set; }
 
         [JsonProperty("total_supply")]
-        public double TotalSupply { get; set; }
+        public double? TotalSupply { get; set; }
 
         [JsonProperty("market_cap_by_total_supply")]
-        public double MarketCapByTotalSupply { get; set; }
+        public double? MarketCapByTotalSupply { get; set; }
 
         [JsonProperty("max_supply")]
-        public double MaxSupply { get; set; }
+        public double? MaxSupply { get; set; }
 
         [JsonProperty("last_updated")]
         public string LastUpdated { get; set; }
