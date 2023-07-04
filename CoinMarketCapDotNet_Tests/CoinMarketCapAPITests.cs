@@ -247,7 +247,7 @@ namespace CoinMarketCapDotNet_Tests
         [Fact]
         public async Task GetQuotesLatestAsync_ReturnsExpectedData()
         {
-            //_fixture.SetSandboxMode(true); // use sandbox mode
+            _fixture.SetSandboxMode(true); // use sandbox mode
             // Arrange
             var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
 
