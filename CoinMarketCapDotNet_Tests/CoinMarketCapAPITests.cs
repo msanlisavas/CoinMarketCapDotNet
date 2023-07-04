@@ -75,7 +75,7 @@ namespace CoinMarketCapDotNet_Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data.Count > 0 && result.Data[0].DateAdded.Date == DateTime.UtcNow.Date);
+            Assert.True(result.Data.Count > 0 && result.Data[0].DateAdded.GetValueOrDefault() == DateTime.UtcNow.Date);
 
         }
 
