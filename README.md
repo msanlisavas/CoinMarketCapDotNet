@@ -1,3 +1,16 @@
+# Release Notes
+v.1.0.3
+- Fixed an issue where the latest quotes sometimes returns with null data.
+
+v.1.0.2
+- Fixed json serialization issues on latest quotes.
+  
+v.1.0.1
+- Added xml comments.
+  
+v.1.0.0
+- Initial release.
+
 # CoinMarketCap C# Wrapper
 
 # CoinMarketCapDotNet
