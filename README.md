@@ -11,8 +11,6 @@ v.1.0.1
 v.1.0.0
 - Initial release.
 
-# CoinMarketCap C# Wrapper
-
 # CoinMarketCapDotNet
 
 CoinMarketCapDotNet is a C# wrapper for the CoinMarketCap API, providing convenient access to cryptocurrency market data.
