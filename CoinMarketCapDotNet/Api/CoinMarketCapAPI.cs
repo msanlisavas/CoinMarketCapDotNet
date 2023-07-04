@@ -394,7 +394,7 @@ namespace CoinMarketCapDotNet.Api
             /// Plan credit use: 1 call credit per 100 cryptocurrencies returned (rounded up).
             /// CMC equivalent pages: Cryptocurrency detail page metadata like coinmarketcap.com/currencies/bitcoin/.
             /// </remarks>
-            public async Task<Response<List<InfoData>>> GetInfoAsync(string ids = "", string slugs = "", string symbols = "", string address = "", bool skipInvalid = false, string aux = "")
+            public async Task<Response<List<List<InfoData>>>> GetInfoAsync(string ids = "", string slugs = "", string symbols = "", string address = "", bool skipInvalid = false, string aux = "")
             {
                 if (string.IsNullOrWhiteSpace(ids) && string.IsNullOrWhiteSpace(symbols) && string.IsNullOrWhiteSpace(slugs))
                 {
@@ -409,9 +409,9 @@ namespace CoinMarketCapDotNet.Api
                 parameters.Add("aux", aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Info}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<InfoData>>(endpoint);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<InfoData>>>(endpoint);
                 var data = response?.Data?.Values?.ToList();
-                return new Response<List<InfoData>>
+                return new Response<List<List<InfoData>>>
                 {
                     Status = response?.Status,
                     Data = data
@@ -1015,7 +1015,7 @@ namespace CoinMarketCapDotNet.Api
             /// Plan credit use: 1 call credit per 100 cryptocurrencies returned (rounded up) and 1 call credit per convert option beyond the first.
             /// CMC equivalent pages: The statistics module displayed on cryptocurrency pages like Bitcoin.
             /// </remarks>
-            public async Task<Response<List<PricePerformanceStatsLatestData>>> GetPricePerformanceStatsLatestAsync
+            public async Task<Response<List<List<PricePerformanceStatsLatestData>>>> GetPricePerformanceStatsLatestAsync
                 (
                     string id = "",
                     string slug = "",
@@ -1040,9 +1040,9 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSkipInvalid(skipInvalid);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.PricePerformanceStats.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<PricePerformanceStatsLatestData>>(endpoint);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<PricePerformanceStatsLatestData>>>(endpoint);
                 var data = response?.Data?.Values?.ToList();
-                return new Response<List<PricePerformanceStatsLatestData>>
+                return new Response<List<List<PricePerformanceStatsLatestData>>>
                 {
                     Status = response?.Status,
                     Data = data

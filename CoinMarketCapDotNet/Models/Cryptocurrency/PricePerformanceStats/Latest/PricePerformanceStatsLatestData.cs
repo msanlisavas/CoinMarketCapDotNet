@@ -1,5 +1,6 @@
 ﻿using CoinMarketCapDotNet.Models.General;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.PricePerformanceStats.Latest
@@ -20,9 +21,9 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.PricePerformanceStats.Latest
         public string Slug { get; set; }
 
         [JsonProperty("last_updated")]
-        public string LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; }
+        [JsonProperty("periods")]
+        public Dictionary<string, TimePeriodData> Periods { get; set; }
 
-        [JsonProperty("quote")]
-        public Dictionary<string, TimePeriodQuoteData> Quotes { get; set; }
     }
 }

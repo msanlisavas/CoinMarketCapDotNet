@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace CoinMarketCapDotNet.Models.General
 {
@@ -8,25 +9,25 @@ namespace CoinMarketCapDotNet.Models.General
         public decimal Open { get; set; }
 
         [JsonProperty("open_timestamp")]
-        public string OpenTimestamp { get; set; }
+        public DateTime OpenTimestamp { get; set; }
 
         [JsonProperty("high")]
         public decimal High { get; set; }
 
         [JsonProperty("high_timestamp")]
-        public string HighTimestamp { get; set; }
+        public DateTime HighTimestamp { get; set; }
 
         [JsonProperty("low")]
         public decimal Low { get; set; }
 
         [JsonProperty("low_timestamp")]
-        public string LowTimestamp { get; set; }
+        public DateTime LowTimestamp { get; set; }
 
         [JsonProperty("close")]
         public decimal Close { get; set; }
 
         [JsonProperty("close_timestamp")]
-        public string CloseTimestamp { get; set; }
+        public DateTime CloseTimestamp { get; set; }
 
         [JsonProperty("percent_change")]
         public decimal PercentChange { get; set; }
