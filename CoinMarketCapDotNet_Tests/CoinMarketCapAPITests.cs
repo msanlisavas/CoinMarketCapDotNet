@@ -247,16 +247,16 @@ namespace CoinMarketCapDotNet_Tests
         [Fact]
         public async Task GetQuotesLatestAsync_ReturnsExpectedData()
         {
-            _fixture.SetSandboxMode(true); // use sandbox mode
+            //_fixture.SetSandboxMode(true); // use sandbox mode
             // Arrange
             var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
 
             // Act
-            var result = await coinMarketCapAPI.Cryptocurrency.GetQuotesLatestAsync("", "", "BTC");
+            var result = await coinMarketCapAPI.Cryptocurrency.GetQuotesLatestAsync("", "", "ACA");
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data[0].FirstOrDefault().Symbol == "BTC");
+            Assert.True(result.Data[0].FirstOrDefault().Symbol == "ACA");
 
         }
         [Fact]
