@@ -1,4 +1,6 @@
 # Release Notes
+v.1.0.4
+- Fixed serialization isssues on Price Performance Stats and Metadata.
 v.1.0.3
 - Fixed an issue where the latest quotes sometimes returns with null data.
 
