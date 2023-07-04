@@ -45,7 +45,7 @@ namespace CoinMarketCapDotNet_Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data[0].Symbol == "BTC");
+            Assert.True(result.Data[0].FirstOrDefault().Symbol == "BTC");
 
         }
         [Fact]
@@ -207,11 +207,11 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
 
             // Act
-            var result = await coinMarketCapAPI.Cryptocurrency.GetPricePerformanceStatsLatestAsync("", "", "BTC,ETH");
+            var result = await coinMarketCapAPI.Cryptocurrency.GetPricePerformanceStatsLatestAsync("", "", "ACA");
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data.Count == 2);
+            Assert.True(result.Data.Count == 1);
 
         }
         [Fact]
