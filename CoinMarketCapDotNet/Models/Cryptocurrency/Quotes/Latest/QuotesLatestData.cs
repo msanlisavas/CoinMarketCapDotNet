@@ -46,7 +46,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
         public string DateAdded { get; set; }
 
         [JsonProperty("tags")]
-        public string[] Tags { get; set; }
+        public List<TagData> Tags { get; set; }
 
         [JsonProperty("platform")]
         public PlatformData Platform { get; set; }

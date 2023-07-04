@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\CoinMarketCapDotNet.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -101,6 +102,7 @@
     <Compile Include="Models\Cryptocurrency\Quotes\Latest\QuotesLatestData.cs" />
     <Compile Include="Models\Cryptocurrency\Quotes\Query\QuotesHistoricalQueryParameters.cs" />
     <Compile Include="Models\Cryptocurrency\Quotes\Query\QuotesLatestQueryParameters.cs" />
+    <Compile Include="Models\Cryptocurrency\Quotes\TagData.cs" />
     <Compile Include="Models\Cryptocurrency\Trending\GainersLosers\GainersLosersData.cs" />
     <Compile Include="Models\Cryptocurrency\Trending\Latest\TrendingLatestData.cs" />
     <Compile Include="Models\Cryptocurrency\Trending\MostVisited\MostVisitedData.cs" />
@@ -182,6 +184,13 @@
     <Compile Include="Models\Tools\PriceConvertionQuoteData.cs" />
     <Compile Include="Models\Tools\Query\PriceConvertionQueryParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+    <Content Include="m-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
