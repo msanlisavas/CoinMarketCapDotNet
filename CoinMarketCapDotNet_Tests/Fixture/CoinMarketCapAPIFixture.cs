@@ -6,7 +6,7 @@ namespace CoinMarketCapDotNet_Tests.Collection
     public class CoinMarketCapAPIFixture : IDisposable
     {
         public CoinMarketCapAPI CoinMarketCapAPI { get; private set; }
-        private readonly string _apiKey = "your-api-key";
+        private readonly string _apiKey = "your-valid-api-key";
 
         public CoinMarketCapAPIFixture()
         {

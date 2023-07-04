@@ -252,11 +252,11 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
 
             // Act
-            var result = await coinMarketCapAPI.Cryptocurrency.GetQuotesLatestAsync("", "", "ACA");
+            var result = await coinMarketCapAPI.Cryptocurrency.GetQuotesLatestAsync("", "", "BTC");
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data[0].FirstOrDefault().Symbol == "ACA");
+            Assert.True(result.Data[0].FirstOrDefault().Symbol == "BTC");
 
         }
         [Fact]
