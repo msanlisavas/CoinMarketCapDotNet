@@ -20,9 +20,9 @@ namespace CoinMarketCapDotNet.Models.Exchange.Map
         public string Status { get; set; }
 
         [JsonProperty("first_historical_data")]
-        public DateTime FirstHistoricalData { get; set; }
+        public DateTime? FirstHistoricalData { get; set; }
 
         [JsonProperty("last_historical_data")]
-        public DateTime LastHistoricalData { get; set; }
+        public DateTime? LastHistoricalData { get; set; }
     }
 }

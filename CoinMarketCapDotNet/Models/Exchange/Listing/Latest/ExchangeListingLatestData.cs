@@ -16,17 +16,17 @@ namespace CoinMarketCapDotNet.Models.Exchange.Listing.Latest
         [JsonProperty("num_market_pairs")]
         public int NumMarketPairs { get; set; }
         [JsonProperty("date_launched")]
-        public DateTime DateLaunched { get; set; }
+        public DateTime? DateLaunched { get; set; }
         [JsonProperty("exchange_score")]
-        public decimal ExchangeScore { get; set; }
+        public decimal? ExchangeScore { get; set; }
         [JsonProperty("liquidity_score")]
-        public decimal LiquidityScore { get; set; }
+        public decimal? LiquidityScore { get; set; }
         [JsonProperty("rank")]
-        public decimal Rank { get; set; }
+        public decimal? Rank { get; set; }
         [JsonProperty("traffic_score")]
-        public decimal TrafficScore { get; set; }
+        public decimal? TrafficScore { get; set; }
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
         [JsonProperty("quote")]
         public Dictionary<string, ExchangeQuoteData> Quote { get; set; }
 

@@ -12,9 +12,9 @@ namespace CoinMarketCapDotNet.Models.Key
         public string CreditLimitMonthlyReset { get; set; }
 
         [JsonProperty("credit_limit_monthly_reset_timestamp")]
-        public DateTime CreditLimitMonthlyResetTimestamp { get; set; }
+        public DateTime? CreditLimitMonthlyResetTimestamp { get; set; }
 
         [JsonProperty("rate_limit_minute")]
-        public double RateLimitMinute { get; set; }
+        public double? RateLimitMinute { get; set; }
     }
 }

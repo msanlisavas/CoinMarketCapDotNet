@@ -5,7 +5,7 @@ namespace CoinMarketCapDotNet.Models.Community.Trending
     public class TrendingTokenData
     {
         [JsonProperty("community_rank")]
-        public int CommunityRank { get; set; }
+        public int? CommunityRank { get; set; }
 
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -20,6 +20,6 @@ namespace CoinMarketCapDotNet.Models.Community.Trending
         public string Slug { get; set; }
 
         [JsonProperty("cmc_rank")]
-        public int CmcRank { get; set; }
+        public int? CmcRank { get; set; }
     }
 }

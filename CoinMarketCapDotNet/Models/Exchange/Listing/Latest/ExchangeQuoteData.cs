@@ -6,39 +6,39 @@ namespace CoinMarketCapDotNet.Models.Exchange.Listing.Latest
     public class ExchangeQuoteData
     {
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
         [JsonProperty("volume_24h")]
-        public double Volume24h { get; set; }
+        public double? Volume24h { get; set; }
 
         [JsonProperty("volume_24h_adjusted")]
-        public double Volume24hAdjusted { get; set; }
+        public double? Volume24hAdjusted { get; set; }
 
         [JsonProperty("volume_7d")]
-        public double Volume7d { get; set; }
+        public double? Volume7d { get; set; }
 
         [JsonProperty("volume_30d")]
-        public double Volume30d { get; set; }
+        public double? Volume30d { get; set; }
 
         [JsonProperty("percent_change_volume_24h")]
-        public double PercentChangeVolume24h { get; set; }
+        public double? PercentChangeVolume24h { get; set; }
 
         [JsonProperty("percent_change_volume_7d")]
-        public double PercentChangeVolume7d { get; set; }
+        public double? PercentChangeVolume7d { get; set; }
 
         [JsonProperty("percent_change_volume_30d")]
-        public double PercentChangeVolume30d { get; set; }
+        public double? PercentChangeVolume30d { get; set; }
 
         [JsonProperty("effective_liquidity_24h")]
-        public double EffectiveLiquidity24h { get; set; }
+        public double? EffectiveLiquidity24h { get; set; }
 
         [JsonProperty("derivative_volume")]
-        public double DerivativeVolume { get; set; }
+        public double? DerivativeVolume { get; set; }
 
         [JsonProperty("open_interest")]
-        public double OpenInterest { get; set; }
+        public double? OpenInterest { get; set; }
 
         [JsonProperty("spot_volume_usd")]
-        public double SpotVolumeUsd { get; set; }
+        public double? SpotVolumeUsd { get; set; }
     }
 }

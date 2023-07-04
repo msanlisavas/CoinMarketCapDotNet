@@ -8,7 +8,7 @@ namespace CoinMarketCapDotNet.Models.Exchange.Assets
         [JsonProperty("wallet_address")]
         public string WalletAddress { get; set; }
         [JsonProperty("balance")]
-        public decimal Balance { get; set; }
+        public decimal? Balance { get; set; }
         [JsonProperty("platform")]
         public AssetPlatformData Platform { get; set; }
         [JsonProperty("currency")]

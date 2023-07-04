@@ -16,10 +16,10 @@ namespace CoinMarketCapDotNet.Models.Exchange.MarketPairs.Latest
         public string Slug { get; set; }
 
         [JsonProperty("num_market_pairs")]
-        public int NumMarketPairs { get; set; }
+        public int? NumMarketPairs { get; set; }
 
         [JsonProperty("volume_24h")]
-        public double Volume24h { get; set; }
+        public double? Volume24h { get; set; }
         [JsonProperty("market_pairs")]
         public List<MarketPairData> MarketPairs { get; set; }
 

@@ -16,22 +16,22 @@ namespace CoinMarketCapDotNet.Models.Exchange.Quotes.Latest
         public string Slug { get; set; }
 
         [JsonProperty("num_market_pairs")]
-        public int NumMarketPairs { get; set; }
+        public int? NumMarketPairs { get; set; }
 
         [JsonProperty("exchange_score")]
-        public double ExchangeScore { get; set; }
+        public double? ExchangeScore { get; set; }
 
         [JsonProperty("liquidity_score")]
-        public double LiquidityScore { get; set; }
+        public double? LiquidityScore { get; set; }
 
         [JsonProperty("rank")]
-        public int Rank { get; set; }
+        public int? Rank { get; set; }
 
         [JsonProperty("traffic_score")]
-        public double TrafficScore { get; set; }
+        public double? TrafficScore { get; set; }
 
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
         [JsonProperty("quote")]
         public Dictionary<string, ExchangeQuoteData> Quote { get; set; }
     }

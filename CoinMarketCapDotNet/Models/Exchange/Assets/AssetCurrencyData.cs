@@ -14,6 +14,6 @@ namespace CoinMarketCapDotNet.Models.Exchange.Assets
         public string Name { get; set; }
 
         [JsonProperty("price_usd")]
-        public decimal PriceUsd { get; set; }
+        public decimal? PriceUsd { get; set; }
     }
 }

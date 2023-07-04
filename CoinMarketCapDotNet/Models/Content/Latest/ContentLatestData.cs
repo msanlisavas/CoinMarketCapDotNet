@@ -25,10 +25,10 @@ namespace CoinMarketCapDotNet.Models.Content.Latest
         public string Type { get; set; }
 
         [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [JsonProperty("released_at")]
-        public DateTime ReleasedAt { get; set; }
+        public DateTime? ReleasedAt { get; set; }
         [JsonProperty("assets")]
         public List<ContentAssetsData> Assets { get; set; }
     }

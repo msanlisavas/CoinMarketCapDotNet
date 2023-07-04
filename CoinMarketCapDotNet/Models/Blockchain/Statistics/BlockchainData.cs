@@ -15,7 +15,7 @@ namespace CoinMarketCapDotNet.Models.Blockchain.Statistics
         public string Symbol { get; set; }
 
         [JsonProperty("block_reward_static")]
-        public double BlockRewardStatic { get; set; }
+        public double? BlockRewardStatic { get; set; }
 
         [JsonProperty("consensus_mechanism")]
         public string ConsensusMechanism { get; set; }
@@ -33,15 +33,15 @@ namespace CoinMarketCapDotNet.Models.Blockchain.Statistics
         public string ReductionRate { get; set; }
 
         [JsonProperty("total_blocks")]
-        public int TotalBlocks { get; set; }
+        public int? TotalBlocks { get; set; }
 
         [JsonProperty("total_transactions")]
         public string TotalTransactions { get; set; }
 
         [JsonProperty("tps_24h")]
-        public double Tps24h { get; set; }
+        public double? Tps24h { get; set; }
 
         [JsonProperty("first_block_timestamp")]
-        public DateTime FirstBlockTimestamp { get; set; }
+        public DateTime? FirstBlockTimestamp { get; set; }
     }
 }

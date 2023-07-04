@@ -20,13 +20,13 @@ namespace CoinMarketCapDotNet.Models.Exchange.Info
         [JsonProperty("description")]
         public string Description { get; set; }
         [JsonProperty("date_launched")]
-        public DateTime DateLaunched { get; set; }
+        public DateTime? DateLaunched { get; set; }
         [JsonProperty("notice")]
         public string Notice { get; set; }
         [JsonProperty("weekly_visits")]
-        public int WeeklyVisits { get; set; }
+        public int? WeeklyVisits { get; set; }
         [JsonProperty("spot_volume_usd")]
-        public decimal SpotVolumeUsd { get; set; }
+        public decimal? SpotVolumeUsd { get; set; }
         [JsonProperty("urls")]
         public Dictionary<string, string[]> Urls { get; set; }
 
