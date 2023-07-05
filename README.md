@@ -1,4 +1,7 @@
 # Release Notes
+v.1.0.6
+- Fixed a problem on GetInfoDataAsync.
+
 v.1.0.5
 - Null results were causing serialization problems. Everything has been made null friendly.
   
