@@ -1,4 +1,7 @@
 # Release Notes
+v.1.0.5
+- Null results were causing serialization problems. Everything has been made null friendly.
+  
 v.1.0.4
 - Fixed serialization isssues on Price Performance Stats and Metadata.
 
