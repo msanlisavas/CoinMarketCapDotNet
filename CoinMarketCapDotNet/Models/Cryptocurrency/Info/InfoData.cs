@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CoinMarketCapDotNet.Models.General;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -42,7 +43,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Info
         public string Category { get; set; }
 
         [JsonProperty("platform")]
-        public string Platform { get; set; }
+        public PlatformData Platform { get; set; }
 
         [JsonProperty("tag-groups")]
         public List<string> TagGroups { get; set; }
