@@ -1,5 +1,5 @@
 # Known Issues
-Sandbox results are kind of different than the live ones. Tests that pass when the sandbox is true don't pass and causes serialization issues on live mode. The endpoints are tested on sandbox results. Not all endpoints are available for free tier. 
+Sandbox results are kind of different than the live ones. Tests that pass when the sandbox is true, don't pass on live mode and causes serialization issues. The endpoints are tested on sandbox results. Not all endpoints are available for free tier. 
 Unless coinmarketcap provides me a enterprise key I won't be able to make sure everything is on point. Please create an issue if you encounter a problem.
 
 # Release Notes
