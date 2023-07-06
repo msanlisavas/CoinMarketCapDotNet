@@ -50,6 +50,6 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing
         public PlatformData Platform { get; set; }
 
         [JsonProperty("quote")]
-        public QuoteData Quote { get; set; }
+        public Dictionary<string, QuoteData> Quote { get; set; }
     }
 }

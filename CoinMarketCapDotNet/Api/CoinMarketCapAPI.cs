@@ -717,8 +717,8 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Trending.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<TrendingLatestData>>(endpoint);
-                var data = response?.Data?.Data?.ToList();
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingLatestData>>(endpoint);
+                var data = response?.Data?.ToList();
                 return new Response<List<TrendingLatestData>>
                 {
                     Status = response?.Status,
