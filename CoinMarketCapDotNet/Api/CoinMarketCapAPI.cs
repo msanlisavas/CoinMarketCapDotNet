@@ -669,8 +669,8 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSortDir(sortDir);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Trending.GainersLosers}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<GainersLosersData>>(endpoint);
-                var data = response?.Data?.Data?.ToList();
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<GainersLosersData>>(endpoint);
+                var data = response?.Data?.ToList();
                 return new Response<List<GainersLosersData>>
                 {
                     Status = response?.Status,
