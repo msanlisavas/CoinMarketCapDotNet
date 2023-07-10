@@ -3,6 +3,9 @@ Sandbox results are kind of different than the live ones. Tests that pass when t
 Unless coinmarketcap provides me a enterprise key I won't be able to make sure everything is on point. Please create an issue if you encounter a problem.
 
 # Release Notes
+v.1.0.8
+- Fixed serialization issues on GetTrendingMostVisited.
+
 v.1.0.7
 - Fixed serialization issues on GetTrendingLatest and GetGainersLosers.
 
