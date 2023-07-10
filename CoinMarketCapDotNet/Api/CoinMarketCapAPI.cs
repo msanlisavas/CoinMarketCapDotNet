@@ -764,8 +764,8 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Trending.MostVisited}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<MostVisitedData>>(endpoint);
-                var data = response?.Data?.Data?.ToList();
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<MostVisitedData>>(endpoint);
+                var data = response?.Data?.ToList();
                 return new Response<List<MostVisitedData>>
                 {
                     Status = response?.Status,
