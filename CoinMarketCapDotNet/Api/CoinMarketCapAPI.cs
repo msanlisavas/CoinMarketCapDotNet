@@ -318,6 +318,7 @@ namespace CoinMarketCapDotNet.Api
                 var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<CategoryData>>(endpoint);
 
                 var data = response?.Data?.Values?.ToList();
+
                 return new Response<List<CategoryData>>
                 {
                     Status = response?.Status,
