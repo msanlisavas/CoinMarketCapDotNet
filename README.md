@@ -1,8 +1,12 @@
 # Known Issues
 Sandbox results are kind of different than the live ones. Tests that pass when the sandbox is true, don't pass on live mode and causes serialization issues. The endpoints are tested on sandbox results. Not all endpoints are available for free tier. 
 Unless coinmarketcap provides me a enterprise key I won't be able to make sure everything is on point. Please create an issue if you encounter a problem.
+On top of that API Docs Response Schema is not always same with the response we get. I will be sticking with the response schema for now.
 
 # Release Notes
+v.1.0.8
+- Fixed serialization issues on GetTrendingMostVisited.
+
 v.1.0.7
 - Fixed serialization issues on GetTrendingLatest and GetGainersLosers.
 
