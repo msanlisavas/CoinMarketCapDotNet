@@ -4,6 +4,14 @@ Unless coinmarketcap provides me a enterprise key I won't be able to make sure e
 On top of that API Docs Response Schema is not always same with the response we get. I will be sticking with the response schema for now.
 
 # Release Notes
+v.1.0.9
+- Added dictionary extensions.
+- GetValueOrDefault("USD") returns the object if any of the dictionary key = "USD" exists or returns default.
+- TryGetValue< SpecifiedDefaultObj >("USD") An enhanced version that returns a specified default value if the key is not found.
+- Merge(dict1, dict2) Merges two dictionaries. In case of key conflicts, the value from the second dictionary is taken.
+- FilterByKeys("") Returns a new dictionary containing only the entries with the specified keys.
+- FilterByValueCondition("") Returns a new dictionary containing only the entries where values satisfy a given predicate.
+
 v.1.0.8
 - Fixed serialization issues on GetTrendingMostVisited.
 
