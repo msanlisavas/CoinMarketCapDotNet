@@ -166,7 +166,7 @@ namespace CoinMarketCapDotNet_Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data[0].Symbol == "BTC");
+            Assert.True(result.Data[0].FirstOrDefault().Symbol == "BTC");
 
         }
         [Fact]
@@ -181,7 +181,7 @@ namespace CoinMarketCapDotNet_Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data[0].Symbol == "BTC" && result.Data[1].Symbol == "ETH");
+            Assert.True(result.Data[0].FirstOrDefault().Symbol == "BTC" && result.Data[1].FirstOrDefault().Symbol == "ETH");
 
         }
         [Fact]
@@ -196,7 +196,7 @@ namespace CoinMarketCapDotNet_Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Data[0].Symbol == "BTC");
+            Assert.True(result.Data[0].FirstOrDefault().Symbol == "BTC");
 
         }
         [Fact]

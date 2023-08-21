@@ -885,7 +885,7 @@ namespace CoinMarketCapDotNet.Api
             /// Plan credit use: 1 call credit per 100 OHLCV values returned (rounded up) and 1 call credit per convert option beyond the first.
             /// CMC equivalent pages: No equivalent, this data is only available via API.
             /// </remarks>
-            public async Task<Response<List<OHLCVLatestData>>> GetOHLCVLatestAsync(string ids = "", string symbols = "", string convert = "", string convertId = "", bool skipInvalid = true)
+            public async Task<Response<List<List<OHLCVLatestData>>>> GetOHLCVLatestAsync(string ids = "", string symbols = "", string convert = "", string convertId = "", bool skipInvalid = true)
             {
                 if (string.IsNullOrWhiteSpace(ids) && string.IsNullOrWhiteSpace(symbols))
                 {
@@ -903,9 +903,9 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSkipInvalid(skipInvalid);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.OHLCV.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<OHLCVLatestData>>(endpoint);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<OHLCVLatestData>>>(endpoint);
                 var data = response?.Data?.Values?.ToList();
-                return new Response<List<OHLCVLatestData>>
+                return new Response<List<List<OHLCVLatestData>>>
                 {
                     Status = response?.Status,
                     Data = data
@@ -941,7 +941,7 @@ namespace CoinMarketCapDotNet.Api
             /// Plan credit use: 1 call credit per 100 OHLCV data points returned (rounded up) and 1 call credit per convert option beyond the first.
             /// CMC equivalent pages: Our historical cryptocurrency data pages like coinmarketcap.com/currencies/bitcoin/historical-data/.
             /// </remarks>
-            public async Task<Response<List<OHLCVHistoricalData>>> GetOHCLVHistoricalAsync
+            public async Task<Response<List<List<OHLCVHistoricalData>>>> GetOHCLVHistoricalAsync
                 (
                 string id = "",
                 string slug = "",
@@ -982,9 +982,9 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSkipInvalid(skipInvalid);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.OHLCV.Historical}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<OHLCVHistoricalData>>(endpoint);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<OHLCVHistoricalData>>>(endpoint);
                 var data = response?.Data?.Values?.ToList();
-                return new Response<List<OHLCVHistoricalData>>
+                return new Response<List<List<OHLCVHistoricalData>>>
                 {
                     Status = response?.Status,
                     Data = data
