@@ -4,6 +4,10 @@ Unless coinmarketcap provides me a enterprise key I won't be able to make sure e
 On top of that API Docs Response Schema is not always same with the response we get. I will be sticking with the response schema for now.
 
 # Release Notes
+
+v.1.0.10
+- Fixed serialization issues on OHLCVHistorical and OHLCVLatest.
+
 v.1.0.9
 - Added dictionary extensions.
 - GetValueOrDefault("USD") returns the object if any of the dictionary key = "USD" exists or returns default.
