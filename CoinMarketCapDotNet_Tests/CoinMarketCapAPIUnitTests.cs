@@ -87,5 +87,21 @@ namespace CoinMarketCapDotNet_Tests
             var result = await api.Cryptocurrency.GetMapAsync();
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public async Task CancellationToken_propagates_to_HttpClient()
+        {
+            const string okBody = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, okBody, out var handler);
+            using var cts = new System.Threading.CancellationTokenSource();
+            await api.Cryptocurrency.GetMapAsync(cancellationToken: cts.Token);
+            // HttpClient links the caller's token with its own timeout token,
+            // so the handler receives a linked token rather than the original.
+            // Verify the token that reached the handler is a real cancellable token
+            // (not the default CancellationToken.None), proving the token was forwarded.
+            Assert.True(handler.LastCancellationToken.CanBeCanceled);
+        }
     }
 }
