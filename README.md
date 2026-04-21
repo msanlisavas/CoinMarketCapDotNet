@@ -1,51 +1,10 @@
-# Known Issues
-Sandbox results are kind of different than the live ones. Tests that pass when the sandbox is true, don't pass on live mode and causes serialization issues. The endpoints are tested on sandbox results. Not all endpoints are available for free tier. 
-Unless coinmarketcap provides me a enterprise key I won't be able to make sure everything is on point. Please create an issue if you encounter a problem.
-On top of that API Docs Response Schema is not always same with the response we get. I will be sticking with the response schema for now.
-
-# Release Notes
-
-v.1.0.10
-- Fixed serialization issues on OHLCVHistorical and OHLCVLatest.
-
-v.1.0.9
-- Added dictionary extensions.
-- GetValueOrDefault("USD") returns the object if any of the dictionary key = "USD" exists or returns default.
-- TryGetValue< SpecifiedDefaultObj >("USD") An enhanced version that returns a specified default value if the key is not found.
-- Merge(dict1, dict2) Merges two dictionaries. In case of key conflicts, the value from the second dictionary is taken.
-- FilterByKeys("") Returns a new dictionary containing only the entries with the specified keys.
-- FilterByValueCondition("") Returns a new dictionary containing only the entries where values satisfy a given predicate.
-
-v.1.0.8
-- Fixed serialization issues on GetTrendingMostVisited.
-
-v.1.0.7
-- Fixed serialization issues on GetTrendingLatest and GetGainersLosers.
-
-v.1.0.6
-- Fixed a problem on GetInfoDataAsync.
-
-v.1.0.5
-- Null results were causing serialization problems. Everything has been made null friendly.
-  
-v.1.0.4
-- Fixed serialization isssues on Price Performance Stats and Metadata.
-
-v.1.0.3
-- Fixed an issue where the latest quotes sometimes returns with null data.
-
-v.1.0.2
-- Fixed json serialization issues on latest quotes.
-  
-v.1.0.1
-- Added xml comments.
-  
-v.1.0.0
-- Initial release.
-
 # CoinMarketCapDotNet
 
 CoinMarketCapDotNet is a C# wrapper for the CoinMarketCap API, providing convenient access to cryptocurrency market data.
+
+## Migrating from v1?
+
+See [MIGRATION-V1-TO-V2.md](MIGRATION-V1-TO-V2.md) for the full v1 → v2 migration guide.
 
 ## Installation
 
@@ -55,11 +14,14 @@ You can install CoinMarketCapDotNet via NuGet Package Manager or by using the .N
 
 Search for `CoinMarketCapDotNet` in the NuGet Package Manager UI or run the following command in the Package Manager Console:
 
+```
 Install-Package CoinMarketCapDotNet
+```
 
 ### .NET CLI
 
 Run the following command in your project directory:
+
 ```
 dotnet add package CoinMarketCapDotNet
 ```
@@ -67,25 +29,64 @@ dotnet add package CoinMarketCapDotNet
 ### Package Manager
 
 Run the following command:
+
 ```
 NuGet\Install-Package CoinMarketCapDotNet
 ```
+
+v2 multi-targets `netstandard2.0` and `net8.0`. On `.NET 8` the package has zero runtime dependencies; on `netstandard2.0` it brings only `System.Text.Json` 8.x.
+
 ## Usage
 
-To use CoinMarketCapDotNet, follow these steps:
-
-1. Instantiate the `CoinMarketCapAPI` class with your API key:
+### Quick start
 
 ```csharp
-string apiKey = "YOUR_API_KEY";
-CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey);
+using CoinMarketCapDotNet.Api;
 
-To use sandbox mode:
-string apiKey = "YOUR_API_KEY";
-CoinMarketCapAPI api = new CoinMarketCapAPI(apiKey,true);
+var api = new CoinMarketCapAPI("YOUR_API_KEY");
+var data = await api.Cryptocurrency.GetMapAsync();
 ```
 
-Access the available endpoints through the instantiated API object:
+To use sandbox mode:
+
+```csharp
+var api = new CoinMarketCapAPI("YOUR_API_KEY", useSandbox: true);
+```
+
+### Options pattern (recommended for production)
+
+```csharp
+using CoinMarketCapDotNet.Api;
+using CoinMarketCapDotNet.Configuration;
+
+var api = new CoinMarketCapAPI(new CoinMarketCapOptions
+{
+    ApiKey = "YOUR_API_KEY",
+    UseSandbox = false,
+    Timeout = TimeSpan.FromSeconds(30)
+});
+
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+var data = await api.Cryptocurrency.GetMapAsync(cancellationToken: cts.Token);
+```
+
+### Error handling
+
+```csharp
+using CoinMarketCapDotNet.Models.Exceptions;
+
+try
+{
+    var data = await api.Cryptocurrency.GetMapAsync();
+}
+catch (CoinMarketCapRateLimitException)  { /* back off */ }
+catch (CoinMarketCapAuthException)       { /* check your API key */ }
+catch (CoinMarketCapException ex)
+{
+    // Catch-all preserves ex.StatusCode, ex.ErrorCode, ex.CmcErrorMessage
+}
+```
+
 ## CoinMarketCapAPI
 
 ### Endpoints
@@ -201,14 +202,15 @@ Access the available endpoints through the instantiated API object:
 
 ---
 
-```
-For example, to get metadata:
+For example, to get the cryptocurrency map:
 
-var data = await api.Cryptocurrency.GetMapAsync();  // Retrieves a mapping of all supported fiat currencies to unique CoinMarketCap IDs.
+```csharp
+var data = await api.Cryptocurrency.GetMapAsync();  // Retrieves a mapping of all cryptocurrencies to unique CoinMarketCap IDs.
 ```
 
-**Extensions to make life easier:**
-Enum Extensions:
+## Extensions to make life easier
+
+**Enum Extensions:**
 
 **.GetEnumMemberValue():**
 Example:
@@ -249,20 +251,43 @@ Example:
 ```
 List<string> enumMemberValues = EnumExtensions.GetAllSymbols<CurrencyEnum>(); // Will return all the symbols of a given enum
 ```
-  
+
 Refer to the CoinMarketCap API documentation for more information on available endpoints and their usage.
 
-Contributing
+## Contributing
+
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
-License
+## License
+
 MIT License
 
-**Buy me a coffee?**
----
+## Release Notes
+
+### v2.0.0
+
+- Multi-targets `netstandard2.0` and `net8.0`.
+- Migrated to `System.Text.Json` — zero runtime dependencies on .NET 8.
+- Typed exception hierarchy under `CoinMarketCapDotNet.Models.Exceptions`.
+- `CancellationToken` on every async method.
+- Options-pattern configuration via `CoinMarketCapOptions`.
+- Injectable `HttpClient` for `IHttpClientFactory` / DI scenarios.
+- Nullable reference types enabled throughout.
+- See [MIGRATION-V1-TO-V2.md](MIGRATION-V1-TO-V2.md) for upgrade instructions.
+
+For older v1.x release notes, see the [GitHub Releases page](https://github.com/msanlisavas/CoinMarketCapDotNet/releases).
+
+## Known Issues
+
+Sandbox results are kind of different than the live ones. Tests that pass when the sandbox is true don't pass on live mode and cause serialization issues. The endpoints are tested on sandbox results. Not all endpoints are available for the free tier.
+
+Unless CoinMarketCap provides an enterprise key I won't be able to make sure everything is on point. Please create an issue if you encounter a problem.
+
+On top of that, the API Docs Response Schema is not always the same as the response we get. I will be sticking with the response schema for now.
+
+## Buy me a coffee?
+
 ```
 BTC: 1NxUuEQcR4Scw8ge3oto6ykLqBpe9LGikS
 ETH: 0x9cda155f73220073a9f024daaa72eb06b5c06c86
 ```
-
-
