@@ -64,6 +64,8 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical.Query;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
+using CoinMarketCapDotNet.Models.Dex.Kline.Candles;
+using CoinMarketCapDotNet.Models.Dex.Kline.Points;
 using CoinMarketCapDotNet.Models.Dex.Pairs.QuotesLatest;
 using CoinMarketCapDotNet.Models.Dex.Pairs.SpotLatest;
 using CoinMarketCapDotNet.Models.Dex.Platform.Detail;
@@ -2992,7 +2994,49 @@ namespace CoinMarketCapDotNet.Api
                     this.coinMarketCapAPI = coinMarketCapAPI;
                 }
 
-                // 2 methods will be added in Task 3
+                /// <summary>
+                /// Retrieves K-line price points (timestamp + price + volume) for a DEX token or pool address.
+                /// </summary>
+                /// <param name="address">Token or pool contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="interval">Time interval between data points (e.g. "1m", "5m", "1h", "1d").</param>
+                /// <param name="limit">Optional max number of points to return.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexKlinePointData>> GetPointsAsync(string address, string networkSlug, string interval, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    if (string.IsNullOrWhiteSpace(interval))
+                        throw new ArgumentException("'interval' must be provided.");
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}&interval={Uri.EscapeDataString(interval)}";
+                    if (limit.HasValue) qs += $"&limit={limit.Value}";
+                    var endpoint = $"{Endpoints.Dex.Kline.Points}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexKlinePointData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves K-line OHLCV candles + trader count for a DEX token or pool address.
+                /// </summary>
+                /// <param name="address">Token or pool contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="interval">Time interval between candles (e.g. "1m", "5m", "1h", "1d").</param>
+                /// <param name="limit">Optional max number of candles to return.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexKlineCandleData>> GetCandlesAsync(string address, string networkSlug, string interval, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    if (string.IsNullOrWhiteSpace(interval))
+                        throw new ArgumentException("'interval' must be provided.");
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}&interval={Uri.EscapeDataString(interval)}";
+                    if (limit.HasValue) qs += $"&limit={limit.Value}";
+                    var endpoint = $"{Endpoints.Dex.Kline.Candles}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexKlineCandleData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
             }
         }
     }

@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Dex.Kline.Candles;
+using CoinMarketCapDotNet.Models.Dex.Kline.Points;
 using CoinMarketCapDotNet.Models.Dex.Platform.Detail;
 using CoinMarketCapDotNet.Models.Dex.Platform.List;
 using CoinMarketCapDotNet.Models.Dex.Token.Detail;
@@ -827,6 +829,71 @@ namespace CoinMarketCapDotNet_Tests
             var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
 
             await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Platform.GetDetailAsync(""));
+        }
+
+        [Fact]
+        public async Task Dex_Kline_GetPointsAsync_gets_v1_endpoint_with_query()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": [
+                { "timestamp": "2026-04-21T12:00:00.000Z", "price_usd": 1.23, "volume_usd": 50000.0 },
+                { "timestamp": "2026-04-21T13:00:00.000Z", "price_usd": 1.25, "volume_usd": 60000.0 }
+              ]
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Kline.GetPointsAsync("0xabc", "ethereum", "1h", limit: 24);
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v1/k-line/points", url);
+            Assert.Contains("address=0xabc", url);
+            Assert.Contains("network_slug=ethereum", url);
+            Assert.Contains("interval=1h", url);
+            Assert.Contains("limit=24", url);
+            Assert.Equal(2, result.Data!.Count);
+            Assert.Equal(1.23, result.Data[0].PriceUsd);
+        }
+
+        [Fact]
+        public async Task Dex_Kline_GetCandlesAsync_gets_v1_endpoint_with_query()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": [
+                { "timestamp": "2026-04-21T12:00:00.000Z", "open": 1.20, "high": 1.30, "low": 1.18, "close": 1.25, "volume_usd": 110000.0, "trader_count": 87 }
+              ]
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Kline.GetCandlesAsync("0xabc", "ethereum", "5m");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v1/k-line/candles", url);
+            Assert.Contains("interval=5m", url);
+            Assert.Single(result.Data!);
+            Assert.Equal(1.20, result.Data![0].Open);
+            Assert.Equal(1.25, result.Data[0].Close);
+            Assert.Equal(87, result.Data[0].TraderCount);
+        }
+
+        [Fact]
+        public async Task Dex_Kline_GetPointsAsync_validates_required_params()
+        {
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, "{}");
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Kline.GetPointsAsync("", "ethereum", "1h"));
+            await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Kline.GetPointsAsync("0xabc", "", "1h"));
+            await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Kline.GetPointsAsync("0xabc", "ethereum", ""));
         }
     }
 }
