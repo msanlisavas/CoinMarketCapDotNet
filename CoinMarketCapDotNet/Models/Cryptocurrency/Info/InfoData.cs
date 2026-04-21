@@ -1,5 +1,5 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -7,45 +7,45 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Info
 {
     public class InfoData
     {
-        [JsonProperty("urls")]
+        [JsonPropertyName("urls")]
         public Dictionary<string, string[]> Urls { get; set; }
-        [JsonProperty("notice")]
+        [JsonPropertyName("notice")]
         public string Notice { get; set; }
 
-        [JsonProperty("logo")]
+        [JsonPropertyName("logo")]
         public string Logo { get; set; }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("date_added")]
+        [JsonPropertyName("date_added")]
         public DateTime? DateAdded { get; set; }
 
-        [JsonProperty("date_launched")]
+        [JsonPropertyName("date_launched")]
         public DateTime? DateLaunched { get; set; }
 
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public List<string> Tags { get; set; }
 
-        [JsonProperty("category")]
+        [JsonPropertyName("category")]
         public string Category { get; set; }
 
-        [JsonProperty("platform")]
+        [JsonPropertyName("platform")]
         public PlatformData Platform { get; set; }
 
-        [JsonProperty("tag-groups")]
+        [JsonPropertyName("tag-groups")]
         public List<string> TagGroups { get; set; }
     }
 }

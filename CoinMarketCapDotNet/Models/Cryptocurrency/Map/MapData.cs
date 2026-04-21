@@ -1,36 +1,36 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Map
 {
     public class MapData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("rank")]
+        [JsonPropertyName("rank")]
         public int? Rank { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("is_active")]
+        [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
 
-        [JsonProperty("first_historical_data")]
+        [JsonPropertyName("first_historical_data")]
         public DateTime? FirstHistoricalData { get; set; }
 
-        [JsonProperty("last_historical_data")]
+        [JsonPropertyName("last_historical_data")]
         public DateTime? LastHistoricalData { get; set; }
 
-        [JsonProperty("platform")]
+        [JsonPropertyName("platform")]
         public PlatformData Platform { get; set; }
     }
 }

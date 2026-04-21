@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class DataContainer<T>
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public List<T> Data { get; set; }
     }
 }

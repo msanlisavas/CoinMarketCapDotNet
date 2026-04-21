@@ -1,38 +1,38 @@
 ﻿using CoinMarketCapDotNet.Models.Content.Posts.Comments;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Content.Posts
 {
     public class ContentPostsLatestData
     {
-        [JsonProperty("post_id")]
+        [JsonPropertyName("post_id")]
         public string PostId { get; set; }
 
-        [JsonProperty("owner")]
+        [JsonPropertyName("owner")]
         public OwnerData Owner { get; set; }
 
-        [JsonProperty("text_content")]
+        [JsonPropertyName("text_content")]
         public string TextContent { get; set; }
 
-        [JsonProperty("photos")]
+        [JsonPropertyName("photos")]
         public List<string> Photos { get; set; }
 
-        [JsonProperty("comment_count")]
+        [JsonPropertyName("comment_count")]
         public string CommentCount { get; set; }
 
-        [JsonProperty("like_count")]
+        [JsonPropertyName("like_count")]
         public string LikeCount { get; set; }
 
-        [JsonProperty("post_time")]
+        [JsonPropertyName("post_time")]
         public string PostTime { get; set; }
 
-        [JsonProperty("language_code")]
+        [JsonPropertyName("language_code")]
         public string LanguageCode { get; set; }
 
-        [JsonProperty("comments_url")]
+        [JsonPropertyName("comments_url")]
         public string CommentsUrl { get; set; }
-        [JsonProperty("currencies")]
+        [JsonPropertyName("currencies")]
         public List<CurrenciesData> Currencies { get; set; }
     }
 }

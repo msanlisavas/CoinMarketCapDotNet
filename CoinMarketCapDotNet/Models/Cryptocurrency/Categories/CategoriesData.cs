@@ -1,40 +1,40 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapSdk.Models.Cryptocurrency.Categories
 {
     public class CategoriesData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("num_tokens")]
+        [JsonPropertyName("num_tokens")]
         public int? NumTokens { get; set; }
 
-        [JsonProperty("avg_price_change")]
+        [JsonPropertyName("avg_price_change")]
         public double? AveragePriceChange { get; set; }
 
-        [JsonProperty("market_cap")]
+        [JsonPropertyName("market_cap")]
         public double? MarketCap { get; set; }
 
-        [JsonProperty("market_cap_change")]
+        [JsonPropertyName("market_cap_change")]
         public double? MarketCapChange { get; set; }
 
-        [JsonProperty("volume")]
+        [JsonPropertyName("volume")]
         public double? Volume { get; set; }
 
-        [JsonProperty("volume_change")]
+        [JsonPropertyName("volume_change")]
         public double? VolumeChange { get; set; }
 
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         // The sandbox API returns a string or even random numbers 5404, the production API returns a DateTime hopefully
         public string LastUpdated { get; set; }
     }

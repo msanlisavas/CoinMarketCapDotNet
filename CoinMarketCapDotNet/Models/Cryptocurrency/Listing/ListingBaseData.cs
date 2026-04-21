@@ -1,5 +1,5 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -7,49 +7,49 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing
 {
     public class ListingBaseData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
-        [JsonProperty("cmc_rank")]
+        [JsonPropertyName("cmc_rank")]
         public int? CMCRank { get; set; }
 
-        [JsonProperty("num_market_pairs")]
+        [JsonPropertyName("num_market_pairs")]
         public int? NumMarketPairs { get; set; }
 
-        [JsonProperty("circulating_supply")]
+        [JsonPropertyName("circulating_supply")]
         public decimal? CirculatingSupply { get; set; }
 
-        [JsonProperty("total_supply")]
+        [JsonPropertyName("total_supply")]
         public decimal? TotalSupply { get; set; }
 
-        [JsonProperty("max_supply")]
+        [JsonPropertyName("max_supply")]
         public decimal? MaxSupply { get; set; }
 
-        [JsonProperty("infinite_supply")]
+        [JsonPropertyName("infinite_supply")]
         public bool? InfiniteSupply { get; set; }
 
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
 
-        [JsonProperty("date_added")]
+        [JsonPropertyName("date_added")]
         public DateTime? DateAdded { get; set; }
 
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public List<string> Tags { get; set; }
 
 
-        [JsonProperty("platform")]
+        [JsonPropertyName("platform")]
         public PlatformData Platform { get; set; }
 
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, QuoteData> Quote { get; set; }
     }
 }

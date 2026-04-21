@@ -1,5 +1,5 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -7,31 +7,31 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Ohlcv.Latest
 {
     public class OHLCVLatestData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
 
-        [JsonProperty("time_open")]
+        [JsonPropertyName("time_open")]
         public DateTime? TimeOpen { get; set; }
 
-        [JsonProperty("time_high")]
+        [JsonPropertyName("time_high")]
         public DateTime? TimeHigh { get; set; }
 
-        [JsonProperty("time_low")]
+        [JsonPropertyName("time_low")]
         public DateTime? TimeLow { get; set; }
 
-        [JsonProperty("time_close")]
+        [JsonPropertyName("time_close")]
         public DateTime? TimeClose { get; set; }
 
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, MarketQuoteData> Quotes { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -7,61 +7,61 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
 {
     public class QuotesLatestData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("is_active")]
+        [JsonPropertyName("is_active")]
         public int? IsActive { get; set; }
 
-        [JsonProperty("is_fiat")]
+        [JsonPropertyName("is_fiat")]
         public int? IsFiat { get; set; }
 
-        [JsonProperty("cmc_rank")]
+        [JsonPropertyName("cmc_rank")]
         public int? CmcRank { get; set; }
 
-        [JsonProperty("num_market_pairs")]
+        [JsonPropertyName("num_market_pairs")]
         public int? NumMarketPairs { get; set; }
 
-        [JsonProperty("circulating_supply")]
+        [JsonPropertyName("circulating_supply")]
         public double? CirculatingSupply { get; set; }
 
-        [JsonProperty("total_supply")]
+        [JsonPropertyName("total_supply")]
         public double? TotalSupply { get; set; }
 
-        [JsonProperty("market_cap_by_total_supply")]
+        [JsonPropertyName("market_cap_by_total_supply")]
         public double? MarketCapByTotalSupply { get; set; }
 
-        [JsonProperty("max_supply")]
+        [JsonPropertyName("max_supply")]
         public double? MaxSupply { get; set; }
 
-        [JsonProperty("date_added")]
+        [JsonPropertyName("date_added")]
         public DateTime? DateAdded { get; set; }
 
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public List<TagData> Tags { get; set; }
 
-        [JsonProperty("platform")]
+        [JsonPropertyName("platform")]
         public PlatformData Platform { get; set; }
 
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         public string LastUpdated { get; set; }
 
-        [JsonProperty("self_reported_circulating_supply")]
+        [JsonPropertyName("self_reported_circulating_supply")]
         public double? SelfReportedCirculatingSupply { get; set; }
 
-        [JsonProperty("self_reported_market_cap")]
+        [JsonPropertyName("self_reported_market_cap")]
         public double? SelfReportedMarketCap { get; set; }
 
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, QuoteData> Quote { get; set; }
     }
 }

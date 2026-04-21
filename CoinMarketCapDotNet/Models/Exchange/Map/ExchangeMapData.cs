@@ -1,28 +1,28 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Map
 {
     public class ExchangeMapData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("is_active")]
+        [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
 
-        [JsonProperty("first_historical_data")]
+        [JsonPropertyName("first_historical_data")]
         public DateTime? FirstHistoricalData { get; set; }
 
-        [JsonProperty("last_historical_data")]
+        [JsonPropertyName("last_historical_data")]
         public DateTime? LastHistoricalData { get; set; }
     }
 }

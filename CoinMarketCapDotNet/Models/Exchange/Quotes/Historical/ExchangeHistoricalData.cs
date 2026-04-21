@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Quotes.Historical
 {
     public class ExchangeHistoricalData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
-        [JsonProperty("quotes")]
+        [JsonPropertyName("quotes")]
         public List<ExchangeHistoricalQuotesData> Quotes { get; set; }
     }
 }

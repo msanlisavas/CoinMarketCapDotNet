@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Assets
 {
     public class AssetPlatformData
     {
-        [JsonProperty("crypto_id")]
+        [JsonPropertyName("crypto_id")]
         public int CryptoId { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
     }

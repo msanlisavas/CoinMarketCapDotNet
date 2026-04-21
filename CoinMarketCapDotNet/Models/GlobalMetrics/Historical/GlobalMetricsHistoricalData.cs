@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.GlobalMetrics.Historical
 {
     public class GlobalMetricsHistoricalData
     {
-        [JsonProperty("quotes")]
+        [JsonPropertyName("quotes")]
         public List<GlobalMetricsHistoricalQuotesData> Quotes { get; set; }
     }
 }

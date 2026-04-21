@@ -1,22 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs.Latest
 {
     public class MarketPairsLatestData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("num_market_pairs")]
+        [JsonPropertyName("num_market_pairs")]
         public int? NumMarketPairs { get; set; }
-        [JsonProperty("market_pairs")]
+        [JsonPropertyName("market_pairs")]
         public List<MarketPairData> MarketPairs { get; set; }
     }
 }

@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Quotes.Historical
 {
     public class ExchangeHistoricalMarketDetailsData
     {
-        [JsonProperty("volume_24hr")]
+        [JsonPropertyName("volume_24hr")]
         public double? Volume24hr { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public DateTime? Timestamp { get; set; }
     }
 }

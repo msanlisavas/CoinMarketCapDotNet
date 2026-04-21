@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Community.Trending
 {
     public class TrendingTopicData
     {
-        [JsonProperty("rank")]
+        [JsonPropertyName("rank")]
         public double? Rank { get; set; }
-        [JsonProperty("topic")]
+        [JsonPropertyName("topic")]
         public string Topic { get; set; }
     }
 }

@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Key
 {
     public class CurrentMinuteData
     {
 
-        [JsonProperty("requests_made")]
+        [JsonPropertyName("requests_made")]
         public double? RequestsMade { get; set; }
 
-        [JsonProperty("requests_left")]
+        [JsonPropertyName("requests_left")]
         public double? RequestsLeft { get; set; }
     }
 }

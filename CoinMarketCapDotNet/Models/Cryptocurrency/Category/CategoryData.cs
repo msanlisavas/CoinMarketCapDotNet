@@ -1,5 +1,5 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Category
@@ -7,37 +7,37 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Category
     public class CategoryData
     {
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("num_tokens")]
+        [JsonPropertyName("num_tokens")]
         public int? NumTokens { get; set; }
 
-        [JsonProperty("avg_price_change")]
+        [JsonPropertyName("avg_price_change")]
         public double? AvgPriceChange { get; set; }
 
-        [JsonProperty("market_cap")]
+        [JsonPropertyName("market_cap")]
         public double? MarketCap { get; set; }
 
-        [JsonProperty("market_cap_change")]
+        [JsonPropertyName("market_cap_change")]
         public double? MarketCapChange { get; set; }
 
-        [JsonProperty("volume")]
+        [JsonPropertyName("volume")]
         public double? Volume { get; set; }
 
-        [JsonProperty("volume_change")]
+        [JsonPropertyName("volume_change")]
         public double? VolumeChange { get; set; }
 
-        [JsonProperty("coins")]
+        [JsonPropertyName("coins")]
         public List<CoinsData> Coins { get; set; }
     }
 }

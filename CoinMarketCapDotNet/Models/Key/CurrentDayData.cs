@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Key
 {
     public class CurrentDayData
     {
 
-        [JsonProperty("credits_used")]
+        [JsonPropertyName("credits_used")]
         public double? CreditsUsed { get; set; }
 
-        [JsonProperty("credits_left")]
+        [JsonPropertyName("credits_left")]
         public double? CreditsLeft { get; set; }
     }
 }

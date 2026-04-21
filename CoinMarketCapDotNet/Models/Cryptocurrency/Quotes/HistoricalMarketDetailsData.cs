@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes
 {
     public class HistoricalMarketDetailsData
     {
-        [JsonProperty("price")]
+        [JsonPropertyName("price")]
         public decimal? Price { get; set; }
 
-        [JsonProperty("volume_24hr")]
+        [JsonPropertyName("volume_24hr")]
         public decimal? Volume24hr { get; set; }
 
-        [JsonProperty("market_cap")]
+        [JsonPropertyName("market_cap")]
         public decimal? MarketCap { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public DateTime? Timestamp { get; set; }
     }
 }

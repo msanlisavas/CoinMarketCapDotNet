@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Enums
 {
     public enum ExchangeCategoryEnum
     {
-        [JsonProperty("all")]
+        [JsonPropertyName("all")]
         All,
-        [JsonProperty("spot")]
+        [JsonPropertyName("spot")]
         Spot,
-        [JsonProperty("derivatives")]
+        [JsonPropertyName("derivatives")]
         Derivatives,
-        [JsonProperty("dex")]
+        [JsonPropertyName("dex")]
         Dex,
-        [JsonProperty("lending")]
+        [JsonPropertyName("lending")]
         Lending
     }
 }

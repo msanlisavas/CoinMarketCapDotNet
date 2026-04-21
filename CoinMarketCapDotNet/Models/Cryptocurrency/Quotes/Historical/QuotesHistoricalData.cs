@@ -1,26 +1,26 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Historical
 {
     public class QuotesHistoricalData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("is_active")]
+        [JsonPropertyName("is_active")]
         public int? IsActive { get; set; }
 
-        [JsonProperty("is_fiat")]
+        [JsonPropertyName("is_fiat")]
         public int? IsFiat { get; set; }
 
-        [JsonProperty("quotes")]
+        [JsonPropertyName("quotes")]
         public List<HistoricalQuoteData> Quotes { get; set; }
     }
 }

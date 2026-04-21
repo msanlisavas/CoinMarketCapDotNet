@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Key
 {
     public class KeyInfoData
     {
-        [JsonProperty("plan")]
+        [JsonPropertyName("plan")]
         public PlanData Plan { get; set; }
-        [JsonProperty("usage")]
+        [JsonPropertyName("usage")]
         public UsageData Usage { get; set; }
     }
 }

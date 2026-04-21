@@ -1,38 +1,38 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class TimePeriodQuoteData
     {
-        [JsonProperty("open")]
+        [JsonPropertyName("open")]
         public decimal? Open { get; set; }
 
-        [JsonProperty("open_timestamp")]
+        [JsonPropertyName("open_timestamp")]
         public DateTime OpenTimestamp { get; set; }
 
-        [JsonProperty("high")]
+        [JsonPropertyName("high")]
         public decimal? High { get; set; }
 
-        [JsonProperty("high_timestamp")]
+        [JsonPropertyName("high_timestamp")]
         public DateTime HighTimestamp { get; set; }
 
-        [JsonProperty("low")]
+        [JsonPropertyName("low")]
         public decimal? Low { get; set; }
 
-        [JsonProperty("low_timestamp")]
+        [JsonPropertyName("low_timestamp")]
         public DateTime LowTimestamp { get; set; }
 
-        [JsonProperty("close")]
+        [JsonPropertyName("close")]
         public decimal? Close { get; set; }
 
-        [JsonProperty("close_timestamp")]
+        [JsonPropertyName("close_timestamp")]
         public DateTime CloseTimestamp { get; set; }
 
-        [JsonProperty("percent_change")]
+        [JsonPropertyName("percent_change")]
         public decimal? PercentChange { get; set; }
 
-        [JsonProperty("price_change")]
+        [JsonPropertyName("price_change")]
         public decimal? PriceChange { get; set; }
     }
 }

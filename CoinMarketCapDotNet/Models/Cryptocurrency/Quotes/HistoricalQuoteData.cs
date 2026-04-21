@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes
 {
     public class HistoricalQuoteData
     {
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public string Timestamp { get; set; }
 
-        [JsonProperty("search_interval")]
+        [JsonPropertyName("search_interval")]
         public string SearchInterval { get; set; }
 
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, HistoricalMarketDetailsData> Quote { get; set; }
     }
 }

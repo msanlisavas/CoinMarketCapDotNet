@@ -1,50 +1,50 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class CoinData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("cmc_rank")]
+        [JsonPropertyName("cmc_rank")]
         public int CmcRank { get; set; }
 
-        [JsonProperty("num_market_pairs")]
+        [JsonPropertyName("num_market_pairs")]
         public int NumMarketPairs { get; set; }
 
-        [JsonProperty("circulating_supply")]
+        [JsonPropertyName("circulating_supply")]
         public double? CirculatingSupply { get; set; }
 
-        [JsonProperty("total_supply")]
+        [JsonPropertyName("total_supply")]
         public double? TotalSupply { get; set; }
 
-        [JsonProperty("market_cap_by_total_supply")]
+        [JsonPropertyName("market_cap_by_total_supply")]
         public double? MarketCapByTotalSupply { get; set; }
 
-        [JsonProperty("max_supply")]
+        [JsonPropertyName("max_supply")]
         public double? MaxSupply { get; set; }
 
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         public string LastUpdated { get; set; }
 
-        [JsonProperty("date_added")]
+        [JsonPropertyName("date_added")]
         public string DateAdded { get; set; }
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public List<string> Tags { get; set; }
-        [JsonProperty("platform")]
+        [JsonPropertyName("platform")]
         public PlatformData Platform { get; set; }
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, QuoteData> Quotes { get; set; }
     }
 }

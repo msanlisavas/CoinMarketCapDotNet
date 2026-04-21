@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class NestedResponseList<T>
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public DataContainer<T> Data { get; set; }
 
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public Status Status { get; set; }
     }
 }

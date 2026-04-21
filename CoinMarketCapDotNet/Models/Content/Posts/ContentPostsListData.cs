@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Content.Posts
 {
     public class ContentPostsListData
     {
-        [JsonProperty("list")]
+        [JsonPropertyName("list")]
         public List<ContentPostsLatestData> List { get; set; }
-        [JsonProperty("last_score")]
+        [JsonPropertyName("last_score")]
         public string LastScore { get; set; }
     }
 }

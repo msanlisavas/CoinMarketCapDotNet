@@ -1,35 +1,35 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class UrlsData
     {
-        [JsonProperty("website")]
+        [JsonPropertyName("website")]
         public List<string> Website { get; set; }
 
-        [JsonProperty("technical_doc")]
+        [JsonPropertyName("technical_doc")]
         public List<string> TechnicalDoc { get; set; }
 
-        [JsonProperty("twitter")]
+        [JsonPropertyName("twitter")]
         public List<object> Twitter { get; set; }
 
-        [JsonProperty("reddit")]
+        [JsonPropertyName("reddit")]
         public List<string> Reddit { get; set; }
 
-        [JsonProperty("message_board")]
+        [JsonPropertyName("message_board")]
         public List<string> MessageBoard { get; set; }
 
-        [JsonProperty("announcement")]
+        [JsonPropertyName("announcement")]
         public List<object> Announcement { get; set; }
 
-        [JsonProperty("chat")]
+        [JsonPropertyName("chat")]
         public List<object> Chat { get; set; }
 
-        [JsonProperty("explorer")]
+        [JsonPropertyName("explorer")]
         public List<string> Explorer { get; set; }
 
-        [JsonProperty("source_code")]
+        [JsonPropertyName("source_code")]
         public List<string> SourceCode { get; set; }
     }
 }

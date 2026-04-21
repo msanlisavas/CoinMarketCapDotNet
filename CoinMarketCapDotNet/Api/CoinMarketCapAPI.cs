@@ -61,7 +61,8 @@ using CoinMarketCapDotNet.Models.Key;
 using CoinMarketCapDotNet.Models.Tools;
 using CoinMarketCapDotNet.Models.Tools.Query;
 using CoinMarketCapSdk.Models.Cryptocurrency.Categories;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,13 @@ namespace CoinMarketCapDotNet.Api
     public class CoinMarketCapAPI
     {
         private static readonly HttpClient client = new HttpClient();
+        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters = { new JsonStringEnumConverter() }
+        };
         private readonly string apiKey;
         private readonly string apiBase;
 
@@ -106,24 +114,24 @@ namespace CoinMarketCapDotNet.Api
             {
                 case HttpStatusCode.OK:
                     var content = await response.Content.ReadAsStringAsync();
-                    T result = JsonConvert.DeserializeObject<T>(content);
+                    T? result = JsonSerializer.Deserialize<T>(content, JsonOptions);
                     return result ?? throw new Exception("Failed to deserialize response content.");
                 case HttpStatusCode.BadRequest:
                     var badRequestContent = await response.Content.ReadAsStringAsync();
-                    var badRequestStatus = JsonConvert.DeserializeObject<ResponseDict<Status>>(badRequestContent);
-                    throw new Exception($"Bad request: {badRequestStatus.Status.ErrorMessage}");
+                    var badRequestStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(badRequestContent, JsonOptions);
+                    throw new Exception($"Bad request: {badRequestStatus?.Status?.ErrorMessage}");
                 case HttpStatusCode.Unauthorized:
                     var unauthorizedContent = await response.Content.ReadAsStringAsync();
-                    var unauthorizedStatus = JsonConvert.DeserializeObject<ResponseDict<Status>>(unauthorizedContent);
-                    throw new Exception($"Unauthorized: {unauthorizedStatus.Status.ErrorMessage}");
+                    var unauthorizedStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(unauthorizedContent, JsonOptions);
+                    throw new Exception($"Unauthorized: {unauthorizedStatus?.Status?.ErrorMessage}");
                 case HttpStatusCode.Forbidden:
                     var forbiddenContent = await response.Content.ReadAsStringAsync();
-                    var forbiddenStatus = JsonConvert.DeserializeObject<ResponseDict<Status>>(forbiddenContent);
-                    throw new Exception($"Forbidden: {forbiddenStatus.Status.ErrorMessage}");
+                    var forbiddenStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(forbiddenContent, JsonOptions);
+                    throw new Exception($"Forbidden: {forbiddenStatus?.Status?.ErrorMessage}");
                 case HttpStatusCode.InternalServerError:
                     var internalServerErrorContent = await response.Content.ReadAsStringAsync();
-                    var internalServerErrorStatus = JsonConvert.DeserializeObject<ResponseDict<Status>>(internalServerErrorContent);
-                    throw new Exception($"Internal Server Error: {internalServerErrorStatus.Status.ErrorMessage}");
+                    var internalServerErrorStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(internalServerErrorContent, JsonOptions);
+                    throw new Exception($"Internal Server Error: {internalServerErrorStatus?.Status?.ErrorMessage}");
                 default:
                     throw new Exception($"Error: {response.StatusCode}");
             }

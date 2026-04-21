@@ -1,25 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class Status
     {
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
 
-        [JsonProperty("error_code")]
+        [JsonPropertyName("error_code")]
         public int ErrorCode { get; set; }
 
-        [JsonProperty("error_message")]
+        [JsonPropertyName("error_message")]
         public string ErrorMessage { get; set; }
 
-        [JsonProperty("elapsed")]
+        [JsonPropertyName("elapsed")]
         public int Elapsed { get; set; }
 
-        [JsonProperty("credit_count")]
+        [JsonPropertyName("credit_count")]
         public int CreditCount { get; set; }
-        [JsonProperty("notice")]
+        [JsonPropertyName("notice")]
         public string Notice { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -6,28 +6,28 @@ namespace CoinMarketCapDotNet.Models.Exchange.Listing.Latest
 {
     public class ExchangeListingLatestData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
-        [JsonProperty("num_market_pairs")]
+        [JsonPropertyName("num_market_pairs")]
         public int NumMarketPairs { get; set; }
-        [JsonProperty("date_launched")]
+        [JsonPropertyName("date_launched")]
         public DateTime? DateLaunched { get; set; }
-        [JsonProperty("exchange_score")]
+        [JsonPropertyName("exchange_score")]
         public decimal? ExchangeScore { get; set; }
-        [JsonProperty("liquidity_score")]
+        [JsonPropertyName("liquidity_score")]
         public decimal? LiquidityScore { get; set; }
-        [JsonProperty("rank")]
+        [JsonPropertyName("rank")]
         public decimal? Rank { get; set; }
-        [JsonProperty("traffic_score")]
+        [JsonPropertyName("traffic_score")]
         public decimal? TrafficScore { get; set; }
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, ExchangeQuoteData> Quote { get; set; }
 
 

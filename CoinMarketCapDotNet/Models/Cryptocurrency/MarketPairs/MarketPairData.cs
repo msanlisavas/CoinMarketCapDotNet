@@ -1,36 +1,36 @@
 ﻿using CoinMarketCapDotNet.Models.General;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs
 {
     public class MarketPairData
     {
-        [JsonProperty("market_id")]
+        [JsonPropertyName("market_id")]
         public int MarketId { get; set; }
 
-        [JsonProperty("market_pair")]
+        [JsonPropertyName("market_pair")]
         public string MarketPairName { get; set; }
 
-        [JsonProperty("category")]
+        [JsonPropertyName("category")]
         public string Category { get; set; }
 
-        [JsonProperty("fee_type")]
+        [JsonPropertyName("fee_type")]
         public string FeeType { get; set; }
 
-        [JsonProperty("market_url")]
+        [JsonPropertyName("market_url")]
         public string MarketUrl { get; set; }
 
-        [JsonProperty("exchange")]
+        [JsonPropertyName("exchange")]
         public ExchangeData Exchange { get; set; }
 
-        [JsonProperty("market_pair_base")]
+        [JsonPropertyName("market_pair_base")]
         public MarketPairBaseData MarketPairBase { get; set; }
 
-        [JsonProperty("market_pair_quote")]
+        [JsonPropertyName("market_pair_quote")]
         public MarketPairQuoteData MarketPairQuote { get; set; }
 
-        [JsonProperty("quote")]
+        [JsonPropertyName("quote")]
         public Dictionary<string, QuoteData> Quote { get; set; }
     }
 

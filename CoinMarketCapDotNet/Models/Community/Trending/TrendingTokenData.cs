@@ -1,25 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Community.Trending
 {
     public class TrendingTokenData
     {
-        [JsonProperty("community_rank")]
+        [JsonPropertyName("community_rank")]
         public int? CommunityRank { get; set; }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("cmc_rank")]
+        [JsonPropertyName("cmc_rank")]
         public int? CmcRank { get; set; }
     }
 }

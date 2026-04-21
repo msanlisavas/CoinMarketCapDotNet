@@ -1,31 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.General
 {
     public class MarketQuoteData
     {
-        [JsonProperty("open")]
+        [JsonPropertyName("open")]
         public decimal? Open { get; set; }
 
-        [JsonProperty("high")]
+        [JsonPropertyName("high")]
         public decimal? High { get; set; }
 
-        [JsonProperty("low")]
+        [JsonPropertyName("low")]
         public decimal? Low { get; set; }
 
-        [JsonProperty("close")]
+        [JsonPropertyName("close")]
         public decimal? Close { get; set; }
 
-        [JsonProperty("volume")]
+        [JsonPropertyName("volume")]
         public decimal? Volume { get; set; }
 
-        [JsonProperty("last_updated")]
+        [JsonPropertyName("last_updated")]
         public DateTime LastUpdated { get; set; }
-        [JsonProperty("market_cap")]
+        [JsonPropertyName("market_cap")]
         public decimal? MarketCap { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public string Timestamp { get; set; }
     }
 

@@ -1,15 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes
 {
     public class TagData
     {
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("category")]
+        [JsonPropertyName("category")]
         public string Category { get; set; }
     }
 }

@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Assets
 {
     public class AssetsData
     {
 
-        [JsonProperty("wallet_address")]
+        [JsonPropertyName("wallet_address")]
         public string WalletAddress { get; set; }
-        [JsonProperty("balance")]
+        [JsonPropertyName("balance")]
         public decimal? Balance { get; set; }
-        [JsonProperty("platform")]
+        [JsonPropertyName("platform")]
         public AssetPlatformData Platform { get; set; }
-        [JsonProperty("currency")]
+        [JsonPropertyName("currency")]
         public AssetCurrencyData Currency { get; set; }
     }
 }
