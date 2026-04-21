@@ -138,6 +138,7 @@ namespace CoinMarketCapDotNet.Api
             }
 
             Cryptocurrency = new CryptocurrencyEndpoint(this);
+            Dex = new DexEndpoint(this);
             Fiat = new FiatEndpoint(this);
             Exchange = new ExchangeEndpoint(this);
             FearAndGreed = new FearAndGreedEndpoint(this);
@@ -172,6 +173,7 @@ namespace CoinMarketCapDotNet.Api
             _ownsClient = false;
 
             Cryptocurrency = new CryptocurrencyEndpoint(this); // Initialize Cryptocurrency instance
+            Dex = new DexEndpoint(this); // Initialize Dex instance
             Fiat = new FiatEndpoint(this); // Initialize Fiat instance
             Exchange = new ExchangeEndpoint(this); // Initialize Exchange instance
             FearAndGreed = new FearAndGreedEndpoint(this); // Initialize FearAndGreed instance
@@ -300,6 +302,7 @@ namespace CoinMarketCapDotNet.Api
 
 
         public CryptocurrencyEndpoint Cryptocurrency { get; } // Instance of Cryptocurrency class
+        public DexEndpoint Dex { get; } // Instance of Dex class
         public FiatEndpoint Fiat { get; } // Instance of Fiat class
         public ExchangeEndpoint Exchange { get; } // Instance of Exchange class
         public FearAndGreedEndpoint FearAndGreed { get; } // Instance of FearAndGreed class
@@ -2620,6 +2623,31 @@ namespace CoinMarketCapDotNet.Api
 
             }
 
+        }
+
+        public class DexEndpoint
+        {
+            private readonly CoinMarketCapAPI coinMarketCapAPI;
+
+            public DexEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+            {
+                this.coinMarketCapAPI = coinMarketCapAPI;
+                Token = new TokenSubEndpoint(coinMarketCapAPI);
+            }
+
+            public TokenSubEndpoint Token { get; }
+
+            public class TokenSubEndpoint
+            {
+                private readonly CoinMarketCapAPI coinMarketCapAPI;
+
+                public TokenSubEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+                {
+                    this.coinMarketCapAPI = coinMarketCapAPI;
+                }
+
+                // 14 methods will be added in Tasks 4-7
+            }
         }
     }
 

@@ -52,6 +52,26 @@
             }
             // Add more endpoints for the Cryptocurrency category here
         }
+        public static class Dex
+        {
+            public static class Token
+            {
+                public static string TrendingList { get; } = $"{Version.V1}/dex/tokens/trending/list";
+                public static string BatchQuery { get; } = $"{Version.V1}/dex/tokens/batch-query";
+                public static string BatchPrice { get; } = $"{Version.V1}/dex/token/price/batch";
+                public static string NewList { get; } = $"{Version.V1}/dex/new/list";
+                public static string MemeList { get; } = $"{Version.V1}/dex/meme/list";
+                public static string GainerLoserList { get; } = $"{Version.V1}/dex/gainer-loser/list";
+                public static string Detail { get; } = $"{Version.V1}/dex/token";
+                public static string Price { get; } = $"{Version.V1}/dex/token/price";
+                public static string Pools { get; } = $"{Version.V1}/dex/token/pools";
+                public static string Liquidity { get; } = $"{Version.V1}/dex/token-liquidity/query";
+                public static string Transactions { get; } = $"{Version.V1}/dex/tokens/transactions";
+                public static string Security { get; } = $"{Version.V1}/dex/security/detail";
+                public static string Search { get; } = $"{Version.V1}/dex/search";
+                public static string LiquidityChange { get; } = $"{Version.V1}/dex/liquidity-change/list";
+            }
+        }
         public static class Fiat
         {
             public static string Map { get; } = $"{Version.V1}/fiat/map";
