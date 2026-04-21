@@ -268,6 +268,15 @@ MIT License
 
 ## Release Notes
 
+### v2.3.0
+
+- Expanded the DEX endpoint group with three new sub-groups:
+  - `api.Dex.Pairs.*` (2 endpoints) — `GetSpotPairsLatestAsync`, `GetQuotesLatestAsync` for DEX trading pair data.
+  - `api.Dex.Platform.*` (2 endpoints) — `GetListAsync`, `GetDetailAsync` for blockchain network metadata.
+  - `api.Dex.Kline.*` (2 endpoints) — `GetPointsAsync`, `GetCandlesAsync` for DEX OHLCV chart data.
+- Fully additive release — no breaking changes from v2.2.0.
+- DEX Holders endpoints are deferred to v2.4.0.
+
 ### v2.2.0
 
 - Added DEX endpoint group with Token sub-group: 14 new methods under `api.Dex.Token.*` (trending, batch query, batch price, new list, meme list, gainer/loser, token detail, price, pools, liquidity, transactions, security, search, liquidity change).
