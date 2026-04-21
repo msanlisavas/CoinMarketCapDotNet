@@ -1,3 +1,7 @@
+// This file holds integration tests that require a live CoinMarketCap API key in the fixture.
+// They are not run automatically; nullable analysis is disabled here to avoid noise on response-chain dereferences.
+#nullable disable
+
 using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet_Tests.Collection;
 using System;
