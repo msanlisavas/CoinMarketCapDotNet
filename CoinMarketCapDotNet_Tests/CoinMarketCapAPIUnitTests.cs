@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CoinMarketCapDotNet.Api;
+using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Enums;
 using CoinMarketCapDotNet.Models.Exceptions;
 using CoinMarketCapDotNet_Tests.StubHandlers;
 using Xunit;
@@ -181,6 +183,19 @@ namespace CoinMarketCapDotNet_Tests
         {
             Assert.Throws<ArgumentNullException>(() =>
                 new CoinMarketCapAPI((CoinMarketCapDotNet.Configuration.CoinMarketCapOptions)null!));
+        }
+
+        [Fact]
+        public void GetEnumMemberValue_returns_wire_value_for_ExchangeCategoryEnum()
+        {
+            Assert.Equal("all", CoinMarketCapDotNet.Models.Enums.ExchangeCategoryEnum.All.GetEnumMemberValue());
+            Assert.Equal("derivatives", CoinMarketCapDotNet.Models.Enums.ExchangeCategoryEnum.Derivatives.GetEnumMemberValue());
+        }
+
+        [Fact]
+        public void GetEnumMemberValue_returns_wire_value_for_MarketTypeEnum()
+        {
+            Assert.Equal("no_fees", CoinMarketCapDotNet.Models.Enums.MarketTypeEnum.NoFees.GetEnumMemberValue());
         }
     }
 }

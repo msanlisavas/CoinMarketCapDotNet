@@ -1,15 +1,14 @@
-﻿using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Enums
 {
     public enum MarketTypeEnum
     {
-        [JsonPropertyName("all")]
+        [EnumMember(Value = "all")]
         All,
-        [JsonPropertyName("fees")]
+        [EnumMember(Value = "fees")]
         Fees,
-        [JsonPropertyName("no_fees")]
+        [EnumMember(Value = "no_fees")]
         NoFees,
-
     }
 }
