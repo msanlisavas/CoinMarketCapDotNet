@@ -64,6 +64,11 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical.Query;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
+using CoinMarketCapDotNet.Models.Dex.Token.BatchPrice;
+using CoinMarketCapDotNet.Models.Dex.Token.BatchQuery;
+using CoinMarketCapDotNet.Models.Dex.Token.GainerLoser;
+using CoinMarketCapDotNet.Models.Dex.Token.MemeList;
+using CoinMarketCapDotNet.Models.Dex.Token.NewList;
 using CoinMarketCapDotNet.Models.Dex.Token.Trending;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical.Query;
@@ -2661,6 +2666,86 @@ namespace CoinMarketCapDotNet.Api
                         limit
                     };
                     return await coinMarketCapAPI.PostDataAsync<ResponseList<DexTrendingTokenData>>(Endpoints.Dex.Token.TrendingList, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Queries multiple DEX tokens by their addresses in a single request.
+                /// </summary>
+                /// <param name="addresses">Token contract addresses to query.</param>
+                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexBatchQueryTokenData>> BatchQueryAsync(IEnumerable<string> addresses, string? networkSlug = null, CancellationToken cancellationToken = default)
+                {
+                    var body = new
+                    {
+                        addresses = addresses,
+                        network_slug = networkSlug
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexBatchQueryTokenData>>(Endpoints.Dex.Token.BatchQuery, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Queries current prices for multiple DEX tokens in one request.
+                /// </summary>
+                /// <param name="addresses">Token contract addresses to price.</param>
+                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexBatchPriceTokenData>> BatchPriceAsync(IEnumerable<string> addresses, string? networkSlug = null, CancellationToken cancellationToken = default)
+                {
+                    var body = new
+                    {
+                        addresses = addresses,
+                        network_slug = networkSlug
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexBatchPriceTokenData>>(Endpoints.Dex.Token.BatchPrice, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves newly launched DEX tokens.
+                /// </summary>
+                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="limit">Optional max number of results.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexNewTokenData>> GetNewListAsync(string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var body = new
+                    {
+                        network_slug = networkSlug,
+                        limit
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexNewTokenData>>(Endpoints.Dex.Token.NewList, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves DEX meme tokens.
+                /// </summary>
+                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="limit">Optional max number of results.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexMemeTokenData>> GetMemeListAsync(string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var body = new
+                    {
+                        network_slug = networkSlug,
+                        limit
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexMemeTokenData>>(Endpoints.Dex.Token.MemeList, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves top DEX gainers and losers.
+                /// </summary>
+                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="limit">Optional max number of results.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexGainerLoserTokenData>> GetGainerLoserAsync(string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var body = new
+                    {
+                        network_slug = networkSlug,
+                        limit
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexGainerLoserTokenData>>(Endpoints.Dex.Token.GainerLoserList, body, cancellationToken).ConfigureAwait(false);
                 }
             }
         }

@@ -483,5 +483,86 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Single(result.Data!);
             Assert.Equal("TEST", result.Data![0].Symbol);
         }
+
+        [Fact]
+        public async Task Dex_Token_BatchQueryAsync_posts_with_addresses()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.BatchQueryAsync(new[] { "0xabc", "0xdef" }, networkSlug: "ethereum");
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/tokens/batch-query", handler.LastRequest.RequestUri!.ToString());
+            var sentBody = await handler.LastRequest.Content!.ReadAsStringAsync();
+            Assert.Contains("0xabc", sentBody);
+            Assert.Contains("0xdef", sentBody);
+            Assert.Contains("ethereum", sentBody);
+        }
+
+        [Fact]
+        public async Task Dex_Token_BatchPriceAsync_posts_to_correct_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.BatchPriceAsync(new[] { "0xabc" });
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/token/price/batch", handler.LastRequest.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetNewListAsync_posts_to_correct_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetNewListAsync(networkSlug: "solana", limit: 5);
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/new/list", handler.LastRequest.RequestUri!.ToString());
+            var sentBody = await handler.LastRequest.Content!.ReadAsStringAsync();
+            Assert.Contains("\"network_slug\":\"solana\"", sentBody);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetMemeListAsync_posts_to_correct_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetMemeListAsync();
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/meme/list", handler.LastRequest.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetGainerLoserAsync_posts_to_correct_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetGainerLoserAsync(limit: 20);
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/gainer-loser/list", handler.LastRequest.RequestUri!.ToString());
+        }
     }
 }
