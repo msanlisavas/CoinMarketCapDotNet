@@ -268,6 +268,13 @@ MIT License
 
 ## Release Notes
 
+### v2.1.0
+
+- Added Fear and Greed Index endpoint group: `api.FearAndGreed.GetLatestAsync()`, `api.FearAndGreed.GetHistoricalAsync(...)`.
+- Added CMC Index endpoint group with CMC 100 and CMC 20 latest + historical: `api.Index.GetCmc100LatestAsync()`, `api.Index.GetCmc100HistoricalAsync(...)`, `api.Index.GetCmc20LatestAsync()`, `api.Index.GetCmc20HistoricalAsync(...)`.
+- Added v3 cryptocurrency methods: `GetQuotesLatestV3Async` and `GetListingLatestV3Async`. The existing v1/v2 methods are unchanged.
+- Fully additive release — no breaking changes from v2.0.0.
+
 ### v2.0.0
 
 - Multi-targets `netstandard2.0` and `net8.0`.
