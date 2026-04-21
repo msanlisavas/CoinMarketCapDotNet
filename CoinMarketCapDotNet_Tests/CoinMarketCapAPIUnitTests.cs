@@ -233,5 +233,19 @@ namespace CoinMarketCapDotNet_Tests
             var api2 = new CoinMarketCapAPI(opts, client);
             await api2.Cryptocurrency.GetMapAsync(); // would throw ObjectDisposedException if client had been disposed
         }
+
+        [Fact]
+        public async Task Unmapped_status_throws_base_CoinMarketCapException()
+        {
+            // 418 (I'm a teapot) is not in the explicit switch cases, so it should hit the default arm.
+            var api = ApiWithStub((HttpStatusCode)418, ErrorBody, out _);
+            var ex = await Assert.ThrowsAsync<CoinMarketCapException>(
+                () => api.Cryptocurrency.GetMapAsync());
+            // Verify it's the BASE type, not any specialized subclass.
+            Assert.Equal(typeof(CoinMarketCapException), ex.GetType());
+            Assert.Equal((HttpStatusCode)418, ex.StatusCode);
+            Assert.Equal(1001, ex.ErrorCode);
+            Assert.Equal("Test error", ex.CmcErrorMessage);
+        }
     }
 }
