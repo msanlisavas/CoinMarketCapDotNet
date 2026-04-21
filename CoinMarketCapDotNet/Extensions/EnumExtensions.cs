@@ -21,8 +21,9 @@ namespace CoinMarketCapDotNet.Extensions
         {
             var enumType = typeof(TEnum);
             var name = Enum.GetName(enumType, value);
+            if (name is null) return null;
 
-            var fieldInfo = enumType.GetField(name!);
+            var fieldInfo = enumType.GetField(name);
             var enumMemberAttribute = fieldInfo?.GetCustomAttributes(false)
                                                 .OfType<EnumMemberAttribute>()
                                                 .FirstOrDefault();
