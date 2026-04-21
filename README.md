@@ -268,6 +268,14 @@ MIT License
 
 ## Release Notes
 
+### v2.2.0
+
+- Added DEX endpoint group with Token sub-group: 14 new methods under `api.Dex.Token.*` (trending, batch query, batch price, new list, meme list, gainer/loser, token detail, price, pools, liquidity, transactions, security, search, liquidity change).
+- Added public `PostDataAsync<T>(endpoint, body, cancellationToken)` transport method on `CoinMarketCapAPI` for POST endpoints.
+- Refactored shared response handling into a private `HandleResponseAsync<T>` helper used by both `GetDataAsync` and `PostDataAsync`. No behavior changes for existing GET endpoints.
+- Fully additive release — no breaking changes from v2.1.0.
+- DEX Pairs, Holders, Platform, and K-line endpoints are deferred to v2.3.0 / v2.4.0.
+
 ### v2.1.0
 
 - Added Fear and Greed Index endpoint group: `api.FearAndGreed.GetLatestAsync()`, `api.FearAndGreed.GetHistoricalAsync(...)`.
