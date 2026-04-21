@@ -268,6 +268,17 @@ MIT License
 
 ## Release Notes
 
+### v2.4.0
+
+- Added the final DEX sub-group: `api.Dex.Holders.*` (5 endpoints).
+  - `GetListAsync` (POST) — paginated holder list with classification, balance, P/L.
+  - `GetDetailAsync` (POST) — detailed info for a specific wallet address.
+  - `GetTrendListAsync` (GET) — holder metrics over time (count + top-N holding ratios).
+  - `GetTagCountAsync` (GET) — holder counts grouped by wallet tags (whale, KOL, smart money, bot, etc.).
+  - `GetCountAsync` (GET) — total holder count.
+- **Tier 3 complete:** The DEX category is now fully wrapped. `api.Dex.{Token,Pairs,Platform,Kline,Holders}` together cover all 22 CMC DEX endpoints shipped across v2.2.0 → v2.4.0.
+- Fully additive release — no breaking changes from v2.3.0.
+
 ### v2.3.0
 
 - Expanded the DEX endpoint group with three new sub-groups:
