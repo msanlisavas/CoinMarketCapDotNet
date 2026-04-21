@@ -367,3 +367,6 @@ FodyWeavers.xsd
 /CoinMarketCapDotNet/LICENSE.txt
 /CoinMarketCapDotNet/CoinMarketCapDotNet.nuspec
 /CoinMarketCapDotNet/RELEASE-NOTES.txt
+
+# Internal planning docs (specs, plans, etc.)
+docs/superpowers/
