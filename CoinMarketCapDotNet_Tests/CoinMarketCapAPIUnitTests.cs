@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Dex.Platform.Detail;
+using CoinMarketCapDotNet.Models.Dex.Platform.List;
 using CoinMarketCapDotNet.Models.Dex.Token.Detail;
 using CoinMarketCapDotNet.Models.Dex.Token.Trending;
 using CoinMarketCapDotNet.Models.Enums;
@@ -764,6 +766,67 @@ namespace CoinMarketCapDotNet_Tests
             await api.PostDataAsync<ResponseList<Status>>("v1/dex/test-endpoint", new { x = 1 }, cts.Token);
 
             Assert.True(handler.LastCancellationToken.CanBeCanceled);
+        }
+
+        [Fact]
+        public async Task Dex_Platform_GetListAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": [
+                { "network_slug": "ethereum", "name": "Ethereum", "chain_id": "1" },
+                { "network_slug": "bsc", "name": "BNB Smart Chain", "chain_id": "56" }
+              ]
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Platform.GetListAsync();
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/platform/list", handler.LastRequest.RequestUri!.ToString());
+            Assert.Equal(2, result.Data!.Count);
+            Assert.Equal("ethereum", result.Data[0].NetworkSlug);
+        }
+
+        [Fact]
+        public async Task Dex_Platform_GetDetailAsync_gets_v1_endpoint_with_query()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": {
+                "network_slug": "ethereum",
+                "name": "Ethereum",
+                "chain_id": "1",
+                "supported_dexes": ["uniswap", "sushiswap"],
+                "token_count": 50000,
+                "pair_count": 30000
+              }
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Platform.GetDetailAsync("ethereum");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/platform/detail", url);
+            Assert.Contains("network_slug=ethereum", url);
+            Assert.Equal(2, result.Data!.SupportedDexes.Count);
+            Assert.Equal(50000, result.Data.TokenCount);
+        }
+
+        [Fact]
+        public async Task Dex_Platform_GetDetailAsync_validates_required_param()
+        {
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, "{}");
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Platform.GetDetailAsync(""));
         }
     }
 }

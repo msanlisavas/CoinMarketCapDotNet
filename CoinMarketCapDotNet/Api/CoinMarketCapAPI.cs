@@ -66,6 +66,8 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
 using CoinMarketCapDotNet.Models.Dex.Pairs.QuotesLatest;
 using CoinMarketCapDotNet.Models.Dex.Pairs.SpotLatest;
+using CoinMarketCapDotNet.Models.Dex.Platform.Detail;
+using CoinMarketCapDotNet.Models.Dex.Platform.List;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchPrice;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchQuery;
 using CoinMarketCapDotNet.Models.Dex.Token.Detail;
@@ -2957,7 +2959,29 @@ namespace CoinMarketCapDotNet.Api
                     this.coinMarketCapAPI = coinMarketCapAPI;
                 }
 
-                // 2 methods will be added in Task 2
+                /// <summary>
+                /// Retrieves the list of all DEX-supported blockchain platforms.
+                /// </summary>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexPlatformListData>> GetListAsync(CancellationToken cancellationToken = default)
+                {
+                    var endpoint = Endpoints.Dex.Platform.List;
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexPlatformListData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves detailed metadata for a specific DEX platform (chain).
+                /// </summary>
+                /// <param name="networkSlug">Blockchain network slug (e.g. "ethereum", "bsc").</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexPlatformDetailData>> GetDetailAsync(string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    var qs = $"network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Platform.Detail}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<Response<DexPlatformDetailData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
             }
 
             public class KlineSubEndpoint
