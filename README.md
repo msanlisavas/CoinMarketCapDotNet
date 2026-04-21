@@ -1,5 +1,9 @@
 # CoinMarketCapDotNet
 
+[![NuGet](https://img.shields.io/nuget/v/CoinMarketCapDotNet.svg?label=NuGet)](https://www.nuget.org/packages/CoinMarketCapDotNet)
+[![Downloads](https://img.shields.io/nuget/dt/CoinMarketCapDotNet.svg?label=downloads)](https://www.nuget.org/packages/CoinMarketCapDotNet)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
+
 CoinMarketCapDotNet is a C# wrapper for the CoinMarketCap API, providing convenient access to cryptocurrency market data.
 
 ## Migrating from v1?
