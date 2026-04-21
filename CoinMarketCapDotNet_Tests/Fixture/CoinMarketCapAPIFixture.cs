@@ -1,5 +1,6 @@
-﻿using CoinMarketCapDotNet.Api;
 using System;
+using CoinMarketCapDotNet.Api;
+using CoinMarketCapDotNet.Configuration;
 
 namespace CoinMarketCapDotNet_Tests.Collection
 {
@@ -10,21 +11,21 @@ namespace CoinMarketCapDotNet_Tests.Collection
 
         public CoinMarketCapAPIFixture()
         {
-            this.CoinMarketCapAPI = new CoinMarketCapAPI(_apiKey);
+            CoinMarketCapAPI = new CoinMarketCapAPI(new CoinMarketCapOptions { ApiKey = _apiKey });
         }
 
         public void SetSandboxMode(bool useSandbox)
         {
-            this.CoinMarketCapAPI = new CoinMarketCapAPI(_apiKey, useSandbox);
+            CoinMarketCapAPI = new CoinMarketCapAPI(new CoinMarketCapOptions
+            {
+                ApiKey = _apiKey,
+                UseSandbox = useSandbox
+            });
         }
 
         public void Dispose()
         {
-            this.CoinMarketCapAPI = new CoinMarketCapAPI(_apiKey);
+            CoinMarketCapAPI = new CoinMarketCapAPI(new CoinMarketCapOptions { ApiKey = _apiKey });
         }
     }
-
-
-
-
 }
