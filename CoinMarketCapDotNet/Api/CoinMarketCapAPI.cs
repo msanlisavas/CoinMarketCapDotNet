@@ -209,6 +209,11 @@ namespace CoinMarketCapDotNet.Api
 
             var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
+            return await HandleResponseAsync<T>(response, cancellationToken).ConfigureAwait(false);
+        }
+
+        private static async Task<T> HandleResponseAsync<T>(HttpResponseMessage response, CancellationToken cancellationToken) where T : class
+        {
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
