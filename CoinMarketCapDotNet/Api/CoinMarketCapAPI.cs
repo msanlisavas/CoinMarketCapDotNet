@@ -1,4 +1,13 @@
-﻿using CoinMarketCapDotNet.Api.General;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
+using CoinMarketCapDotNet.Api.General;
 using CoinMarketCapDotNet.Configuration;
 using CoinMarketCapDotNet.Extensions;
 using CoinMarketCapDotNet.Models.Blockchain.Statistics;
@@ -41,6 +50,7 @@ using CoinMarketCapDotNet.Models.Cryptocurrency.Trending.Latest;
 using CoinMarketCapDotNet.Models.Cryptocurrency.Trending.MostVisited;
 using CoinMarketCapDotNet.Models.Cryptocurrency.Trending.Query;
 using CoinMarketCapDotNet.Models.Enums;
+using CoinMarketCapDotNet.Models.Exceptions;
 using CoinMarketCapDotNet.Models.Exchange.Assets;
 using CoinMarketCapDotNet.Models.Exchange.Assets.Query;
 using CoinMarketCapDotNet.Models.Exchange.Info;
@@ -55,7 +65,6 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
 using CoinMarketCapDotNet.Models.Fiat.Map;
 using CoinMarketCapDotNet.Models.Fiat.Map.Query;
-using CoinMarketCapDotNet.Models.Exceptions;
 using CoinMarketCapDotNet.Models.General;
 using CoinMarketCapDotNet.Models.GlobalMetrics.Historical;
 using CoinMarketCapDotNet.Models.GlobalMetrics.Historical.Query;
@@ -63,15 +72,6 @@ using CoinMarketCapDotNet.Models.GlobalMetrics.Latest;
 using CoinMarketCapDotNet.Models.Key;
 using CoinMarketCapDotNet.Models.Tools;
 using CoinMarketCapDotNet.Models.Tools.Query;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CoinMarketCapDotNet.Api
 {

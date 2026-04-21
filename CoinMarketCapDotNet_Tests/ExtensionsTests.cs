@@ -14,7 +14,7 @@ namespace CoinMarketCapDotNet_Tests
             CurrencyEnum currency = CurrencyEnum.USD;
 
             // Act
-            string enumMemberValue = currency.GetEnumMemberValue();
+            string? enumMemberValue = currency.GetEnumMemberValue();
 
             // Assert
             Assert.Equal("USD", enumMemberValue);
@@ -40,7 +40,7 @@ namespace CoinMarketCapDotNet_Tests
             CurrencyEnum currency = CurrencyEnum.TRY;
 
             // Act
-            string symbol = currency.GetSymbol();
+            string? symbol = currency.GetSymbol();
 
             // Assert
             Assert.Equal("TRY", symbol);
@@ -74,7 +74,7 @@ namespace CoinMarketCapDotNet_Tests
             // Arrange
 
             // Act
-            List<string> enumMemberValues = EnumExtensions.GetAllSymbols<CurrencyEnum>();
+            List<string?> enumMemberValues = EnumExtensions.GetAllSymbols<CurrencyEnum>();
 
             // Assert
             Assert.True(enumMemberValues.Count > 0);
