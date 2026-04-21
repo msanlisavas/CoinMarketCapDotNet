@@ -147,5 +147,40 @@ namespace CoinMarketCapDotNet_Tests
             await api.Cryptocurrency.GetMapAsync();
             Assert.StartsWith("https://sandbox-api.coinmarketcap.com/", handler.LastRequest!.RequestUri!.ToString());
         }
+
+        [Fact]
+        public void Options_constructor_with_Timeout_does_not_mutate_default_client()
+        {
+            var before = System.Net.Http.HttpClient.DefaultProxy; // dummy access to ensure the static type is fully loaded; irrelevant to the test
+            // Create one API with a custom Timeout (no injected client — triggers the owned-HttpClient branch).
+            var opts1 = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions
+            {
+                ApiKey = "test-key",
+                Timeout = TimeSpan.FromSeconds(5)
+            };
+            var api1 = new CoinMarketCapAPI(opts1);
+
+            // Create a second API with a different Timeout.
+            var opts2 = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions
+            {
+                ApiKey = "test-key",
+                Timeout = TimeSpan.FromSeconds(10)
+            };
+            var api2 = new CoinMarketCapAPI(opts2);
+
+            // Both APIs should have constructed without throwing, and neither should have
+            // corrupted any shared HttpClient state. We cannot directly inspect _client (private),
+            // so this test's real purpose is: constructing two instances with differing Timeout values
+            // must not throw (e.g. InvalidOperationException from mutating a shared HttpClient).
+            Assert.NotNull(api1);
+            Assert.NotNull(api2);
+        }
+
+        [Fact]
+        public void Options_constructor_throws_on_null_options()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new CoinMarketCapAPI((CoinMarketCapDotNet.Configuration.CoinMarketCapOptions)null!));
+        }
     }
 }

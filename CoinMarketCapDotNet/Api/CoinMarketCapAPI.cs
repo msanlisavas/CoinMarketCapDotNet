@@ -108,12 +108,21 @@ namespace CoinMarketCapDotNet.Api
                     : "https://pro-api.coinmarketcap.com/";
             }
 
-            _client = httpClient ?? _defaultClient;
-            if (options.Timeout is { } t && httpClient is null)
+            if (httpClient is not null)
             {
-                // Only mutate the default client's timeout if the consumer did not bring their own.
-                // Mutating an injected HttpClient would surprise the caller.
-                _defaultClient.Timeout = t;
+                // Consumer brought their own HttpClient; use it as-is and ignore options.Timeout
+                // (mutating an injected HttpClient would surprise the caller).
+                _client = httpClient;
+            }
+            else if (options.Timeout is { } t)
+            {
+                // Per-instance HttpClient so Timeout does not leak across CoinMarketCapAPI instances
+                // or collide with concurrent requests on the shared default client.
+                _client = new HttpClient { Timeout = t };
+            }
+            else
+            {
+                _client = _defaultClient;
             }
 
             Cryptocurrency = new CryptocurrencyEndpoint(this);
