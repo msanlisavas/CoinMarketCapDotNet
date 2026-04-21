@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Assets
 {
@@ -8,10 +8,10 @@ namespace CoinMarketCapDotNet.Models.Exchange.Assets
         public int CryptoId { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
     }
 }

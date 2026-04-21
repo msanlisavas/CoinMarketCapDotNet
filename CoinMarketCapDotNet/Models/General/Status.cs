@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.General
@@ -12,7 +12,7 @@ namespace CoinMarketCapDotNet.Models.General
         public int ErrorCode { get; set; }
 
         [JsonPropertyName("error_message")]
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
 
         [JsonPropertyName("elapsed")]
         public int Elapsed { get; set; }
@@ -20,6 +20,6 @@ namespace CoinMarketCapDotNet.Models.General
         [JsonPropertyName("credit_count")]
         public int CreditCount { get; set; }
         [JsonPropertyName("notice")]
-        public string Notice { get; set; }
+        public string? Notice { get; set; }
     }
 }

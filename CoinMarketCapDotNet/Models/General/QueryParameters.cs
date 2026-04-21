@@ -7,11 +7,11 @@ namespace CoinMarketCapDotNet.Models.General
     {
         private readonly Dictionary<string, string> parameters = new Dictionary<string, string>();
 
-        public void Add(string key, string value)
+        public void Add(string key, string? value)
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
-                parameters.Add(key, value);
+                parameters.Add(key, value!);
             }
         }
 

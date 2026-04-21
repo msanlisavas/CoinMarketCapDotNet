@@ -1,4 +1,4 @@
-﻿using CoinMarketCapDotNet.Models.General;
+using CoinMarketCapDotNet.Models.General;
 using System.Text.Json.Serialization;
 using System;
 
@@ -7,16 +7,16 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Airdrops
     public class AirdropData
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("project_name")]
-        public string ProjectName { get; set; }
+        public string? ProjectName { get; set; }
 
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [JsonPropertyName("start_date")]
         public DateTime? StartDate { get; set; }
@@ -31,9 +31,9 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Airdrops
         public int? WinnerCount { get; set; }
 
         [JsonPropertyName("link")]
-        public string Link { get; set; }
+        public string? Link { get; set; }
 
         [JsonPropertyName("coin")]
-        public CoinData Coin { get; set; }
+        public CoinData? Coin { get; set; }
     }
 }

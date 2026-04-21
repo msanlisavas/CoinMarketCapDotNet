@@ -66,12 +66,12 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs.Query
             Add("fee_type", feeType.GetEnumMemberValue());
         }
 
-        public void AddConvert(string convert)
+        public void AddConvert(string? convert)
         {
             Add("convert", convert);
         }
 
-        public void AddConvertId(string convertId)
+        public void AddConvertId(string? convertId)
         {
             Add("convert_id", convertId);
         }

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -12,23 +12,23 @@ namespace CoinMarketCapDotNet.Models.Exchange.Info
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [JsonPropertyName("slug")]
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
         [JsonPropertyName("logo")]
-        public string Logo { get; set; }
+        public string? Logo { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("date_launched")]
         public DateTime? DateLaunched { get; set; }
         [JsonPropertyName("notice")]
-        public string Notice { get; set; }
+        public string? Notice { get; set; }
         [JsonPropertyName("weekly_visits")]
         public int? WeeklyVisits { get; set; }
         [JsonPropertyName("spot_volume_usd")]
         public decimal? SpotVolumeUsd { get; set; }
         [JsonPropertyName("urls")]
-        public Dictionary<string, string[]> Urls { get; set; }
+        public Dictionary<string, string[]>? Urls { get; set; }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Fiat.Map
 {
@@ -9,12 +9,12 @@ namespace CoinMarketCapDotNet.Models.Fiat.Map
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [JsonPropertyName("sign")]
-        public string Sign { get; set; }
+        public string? Sign { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
 
 

@@ -1,4 +1,4 @@
-﻿using CoinMarketCapDotNet.Models.General;
+using CoinMarketCapDotNet.Models.General;
 using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -11,10 +11,10 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Ohlcv.Latest
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
@@ -32,6 +32,6 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Ohlcv.Latest
         public DateTime? TimeClose { get; set; }
 
         [JsonPropertyName("quote")]
-        public Dictionary<string, MarketQuoteData> Quotes { get; set; }
+        public Dictionary<string, MarketQuoteData>? Quotes { get; set; }
     }
 }

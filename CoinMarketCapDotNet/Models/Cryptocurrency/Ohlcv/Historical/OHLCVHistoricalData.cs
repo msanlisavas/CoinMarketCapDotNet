@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Ohlcv.Historical
@@ -9,11 +9,11 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Ohlcv.Historical
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
         [JsonPropertyName("quotes")]
-        public List<OHLCVHistoricalQuoteData> Quotes { get; set; }
+        public List<OHLCVHistoricalQuoteData> Quotes { get; set; } = new List<OHLCVHistoricalQuoteData>();
     }
 }

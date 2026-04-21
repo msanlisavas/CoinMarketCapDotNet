@@ -30,12 +30,12 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing.Query
             Add("limit", limit.ToString());
         }
 
-        public void AddConvert(string convert)
+        public void AddConvert(string? convert)
         {
             Add("convert", convert);
         }
 
-        public void AddConvertId(string convertId)
+        public void AddConvertId(string? convertId)
         {
             Add("convert_id", convertId);
         }
@@ -55,7 +55,7 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing.Query
             Add("cryptocurrency_type", cryptocurrencyType.GetEnumMemberValue());
         }
 
-        public void AddAux(string aux)
+        public void AddAux(string? aux)
         {
             Add("aux", aux);
         }

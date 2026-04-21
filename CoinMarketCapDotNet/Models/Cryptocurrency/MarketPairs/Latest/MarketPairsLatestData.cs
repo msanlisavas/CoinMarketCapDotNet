@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs.Latest
@@ -9,14 +9,14 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs.Latest
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("num_market_pairs")]
         public int? NumMarketPairs { get; set; }
         [JsonPropertyName("market_pairs")]
-        public List<MarketPairData> MarketPairs { get; set; }
+        public List<MarketPairData> MarketPairs { get; set; } = new List<MarketPairData>();
     }
 }

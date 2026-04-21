@@ -1,4 +1,4 @@
-﻿using CoinMarketCapDotNet.Models.General;
+using CoinMarketCapDotNet.Models.General;
 using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -11,13 +11,13 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("slug")]
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
 
         [JsonPropertyName("is_active")]
         public int? IsActive { get; set; }
@@ -47,13 +47,13 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
         public DateTime? DateAdded { get; set; }
 
         [JsonPropertyName("tags")]
-        public List<TagData> Tags { get; set; }
+        public List<TagData> Tags { get; set; } = new List<TagData>();
 
         [JsonPropertyName("platform")]
-        public PlatformData Platform { get; set; }
+        public PlatformData? Platform { get; set; }
 
         [JsonPropertyName("last_updated")]
-        public string LastUpdated { get; set; }
+        public string? LastUpdated { get; set; }
 
         [JsonPropertyName("self_reported_circulating_supply")]
         public double? SelfReportedCirculatingSupply { get; set; }
@@ -62,6 +62,6 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Quotes.Latest
         public double? SelfReportedMarketCap { get; set; }
 
         [JsonPropertyName("quote")]
-        public Dictionary<string, QuoteData> Quote { get; set; }
+        public Dictionary<string, QuoteData>? Quote { get; set; }
     }
 }

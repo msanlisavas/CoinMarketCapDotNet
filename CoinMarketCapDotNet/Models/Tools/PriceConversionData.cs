@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -7,13 +7,13 @@ namespace CoinMarketCapDotNet.Models.Tools
     public class PriceConversionData
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("amount")]
         public double? Amount { get; set; }
@@ -21,6 +21,6 @@ namespace CoinMarketCapDotNet.Models.Tools
         [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
         [JsonPropertyName("quote")]
-        public Dictionary<string, PriceConvertionQuoteData> Quote { get; set; }
+        public Dictionary<string, PriceConvertionQuoteData>? Quote { get; set; }
     }
 }

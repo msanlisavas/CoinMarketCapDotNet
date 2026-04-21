@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Community.Trending
 {
@@ -7,6 +7,6 @@ namespace CoinMarketCapDotNet.Models.Community.Trending
         [JsonPropertyName("rank")]
         public double? Rank { get; set; }
         [JsonPropertyName("topic")]
-        public string Topic { get; set; }
+        public string? Topic { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -7,22 +7,22 @@ namespace CoinMarketCapDotNet.Models.Content.Latest
     public class ContentLatestData
     {
         [JsonPropertyName("cover")]
-        public string Cover { get; set; }
+        public string? Cover { get; set; }
 
         [JsonPropertyName("title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [JsonPropertyName("subtitle")]
-        public string Subtitle { get; set; }
+        public string? Subtitle { get; set; }
 
         [JsonPropertyName("source_name")]
-        public string SourceName { get; set; }
+        public string? SourceName { get; set; }
 
         [JsonPropertyName("source_url")]
-        public string SourceUrl { get; set; }
+        public string? SourceUrl { get; set; }
 
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
@@ -30,6 +30,6 @@ namespace CoinMarketCapDotNet.Models.Content.Latest
         [JsonPropertyName("released_at")]
         public DateTime? ReleasedAt { get; set; }
         [JsonPropertyName("assets")]
-        public List<ContentAssetsData> Assets { get; set; }
+        public List<ContentAssetsData> Assets { get; set; } = new List<ContentAssetsData>();
     }
 }

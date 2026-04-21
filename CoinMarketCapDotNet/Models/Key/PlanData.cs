@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.Key
@@ -9,7 +9,7 @@ namespace CoinMarketCapDotNet.Models.Key
         public double CreditLimitMonthly { get; set; }
 
         [JsonPropertyName("credit_limit_monthly_reset")]
-        public string CreditLimitMonthlyReset { get; set; }
+        public string? CreditLimitMonthlyReset { get; set; }
 
         [JsonPropertyName("credit_limit_monthly_reset_timestamp")]
         public DateTime? CreditLimitMonthlyResetTimestamp { get; set; }

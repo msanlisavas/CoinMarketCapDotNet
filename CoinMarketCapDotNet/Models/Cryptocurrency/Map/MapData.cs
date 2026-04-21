@@ -1,4 +1,4 @@
-﻿using CoinMarketCapDotNet.Models.General;
+using CoinMarketCapDotNet.Models.General;
 using System.Text.Json.Serialization;
 using System;
 
@@ -13,13 +13,13 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Map
         public int? Rank { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("slug")]
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
 
         [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
@@ -31,6 +31,6 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Map
         public DateTime? LastHistoricalData { get; set; }
 
         [JsonPropertyName("platform")]
-        public PlatformData Platform { get; set; }
+        public PlatformData? Platform { get; set; }
     }
 }

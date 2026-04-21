@@ -1,4 +1,4 @@
-﻿using CoinMarketCapDotNet.Models.General;
+using CoinMarketCapDotNet.Models.General;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
@@ -11,13 +11,13 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Category
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonPropertyName("num_tokens")]
         public int? NumTokens { get; set; }
@@ -38,6 +38,6 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Category
         public double? VolumeChange { get; set; }
 
         [JsonPropertyName("coins")]
-        public List<CoinsData> Coins { get; set; }
+        public List<CoinsData> Coins { get; set; } = new List<CoinsData>();
     }
 }

@@ -14,12 +14,12 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Listing.Query
         {
             Add("limit", limit);
         }
-        public void AddConvert(string convert)
+        public void AddConvert(string? convert)
         {
             Add("convert", convert);
         }
 
-        public void AddConvertId(string convertId)
+        public void AddConvertId(string? convertId)
         {
             Add("convert_id", convertId);
         }

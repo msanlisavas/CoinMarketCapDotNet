@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -10,9 +10,9 @@ namespace CoinMarketCapDotNet.Models.Exchange.Listing.Latest
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [JsonPropertyName("slug")]
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
         [JsonPropertyName("num_market_pairs")]
         public int NumMarketPairs { get; set; }
         [JsonPropertyName("date_launched")]
@@ -28,7 +28,7 @@ namespace CoinMarketCapDotNet.Models.Exchange.Listing.Latest
         [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
         [JsonPropertyName("quote")]
-        public Dictionary<string, ExchangeQuoteData> Quote { get; set; }
+        public Dictionary<string, ExchangeQuoteData>? Quote { get; set; }
 
 
     }

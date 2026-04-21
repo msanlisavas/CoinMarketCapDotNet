@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +30,6 @@ namespace CoinMarketCapDotNet.Models.GlobalMetrics.Latest
         [JsonPropertyName("last_updated")]
         public DateTime? LastUpdated { get; set; }
         [JsonPropertyName("quote")]
-        public Dictionary<string, GlobalMetricsLatestQuoteData> Quote { get; set; }
+        public Dictionary<string, GlobalMetricsLatestQuoteData>? Quote { get; set; }
     }
 }

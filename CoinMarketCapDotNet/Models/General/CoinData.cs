@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.General
@@ -9,13 +9,13 @@ namespace CoinMarketCapDotNet.Models.General
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("symbol")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonPropertyName("slug")]
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
 
         [JsonPropertyName("cmc_rank")]
         public int CmcRank { get; set; }
@@ -36,15 +36,15 @@ namespace CoinMarketCapDotNet.Models.General
         public double? MaxSupply { get; set; }
 
         [JsonPropertyName("last_updated")]
-        public string LastUpdated { get; set; }
+        public string? LastUpdated { get; set; }
 
         [JsonPropertyName("date_added")]
-        public string DateAdded { get; set; }
+        public string? DateAdded { get; set; }
         [JsonPropertyName("tags")]
-        public List<string> Tags { get; set; }
+        public List<string> Tags { get; set; } = new List<string>();
         [JsonPropertyName("platform")]
-        public PlatformData Platform { get; set; }
+        public PlatformData? Platform { get; set; }
         [JsonPropertyName("quote")]
-        public Dictionary<string, QuoteData> Quotes { get; set; }
+        public Dictionary<string, QuoteData>? Quotes { get; set; }
     }
 }

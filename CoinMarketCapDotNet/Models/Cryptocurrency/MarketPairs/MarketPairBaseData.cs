@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs
 {
@@ -8,19 +8,19 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.MarketPairs
         public int CurrencyId { get; set; }
 
         [JsonPropertyName("currency_name")]
-        public string CurrencyName { get; set; }
+        public string? CurrencyName { get; set; }
 
         [JsonPropertyName("currency_symbol")]
-        public string CurrencySymbol { get; set; }
+        public string? CurrencySymbol { get; set; }
 
         [JsonPropertyName("currency_slug")]
-        public string CurrencySlug { get; set; }
+        public string? CurrencySlug { get; set; }
 
         [JsonPropertyName("exchange_symbol")]
-        public string ExchangeSymbol { get; set; }
+        public string? ExchangeSymbol { get; set; }
 
         [JsonPropertyName("currency_type")]
-        public string CurrencyType { get; set; }
+        public string? CurrencyType { get; set; }
     }
 
 }

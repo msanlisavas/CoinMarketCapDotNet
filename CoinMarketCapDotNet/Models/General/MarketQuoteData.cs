@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.General
@@ -26,7 +26,7 @@ namespace CoinMarketCapDotNet.Models.General
         public decimal? MarketCap { get; set; }
 
         [JsonPropertyName("timestamp")]
-        public string Timestamp { get; set; }
+        public string? Timestamp { get; set; }
     }
 
 }

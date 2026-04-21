@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Map
@@ -9,15 +9,15 @@ namespace CoinMarketCapDotNet.Models.Exchange.Map
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("slug")]
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
 
         [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [JsonPropertyName("first_historical_data")]
         public DateTime? FirstHistoricalData { get; set; }

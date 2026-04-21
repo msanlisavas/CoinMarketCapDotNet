@@ -1,20 +1,20 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Cryptocurrency.Categories
 {
     public class CategoriesData
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonPropertyName("num_tokens")]
         public int? NumTokens { get; set; }
@@ -36,6 +36,6 @@ namespace CoinMarketCapDotNet.Models.Cryptocurrency.Categories
 
         [JsonPropertyName("last_updated")]
         // The sandbox API returns a string or even random numbers 5404, the production API returns a DateTime hopefully
-        public string LastUpdated { get; set; }
+        public string? LastUpdated { get; set; }
     }
 }

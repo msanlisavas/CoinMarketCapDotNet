@@ -8,6 +8,8 @@
     <RootNamespace>CoinMarketCapDotNet</RootNamespace>
     <AssemblyName>CoinMarketCapDotNet</AssemblyName>
     <Deterministic>true</Deterministic>
+    <NoWarn>$(NoWarn);CS1591;CS1573;CS1570</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
     <PackageId>CoinMarketCapDotNet</PackageId>
     <Version>2.0.0</Version>

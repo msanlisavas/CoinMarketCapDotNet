@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +27,6 @@ namespace CoinMarketCapDotNet.Models.GlobalMetrics.Historical
         [JsonPropertyName("active_market_pairs")]
         public double? ActiveMarketPairs { get; set; }
         [JsonPropertyName("quote")]
-        public Dictionary<string, GlobalMetricsHistoricalQuoteData> Quote { get; set; }
+        public Dictionary<string, GlobalMetricsHistoricalQuoteData>? Quote { get; set; }
     }
 }

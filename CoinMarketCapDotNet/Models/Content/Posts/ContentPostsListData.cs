@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace CoinMarketCapDotNet.Models.Content.Posts
@@ -6,8 +6,8 @@ namespace CoinMarketCapDotNet.Models.Content.Posts
     public class ContentPostsListData
     {
         [JsonPropertyName("list")]
-        public List<ContentPostsLatestData> List { get; set; }
+        public List<ContentPostsLatestData> List { get; set; } = new List<ContentPostsLatestData>();
         [JsonPropertyName("last_score")]
-        public string LastScore { get; set; }
+        public string? LastScore { get; set; }
     }
 }

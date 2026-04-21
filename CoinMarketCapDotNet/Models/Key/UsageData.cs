@@ -1,14 +1,14 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Key
 {
     public class UsageData
     {
         [JsonPropertyName("current_minute")]
-        public CurrentMinuteData CurrentMinute { get; set; }
+        public CurrentMinuteData? CurrentMinute { get; set; }
         [JsonPropertyName("current_day")]
-        public CurrentDayData CurrentDay { get; set; }
+        public CurrentDayData? CurrentDay { get; set; }
         [JsonPropertyName("current_month")]
-        public CurrentMonthData CurrentMonth { get; set; }
+        public CurrentMonthData? CurrentMonth { get; set; }
     }
 }

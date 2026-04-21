@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Assets
 {
@@ -6,12 +6,12 @@ namespace CoinMarketCapDotNet.Models.Exchange.Assets
     {
 
         [JsonPropertyName("wallet_address")]
-        public string WalletAddress { get; set; }
+        public string? WalletAddress { get; set; }
         [JsonPropertyName("balance")]
         public decimal? Balance { get; set; }
         [JsonPropertyName("platform")]
-        public AssetPlatformData Platform { get; set; }
+        public AssetPlatformData? Platform { get; set; }
         [JsonPropertyName("currency")]
-        public AssetCurrencyData Currency { get; set; }
+        public AssetCurrencyData? Currency { get; set; }
     }
 }

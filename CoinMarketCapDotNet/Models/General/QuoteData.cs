@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System;
 
 namespace CoinMarketCapDotNet.Models.General
@@ -42,7 +42,7 @@ namespace CoinMarketCapDotNet.Models.General
         public double? FullyDilutedMarketCap { get; set; }
 
         [JsonPropertyName("tvl")]
-        public object Tvl { get; set; } // This can be changed to appropriate type
+        public object? Tvl { get; set; } // This can be changed to appropriate type
 
         [JsonPropertyName("last_updated")]
         public DateTime LastUpdated { get; set; }
