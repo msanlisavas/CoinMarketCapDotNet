@@ -7,6 +7,7 @@
             public static string V1 { get; } = "v1";
             public static string V2 { get; } = "v2";
             public static string V3 { get; } = "v3";
+            public static string V4 { get; } = "v4";
         }
 
         public static class Cryptocurrency
@@ -70,6 +71,24 @@
                 public static string Security { get; } = $"{Version.V1}/dex/security/detail";
                 public static string Search { get; } = $"{Version.V1}/dex/search";
                 public static string LiquidityChange { get; } = $"{Version.V1}/dex/liquidity-change/list";
+            }
+
+            public static class Pairs
+            {
+                public static string SpotPairsLatest { get; } = $"{Version.V4}/dex/spot-pairs/latest";
+                public static string QuotesLatest { get; } = $"{Version.V4}/dex/pairs/quotes/latest";
+            }
+
+            public static class Platform
+            {
+                public static string List { get; } = $"{Version.V1}/dex/platform/list";
+                public static string Detail { get; } = $"{Version.V1}/dex/platform/detail";
+            }
+
+            public static class Kline
+            {
+                public static string Points { get; } = $"{Version.V1}/k-line/points";
+                public static string Candles { get; } = $"{Version.V1}/k-line/candles";
             }
         }
         public static class Fiat

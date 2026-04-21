@@ -64,6 +64,8 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical.Query;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
+using CoinMarketCapDotNet.Models.Dex.Pairs.QuotesLatest;
+using CoinMarketCapDotNet.Models.Dex.Pairs.SpotLatest;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchPrice;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchQuery;
 using CoinMarketCapDotNet.Models.Dex.Token.Detail;
@@ -2647,9 +2649,15 @@ namespace CoinMarketCapDotNet.Api
             {
                 this.coinMarketCapAPI = coinMarketCapAPI;
                 Token = new TokenSubEndpoint(coinMarketCapAPI);
+                Pairs = new PairsSubEndpoint(coinMarketCapAPI);
+                Platform = new PlatformSubEndpoint(coinMarketCapAPI);
+                Kline = new KlineSubEndpoint(coinMarketCapAPI);
             }
 
             public TokenSubEndpoint Token { get; }
+            public PairsSubEndpoint Pairs { get; }
+            public PlatformSubEndpoint Platform { get; }
+            public KlineSubEndpoint Kline { get; }
 
             public class TokenSubEndpoint
             {
@@ -2894,6 +2902,73 @@ namespace CoinMarketCapDotNet.Api
                     var endpoint = $"{Endpoints.Dex.Token.LiquidityChange}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<ResponseList<DexTokenLiquidityChangeData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 }
+            }
+
+            public class PairsSubEndpoint
+            {
+                private readonly CoinMarketCapAPI coinMarketCapAPI;
+                public PairsSubEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+                {
+                    this.coinMarketCapAPI = coinMarketCapAPI;
+                }
+
+                /// <summary>
+                /// Retrieves the latest active DEX spot pairs, optionally filtered by network.
+                /// </summary>
+                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="limit">Optional max number of results.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexSpotPairData>> GetSpotPairsLatestAsync(string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var qs = new System.Text.StringBuilder();
+                    if (!string.IsNullOrWhiteSpace(networkSlug)) qs.Append($"network_slug={Uri.EscapeDataString(networkSlug!)}");
+                    if (limit.HasValue)
+                    {
+                        if (qs.Length > 0) qs.Append('&');
+                        qs.Append($"limit={limit.Value}");
+                    }
+                    var endpoint = qs.Length > 0 ? $"{Endpoints.Dex.Pairs.SpotPairsLatest}?{qs}" : Endpoints.Dex.Pairs.SpotPairsLatest;
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexSpotPairData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves the latest market quotes for one or more DEX trading pairs by address.
+                /// </summary>
+                /// <param name="pairAddress">Pair contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexPairQuoteData>> GetQuotesLatestAsync(string pairAddress, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(pairAddress))
+                        throw new ArgumentException("'pairAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    var qs = $"pair_address={Uri.EscapeDataString(pairAddress)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Pairs.QuotesLatest}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexPairQuoteData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            public class PlatformSubEndpoint
+            {
+                private readonly CoinMarketCapAPI coinMarketCapAPI;
+                public PlatformSubEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+                {
+                    this.coinMarketCapAPI = coinMarketCapAPI;
+                }
+
+                // 2 methods will be added in Task 2
+            }
+
+            public class KlineSubEndpoint
+            {
+                private readonly CoinMarketCapAPI coinMarketCapAPI;
+                public KlineSubEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+                {
+                    this.coinMarketCapAPI = coinMarketCapAPI;
+                }
+
+                // 2 methods will be added in Task 3
             }
         }
     }

@@ -705,6 +705,52 @@ namespace CoinMarketCapDotNet_Tests
         }
 
         [Fact]
+        public async Task Dex_Pairs_GetSpotPairsLatestAsync_gets_v4_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Pairs.GetSpotPairsLatestAsync(networkSlug: "ethereum", limit: 25);
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v4/dex/spot-pairs/latest", url);
+            Assert.Contains("network_slug=ethereum", url);
+            Assert.Contains("limit=25", url);
+        }
+
+        [Fact]
+        public async Task Dex_Pairs_GetQuotesLatestAsync_gets_v4_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Pairs.GetQuotesLatestAsync("0xpair", "ethereum");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v4/dex/pairs/quotes/latest", url);
+            Assert.Contains("pair_address=0xpair", url);
+            Assert.Contains("network_slug=ethereum", url);
+        }
+
+        [Fact]
+        public async Task Dex_Pairs_GetQuotesLatestAsync_validates_required_params()
+        {
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, "{}");
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Pairs.GetQuotesLatestAsync("", "ethereum"));
+            await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Pairs.GetQuotesLatestAsync("0xpair", ""));
+        }
+
+        [Fact]
         public async Task PostDataAsync_propagates_CancellationToken_to_HttpClient()
         {
             const string okBody = """
