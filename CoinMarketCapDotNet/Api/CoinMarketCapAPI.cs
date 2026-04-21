@@ -1,4 +1,5 @@
 ﻿using CoinMarketCapDotNet.Api.General;
+using CoinMarketCapDotNet.Configuration;
 using CoinMarketCapDotNet.Extensions;
 using CoinMarketCapDotNet.Models.Blockchain.Statistics;
 using CoinMarketCapDotNet.Models.Blockchain.Statistics.Query;
@@ -87,6 +88,44 @@ namespace CoinMarketCapDotNet.Api
         };
         private readonly string apiKey;
         private readonly string apiBase;
+
+        public CoinMarketCapAPI(CoinMarketCapOptions options, HttpClient? httpClient = null)
+        {
+            if (options is null) throw new ArgumentNullException(nameof(options));
+            if (string.IsNullOrWhiteSpace(options.ApiKey))
+                throw new ArgumentException("ApiKey must be provided.", nameof(options));
+
+            this.apiKey = options.ApiKey;
+            if (options.BaseAddress is not null)
+            {
+                var raw = options.BaseAddress.ToString();
+                this.apiBase = raw.EndsWith("/") ? raw : raw + "/";
+            }
+            else
+            {
+                this.apiBase = options.UseSandbox
+                    ? "https://sandbox-api.coinmarketcap.com/"
+                    : "https://pro-api.coinmarketcap.com/";
+            }
+
+            _client = httpClient ?? _defaultClient;
+            if (options.Timeout is { } t && httpClient is null)
+            {
+                // Only mutate the default client's timeout if the consumer did not bring their own.
+                // Mutating an injected HttpClient would surprise the caller.
+                _defaultClient.Timeout = t;
+            }
+
+            Cryptocurrency = new CryptocurrencyEndpoint(this);
+            Fiat = new FiatEndpoint(this);
+            Exchange = new ExchangeEndpoint(this);
+            GlobalMetrics = new GlobalMetricsEndpoint(this);
+            Tools = new ToolsEndpoint(this);
+            Blockchain = new BlockchainEndpoint(this);
+            Key = new KeyEndpoint(this);
+            Content = new ContentEndpoint(this);
+            Community = new CommunityEndpoint(this);
+        }
 
         public CoinMarketCapAPI(string apiKey, bool useSandbox = false)
             : this(apiKey, useSandbox, httpClient: null)

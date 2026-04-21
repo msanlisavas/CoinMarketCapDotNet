@@ -103,5 +103,49 @@ namespace CoinMarketCapDotNet_Tests
             // (not the default CancellationToken.None), proving the token was forwarded.
             Assert.True(handler.LastCancellationToken.CanBeCanceled);
         }
+
+        [Fact]
+        public void Options_constructor_validates_ApiKey()
+        {
+            var options = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions { ApiKey = "" };
+            Assert.Throws<ArgumentException>(() => new CoinMarketCapAPI(options));
+        }
+
+        [Fact]
+        public async Task Options_constructor_uses_BaseAddress_override()
+        {
+            const string okBody = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, okBody);
+            var client = new HttpClient(handler);
+            var options = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions
+            {
+                ApiKey = "test-key",
+                BaseAddress = new Uri("https://example.com/")
+            };
+            var api = new CoinMarketCapAPI(options, client);
+            await api.Cryptocurrency.GetMapAsync();
+            Assert.NotNull(handler.LastRequest);
+            Assert.StartsWith("https://example.com/", handler.LastRequest!.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Options_constructor_sandbox_mode_uses_sandbox_host()
+        {
+            const string okBody = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, okBody);
+            var client = new HttpClient(handler);
+            var options = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions
+            {
+                ApiKey = "test-key",
+                UseSandbox = true
+            };
+            var api = new CoinMarketCapAPI(options, client);
+            await api.Cryptocurrency.GetMapAsync();
+            Assert.StartsWith("https://sandbox-api.coinmarketcap.com/", handler.LastRequest!.RequestUri!.ToString());
+        }
     }
 }
