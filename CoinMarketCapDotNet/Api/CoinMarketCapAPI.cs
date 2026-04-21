@@ -2764,6 +2764,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<Response<DexTokenDetailData>> GetTokenAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Detail}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<Response<DexTokenDetailData>>(endpoint, cancellationToken).ConfigureAwait(false);
@@ -2777,6 +2781,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<Response<DexTokenPriceData>> GetPriceAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Price}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<Response<DexTokenPriceData>>(endpoint, cancellationToken).ConfigureAwait(false);
@@ -2790,6 +2798,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<ResponseList<DexTokenPoolData>> GetPoolsAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Pools}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<ResponseList<DexTokenPoolData>>(endpoint, cancellationToken).ConfigureAwait(false);
@@ -2803,6 +2815,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<Response<DexTokenLiquidityData>> GetLiquidityAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Liquidity}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<Response<DexTokenLiquidityData>>(endpoint, cancellationToken).ConfigureAwait(false);
@@ -2817,6 +2833,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<ResponseList<DexTokenTransactionData>> GetTransactionsAsync(string address, string networkSlug, int? limit = null, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     if (limit.HasValue) qs += $"&limit={limit.Value}";
                     var endpoint = $"{Endpoints.Dex.Token.Transactions}?{qs}";
@@ -2831,6 +2851,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<Response<DexTokenSecurityData>> GetSecurityAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Security}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<Response<DexTokenSecurityData>>(endpoint, cancellationToken).ConfigureAwait(false);
@@ -2844,6 +2868,8 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<ResponseList<DexTokenSearchData>> SearchAsync(string keyword, string? networkSlug = null, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(keyword))
+                        throw new ArgumentException("'keyword' must be provided.");
                     var qs = $"keyword={Uri.EscapeDataString(keyword)}";
                     if (!string.IsNullOrWhiteSpace(networkSlug)) qs += $"&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Search}?{qs}";
@@ -2859,6 +2885,10 @@ namespace CoinMarketCapDotNet.Api
                 /// <param name="cancellationToken">Cancellation token.</param>
                 public async Task<ResponseList<DexTokenLiquidityChangeData>> GetLiquidityChangeAsync(string address, string networkSlug, int? limit = null, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(address))
+                        throw new ArgumentException("'address' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     if (limit.HasValue) qs += $"&limit={limit.Value}";
                     var endpoint = $"{Endpoints.Dex.Token.LiquidityChange}?{qs}";

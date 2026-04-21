@@ -703,5 +703,21 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Contains("/v1/dex/liquidity-change/list", url);
             Assert.Contains("limit=100", url);
         }
+
+        [Fact]
+        public async Task PostDataAsync_propagates_CancellationToken_to_HttpClient()
+        {
+            const string okBody = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, okBody);
+            var client = new HttpClient(handler);
+            var api = new CoinMarketCapAPI("test-key", client);
+
+            using var cts = new System.Threading.CancellationTokenSource();
+            await api.PostDataAsync<ResponseList<Status>>("v1/dex/test-endpoint", new { x = 1 }, cts.Token);
+
+            Assert.True(handler.LastCancellationToken.CanBeCanceled);
+        }
     }
 }
