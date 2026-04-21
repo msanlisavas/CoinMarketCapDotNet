@@ -595,5 +595,113 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Equal("TEST", result.Data!.Symbol);
             Assert.Equal(18, result.Data.Decimals);
         }
+
+        [Fact]
+        public async Task Dex_Token_GetPriceAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": { "address": "0xabc", "price_usd": 1.23 } }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetPriceAsync("0xabc", "ethereum");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/token/price", url);
+            Assert.Contains("address=0xabc", url);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetPoolsAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetPoolsAsync("0xabc", "ethereum");
+
+            Assert.Contains("/v1/dex/token/pools", handler.LastRequest!.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetLiquidityAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": { "address": "0xabc" } }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetLiquidityAsync("0xabc", "ethereum");
+
+            Assert.Contains("/v1/dex/token-liquidity/query", handler.LastRequest!.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetTransactionsAsync_gets_v1_endpoint_with_limit()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetTransactionsAsync("0xabc", "ethereum", limit: 50);
+
+            var url = handler.LastRequest!.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/tokens/transactions", url);
+            Assert.Contains("limit=50", url);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetSecurityAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": { "address": "0xabc", "is_honeypot": false } }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Token.GetSecurityAsync("0xabc", "ethereum");
+
+            Assert.Contains("/v1/dex/security/detail", handler.LastRequest!.RequestUri!.ToString());
+            Assert.False(result.Data!.IsHoneypot);
+        }
+
+        [Fact]
+        public async Task Dex_Token_SearchAsync_gets_v1_endpoint_with_keyword()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.SearchAsync("pepe");
+
+            var url = handler.LastRequest!.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/search", url);
+            Assert.Contains("keyword=pepe", url);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetLiquidityChangeAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Token.GetLiquidityChangeAsync("0xabc", "ethereum", limit: 100);
+
+            var url = handler.LastRequest!.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/liquidity-change/list", url);
+            Assert.Contains("limit=100", url);
+        }
     }
 }

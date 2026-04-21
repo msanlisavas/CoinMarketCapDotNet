@@ -68,8 +68,15 @@ using CoinMarketCapDotNet.Models.Dex.Token.BatchPrice;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchQuery;
 using CoinMarketCapDotNet.Models.Dex.Token.Detail;
 using CoinMarketCapDotNet.Models.Dex.Token.GainerLoser;
+using CoinMarketCapDotNet.Models.Dex.Token.Liquidity;
+using CoinMarketCapDotNet.Models.Dex.Token.LiquidityChange;
 using CoinMarketCapDotNet.Models.Dex.Token.MemeList;
 using CoinMarketCapDotNet.Models.Dex.Token.NewList;
+using CoinMarketCapDotNet.Models.Dex.Token.Pools;
+using CoinMarketCapDotNet.Models.Dex.Token.Price;
+using CoinMarketCapDotNet.Models.Dex.Token.Search;
+using CoinMarketCapDotNet.Models.Dex.Token.Security;
+using CoinMarketCapDotNet.Models.Dex.Token.Transactions;
 using CoinMarketCapDotNet.Models.Dex.Token.Trending;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical.Query;
@@ -2760,6 +2767,102 @@ namespace CoinMarketCapDotNet.Api
                     var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Token.Detail}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<Response<DexTokenDetailData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves the current price of a DEX token.
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexTokenPriceData>> GetPriceAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Token.Price}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<Response<DexTokenPriceData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves all liquidity pools for a given DEX token.
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexTokenPoolData>> GetPoolsAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Token.Pools}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexTokenPoolData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves the current liquidity snapshot for a DEX token.
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexTokenLiquidityData>> GetLiquidityAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Token.Liquidity}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<Response<DexTokenLiquidityData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves recent swap/trade transactions for a DEX token.
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="limit">Optional max number of transactions to return.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexTokenTransactionData>> GetTransactionsAsync(string address, string networkSlug, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    if (limit.HasValue) qs += $"&limit={limit.Value}";
+                    var endpoint = $"{Endpoints.Dex.Token.Transactions}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexTokenTransactionData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves a security audit summary for a DEX token (honeypot detection, taxes, etc.).
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexTokenSecurityData>> GetSecurityAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Token.Security}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<Response<DexTokenSecurityData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Searches for DEX tokens by keyword (name, symbol, or address).
+                /// </summary>
+                /// <param name="keyword">Search query.</param>
+                /// <param name="networkSlug">Optional blockchain network slug to scope the search.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexTokenSearchData>> SearchAsync(string keyword, string? networkSlug = null, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"keyword={Uri.EscapeDataString(keyword)}";
+                    if (!string.IsNullOrWhiteSpace(networkSlug)) qs += $"&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Token.Search}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexTokenSearchData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves liquidity change history for a DEX token.
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="limit">Optional max number of data points to return.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexTokenLiquidityChangeData>> GetLiquidityChangeAsync(string address, string networkSlug, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    if (limit.HasValue) qs += $"&limit={limit.Value}";
+                    var endpoint = $"{Endpoints.Dex.Token.LiquidityChange}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexTokenLiquidityChangeData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 }
             }
         }
