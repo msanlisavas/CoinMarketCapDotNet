@@ -89,6 +89,11 @@
 
 
         }
+        public static class FearAndGreed
+        {
+            public static string Latest { get; } = $"{Version.V3}/fear-and-greed/latest";
+            public static string Historical { get; } = $"{Version.V3}/fear-and-greed/historical";
+        }
         public static class Tools
         {
             public static string PriceConversion { get; } = $"{Version.V2}/tools/price-conversion";

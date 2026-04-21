@@ -63,6 +63,9 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical.Query;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
+using CoinMarketCapDotNet.Models.FearAndGreed.Historical;
+using CoinMarketCapDotNet.Models.FearAndGreed.Historical.Query;
+using CoinMarketCapDotNet.Models.FearAndGreed.Latest;
 using CoinMarketCapDotNet.Models.Fiat.Map;
 using CoinMarketCapDotNet.Models.Fiat.Map.Query;
 using CoinMarketCapDotNet.Models.General;
@@ -132,6 +135,7 @@ namespace CoinMarketCapDotNet.Api
             Cryptocurrency = new CryptocurrencyEndpoint(this);
             Fiat = new FiatEndpoint(this);
             Exchange = new ExchangeEndpoint(this);
+            FearAndGreed = new FearAndGreedEndpoint(this);
             GlobalMetrics = new GlobalMetricsEndpoint(this);
             Tools = new ToolsEndpoint(this);
             Blockchain = new BlockchainEndpoint(this);
@@ -164,6 +168,7 @@ namespace CoinMarketCapDotNet.Api
             Cryptocurrency = new CryptocurrencyEndpoint(this); // Initialize Cryptocurrency instance
             Fiat = new FiatEndpoint(this); // Initialize Fiat instance
             Exchange = new ExchangeEndpoint(this); // Initialize Exchange instance
+            FearAndGreed = new FearAndGreedEndpoint(this); // Initialize FearAndGreed instance
             GlobalMetrics = new GlobalMetricsEndpoint(this); // Initialize GlobalMetrics instance
             Tools = new ToolsEndpoint(this); // Initialize Tools instance
             Blockchain = new BlockchainEndpoint(this); // Initialize Blockchain instance
@@ -274,6 +279,7 @@ namespace CoinMarketCapDotNet.Api
         public CryptocurrencyEndpoint Cryptocurrency { get; } // Instance of Cryptocurrency class
         public FiatEndpoint Fiat { get; } // Instance of Fiat class
         public ExchangeEndpoint Exchange { get; } // Instance of Exchange class
+        public FearAndGreedEndpoint FearAndGreed { get; } // Instance of FearAndGreed class
         public GlobalMetricsEndpoint GlobalMetrics { get; } // Instance of GlobalMetrics class
         public ToolsEndpoint Tools { get; } // Instance of Tools class
         public BlockchainEndpoint Blockchain { get; } // Instance of Blockchain class
@@ -1456,6 +1462,40 @@ namespace CoinMarketCapDotNet.Api
             }
 
 
+        }
+        public class FearAndGreedEndpoint
+        {
+            private readonly CoinMarketCapAPI coinMarketCapAPI;
+
+            public FearAndGreedEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+            {
+                this.coinMarketCapAPI = coinMarketCapAPI;
+            }
+
+            /// <summary>
+            /// Retrieves the latest CoinMarketCap Fear and Greed Index value with classification.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response containing the latest Fear and Greed Index data.</returns>
+            public async Task<Response<FearAndGreedLatestData>> GetLatestAsync(CancellationToken cancellationToken = default)
+            {
+                var endpoint = Endpoints.FearAndGreed.Latest;
+                return await coinMarketCapAPI.GetDataAsync<Response<FearAndGreedLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
+
+            /// <summary>
+            /// Retrieves historical CoinMarketCap Fear and Greed Index values.
+            /// </summary>
+            /// <param name="start">Optionally offset the start of the results (1-based). Default 1.</param>
+            /// <param name="limit">Optionally limit the number of results. Default 50, Max 500.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response containing a list of historical Fear and Greed Index data points.</returns>
+            public async Task<ResponseList<FearAndGreedHistoricalData>> GetHistoricalAsync(int? start = null, int? limit = null, CancellationToken cancellationToken = default)
+            {
+                var parameters = new FearAndGreedHistoricalQueryParameters(start, limit);
+                var endpoint = $"{Endpoints.FearAndGreed.Historical}?{parameters}";
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<FearAndGreedHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
         }
         public class ExchangeEndpoint
         {

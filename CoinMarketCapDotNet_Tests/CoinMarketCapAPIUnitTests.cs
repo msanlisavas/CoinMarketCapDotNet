@@ -247,5 +247,48 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Equal(1001, ex.ErrorCode);
             Assert.Equal("Test error", ex.CmcErrorMessage);
         }
+
+        [Fact]
+        public async Task FearAndGreed_GetLatestAsync_calls_v3_endpoint_and_deserializes()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": { "value": 65, "update_time": "2026-04-21T12:00:00.000Z", "value_classification": "Greed" }
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            var result = await api.FearAndGreed.GetLatestAsync();
+
+            Assert.NotNull(handler.LastRequest);
+            Assert.Contains("/v3/fear-and-greed/latest", handler.LastRequest!.RequestUri!.ToString());
+            Assert.NotNull(result.Data);
+            Assert.Equal(65, result.Data!.Value);
+            Assert.Equal("Greed", result.Data.ValueClassification);
+        }
+
+        [Fact]
+        public async Task FearAndGreed_GetHistoricalAsync_passes_query_params_and_deserializes()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": [
+                { "value": 50, "timestamp": "2026-04-20T00:00:00.000Z", "value_classification": "Neutral" },
+                { "value": 55, "timestamp": "2026-04-21T00:00:00.000Z", "value_classification": "Neutral" }
+              ]
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            var result = await api.FearAndGreed.GetHistoricalAsync(start: 1, limit: 10);
+
+            Assert.NotNull(handler.LastRequest);
+            var url = handler.LastRequest!.RequestUri!.ToString();
+            Assert.Contains("/v3/fear-and-greed/historical", url);
+            Assert.Contains("start=1", url);
+            Assert.Contains("limit=10", url);
+            Assert.NotNull(result.Data);
+            Assert.Equal(2, result.Data!.Count);
+        }
     }
 }
