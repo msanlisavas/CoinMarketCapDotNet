@@ -131,14 +131,12 @@ namespace CoinMarketCapDotNet.Api
                 case HttpStatusCode.OK:
                     var content = await response.Content.ReadAsStringAsync();
                     T? result = JsonSerializer.Deserialize<T>(content, JsonOptions);
-                    return result ?? throw new CoinMarketCapException(
-                        HttpStatusCode.OK, null, null,
-                        "Failed to deserialize response content.");
+                    return result ?? throw new InvalidOperationException("Failed to deserialize response content.");
 
                 case HttpStatusCode.BadRequest:
                     {
                         var (code, msg) = await ReadStatusAsync(response);
-                        throw new CoinMarketCapBadRequestException(code, msg, $"Bad request: {msg}");
+                        throw new CoinMarketCapBadRequestException(HttpStatusCode.BadRequest, code, msg, $"Bad request: {msg}");
                     }
 
                 case HttpStatusCode.Unauthorized:
@@ -152,7 +150,7 @@ namespace CoinMarketCapDotNet.Api
                 case (HttpStatusCode)429:
                     {
                         var (code, msg) = await ReadStatusAsync(response);
-                        throw new CoinMarketCapRateLimitException(code, msg, $"Rate limited: {msg}");
+                        throw new CoinMarketCapRateLimitException((HttpStatusCode)429, code, msg, $"Rate limited: {msg}");
                     }
 
                 case HttpStatusCode.InternalServerError:

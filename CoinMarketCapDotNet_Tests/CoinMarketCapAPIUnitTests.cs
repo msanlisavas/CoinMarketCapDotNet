@@ -40,30 +40,41 @@ namespace CoinMarketCapDotNet_Tests
             var ex = await Assert.ThrowsAsync<CoinMarketCapAuthException>(
                 () => api.Cryptocurrency.GetMapAsync());
             Assert.Equal(HttpStatusCode.Unauthorized, ex.StatusCode);
+            Assert.Equal(1001, ex.ErrorCode);
+            Assert.Equal("Test error", ex.CmcErrorMessage);
         }
 
         [Fact]
         public async Task Forbidden_throws_CoinMarketCapAuthException()
         {
             var api = ApiWithStub(HttpStatusCode.Forbidden, ErrorBody, out _);
-            await Assert.ThrowsAsync<CoinMarketCapAuthException>(
+            var ex = await Assert.ThrowsAsync<CoinMarketCapAuthException>(
                 () => api.Cryptocurrency.GetMapAsync());
+            Assert.Equal(HttpStatusCode.Forbidden, ex.StatusCode);
+            Assert.Equal(1001, ex.ErrorCode);
+            Assert.Equal("Test error", ex.CmcErrorMessage);
         }
 
         [Fact]
         public async Task TooManyRequests_throws_CoinMarketCapRateLimitException()
         {
-            var api = ApiWithStub((HttpStatusCode)429, ErrorBody, out _);
-            await Assert.ThrowsAsync<CoinMarketCapRateLimitException>(
+            var api = ApiWithStub(HttpStatusCode.TooManyRequests, ErrorBody, out _);
+            var ex = await Assert.ThrowsAsync<CoinMarketCapRateLimitException>(
                 () => api.Cryptocurrency.GetMapAsync());
+            Assert.Equal(HttpStatusCode.TooManyRequests, ex.StatusCode);
+            Assert.Equal(1001, ex.ErrorCode);
+            Assert.Equal("Test error", ex.CmcErrorMessage);
         }
 
         [Fact]
         public async Task InternalServerError_throws_CoinMarketCapServerException()
         {
             var api = ApiWithStub(HttpStatusCode.InternalServerError, ErrorBody, out _);
-            await Assert.ThrowsAsync<CoinMarketCapServerException>(
+            var ex = await Assert.ThrowsAsync<CoinMarketCapServerException>(
                 () => api.Cryptocurrency.GetMapAsync());
+            Assert.Equal(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.Equal(1001, ex.ErrorCode);
+            Assert.Equal("Test error", ex.CmcErrorMessage);
         }
 
         [Fact]
