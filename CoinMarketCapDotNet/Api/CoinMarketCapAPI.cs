@@ -64,6 +64,11 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical.Query;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
+using CoinMarketCapDotNet.Models.Dex.Holders.Count;
+using CoinMarketCapDotNet.Models.Dex.Holders.Detail;
+using CoinMarketCapDotNet.Models.Dex.Holders.List;
+using CoinMarketCapDotNet.Models.Dex.Holders.TagCount;
+using CoinMarketCapDotNet.Models.Dex.Holders.Trend;
 using CoinMarketCapDotNet.Models.Dex.Kline.Candles;
 using CoinMarketCapDotNet.Models.Dex.Kline.Points;
 using CoinMarketCapDotNet.Models.Dex.Pairs.QuotesLatest;
@@ -2656,12 +2661,14 @@ namespace CoinMarketCapDotNet.Api
                 Pairs = new PairsSubEndpoint(coinMarketCapAPI);
                 Platform = new PlatformSubEndpoint(coinMarketCapAPI);
                 Kline = new KlineSubEndpoint(coinMarketCapAPI);
+                Holders = new HoldersSubEndpoint(coinMarketCapAPI);
             }
 
             public TokenSubEndpoint Token { get; }
             public PairsSubEndpoint Pairs { get; }
             public PlatformSubEndpoint Platform { get; }
             public KlineSubEndpoint Kline { get; }
+            public HoldersSubEndpoint Holders { get; }
 
             public class TokenSubEndpoint
             {
@@ -3036,6 +3043,121 @@ namespace CoinMarketCapDotNet.Api
                     if (limit.HasValue) qs += $"&limit={limit.Value}";
                     var endpoint = $"{Endpoints.Dex.Kline.Candles}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<ResponseList<DexKlineCandleData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            public class HoldersSubEndpoint
+            {
+                private readonly CoinMarketCapAPI coinMarketCapAPI;
+                public HoldersSubEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+                {
+                    this.coinMarketCapAPI = coinMarketCapAPI;
+                }
+
+                /// <summary>
+                /// Retrieves a paginated list of holders for a DEX token with classification, balance, P/L.
+                /// </summary>
+                /// <param name="tokenAddress">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="limit">Optional max number of holders to return.</param>
+                /// <param name="sortField">Optional field to sort by (e.g. "balance_usd", "holding_ratio").</param>
+                /// <param name="sortDirection">Optional sort direction ("asc" or "desc").</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexHolderListData>> GetListAsync(string tokenAddress, string networkSlug, int? limit = null, string? sortField = null, string? sortDirection = null, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(tokenAddress))
+                        throw new ArgumentException("'tokenAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    var body = new
+                    {
+                        token_address = tokenAddress,
+                        network_slug = networkSlug,
+                        limit,
+                        sort_field = sortField,
+                        sort_direction = sortDirection
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexHolderListData>>(Endpoints.Dex.Holders.List, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves detailed information for a specific wallet holding a DEX token.
+                /// </summary>
+                /// <param name="tokenAddress">Token contract address.</param>
+                /// <param name="walletAddress">Wallet address of the holder.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexHolderDetailData>> GetDetailAsync(string tokenAddress, string walletAddress, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(tokenAddress))
+                        throw new ArgumentException("'tokenAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(walletAddress))
+                        throw new ArgumentException("'walletAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    var body = new
+                    {
+                        token_address = tokenAddress,
+                        wallet_address = walletAddress,
+                        network_slug = networkSlug
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<Response<DexHolderDetailData>>(Endpoints.Dex.Holders.Detail, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves holder metrics trend over time (holder count, top-N holding ratios).
+                /// </summary>
+                /// <param name="tokenAddress">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="interval">Time interval between points (e.g. "1h", "1d").</param>
+                /// <param name="limit">Optional max number of points to return.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexHoldersTrendData>> GetTrendListAsync(string tokenAddress, string networkSlug, string interval, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(tokenAddress))
+                        throw new ArgumentException("'tokenAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    if (string.IsNullOrWhiteSpace(interval))
+                        throw new ArgumentException("'interval' must be provided.");
+                    var qs = $"token_address={Uri.EscapeDataString(tokenAddress)}&network_slug={Uri.EscapeDataString(networkSlug)}&interval={Uri.EscapeDataString(interval)}";
+                    if (limit.HasValue) qs += $"&limit={limit.Value}";
+                    var endpoint = $"{Endpoints.Dex.Holders.TrendList}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexHoldersTrendData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves holder counts grouped by wallet classification tags (whale, KOL, smart money, bot, etc.).
+                /// </summary>
+                /// <param name="tokenAddress">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexHoldersTagCountData>> GetTagCountAsync(string tokenAddress, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(tokenAddress))
+                        throw new ArgumentException("'tokenAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    var qs = $"token_address={Uri.EscapeDataString(tokenAddress)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Holders.TagCount}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<ResponseList<DexHoldersTagCountData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves the total number of holders for a DEX token.
+                /// </summary>
+                /// <param name="tokenAddress">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexHoldersCountData>> GetCountAsync(string tokenAddress, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    if (string.IsNullOrWhiteSpace(tokenAddress))
+                        throw new ArgumentException("'tokenAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(networkSlug))
+                        throw new ArgumentException("'networkSlug' must be provided.");
+                    var qs = $"token_address={Uri.EscapeDataString(tokenAddress)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Holders.Count}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<Response<DexHoldersCountData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 }
             }
         }

@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Dex.Holders.Count;
+using CoinMarketCapDotNet.Models.Dex.Holders.TagCount;
 using CoinMarketCapDotNet.Models.Dex.Kline.Candles;
 using CoinMarketCapDotNet.Models.Dex.Kline.Points;
 using CoinMarketCapDotNet.Models.Dex.Platform.Detail;
@@ -894,6 +896,94 @@ namespace CoinMarketCapDotNet_Tests
             await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Kline.GetPointsAsync("", "ethereum", "1h"));
             await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Kline.GetPointsAsync("0xabc", "", "1h"));
             await Assert.ThrowsAsync<ArgumentException>(() => api.Dex.Kline.GetPointsAsync("0xabc", "ethereum", ""));
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetListAsync_posts_to_v1_endpoint_with_body()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Holders.GetListAsync("0xtoken", "ethereum", limit: 50, sortField: "balance_usd", sortDirection: "desc");
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/holders/list", handler.LastRequest.RequestUri!.ToString());
+            var sentBody = await handler.LastRequest.Content!.ReadAsStringAsync();
+            Assert.Contains("\"token_address\":\"0xtoken\"", sentBody);
+            Assert.Contains("\"network_slug\":\"ethereum\"", sentBody);
+            Assert.Contains("\"limit\":50", sentBody);
+            Assert.Contains("\"sort_field\":\"balance_usd\"", sentBody);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetDetailAsync_posts_to_v1_endpoint_with_body()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": { "wallet_address": "0xwallet" } }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Holders.GetDetailAsync("0xtoken", "0xwallet", "ethereum");
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/holders/detail", handler.LastRequest.RequestUri!.ToString());
+            var sentBody = await handler.LastRequest.Content!.ReadAsStringAsync();
+            Assert.Contains("\"wallet_address\":\"0xwallet\"", sentBody);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetTrendListAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            await api.Dex.Holders.GetTrendListAsync("0xtoken", "ethereum", "1d", limit: 30);
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/holders/trend/list", url);
+            Assert.Contains("token_address=0xtoken", url);
+            Assert.Contains("interval=1d", url);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetTagCountAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [ { "tag": "whale", "count": 12 } ] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Holders.GetTagCountAsync("0xtoken", "ethereum");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/holders/tag_count", handler.LastRequest.RequestUri!.ToString());
+            Assert.Single(result.Data!);
+            Assert.Equal("whale", result.Data![0].Tag);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetCountAsync_gets_v1_endpoint()
+        {
+            const string body = """
+            { "status": { "error_code": 0, "error_message": null }, "data": { "token_address": "0xtoken", "holder_count": 5432 } }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Holders.GetCountAsync("0xtoken", "ethereum");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/holders/count", handler.LastRequest.RequestUri!.ToString());
+            Assert.Equal(5432, result.Data!.HolderCount);
         }
     }
 }

@@ -90,6 +90,15 @@
                 public static string Points { get; } = $"{Version.V1}/k-line/points";
                 public static string Candles { get; } = $"{Version.V1}/k-line/candles";
             }
+
+            public static class Holders
+            {
+                public static string List { get; } = $"{Version.V1}/dex/holders/list";
+                public static string Detail { get; } = $"{Version.V1}/dex/holders/detail";
+                public static string TrendList { get; } = $"{Version.V1}/dex/holders/trend/list";
+                public static string TagCount { get; } = $"{Version.V1}/dex/holders/tag_count";
+                public static string Count { get; } = $"{Version.V1}/dex/holders/count";
+            }
         }
         public static class Fiat
         {
