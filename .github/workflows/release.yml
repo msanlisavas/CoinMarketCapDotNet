@@ -1,0 +1,67 @@
+name: Release to NuGet
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: Production
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Verify tag matches csproj version
+        shell: bash
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          CSPROJ_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" CoinMarketCapDotNet/CoinMarketCapDotNet.csproj)
+          echo "Tag:    $TAG_VERSION"
+          echo "csproj: $CSPROJ_VERSION"
+          if [ "$TAG_VERSION" != "$CSPROJ_VERSION" ]; then
+            echo "::error::Tag version ($TAG_VERSION) does not match csproj <Version> ($CSPROJ_VERSION)"
+            exit 1
+          fi
+
+      - name: Restore
+        run: dotnet restore CoinMarketCapDotNet.sln
+
+      - name: Build
+        run: dotnet build CoinMarketCapDotNet.sln -c Release --no-restore
+
+      - name: Test (unit tests only — integration tests need a live API key)
+        run: dotnet test CoinMarketCapDotNet.sln -c Release --no-build --filter "FullyQualifiedName~CoinMarketCapAPIUnitTests"
+
+      - name: Pack
+        run: dotnet pack CoinMarketCapDotNet/CoinMarketCapDotNet.csproj -c Release --no-build -o ./artifacts
+
+      - name: Push to NuGet
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+          dotnet nuget push ./artifacts/*.snupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            ./artifacts/*.nupkg
+            ./artifacts/*.snupkg
