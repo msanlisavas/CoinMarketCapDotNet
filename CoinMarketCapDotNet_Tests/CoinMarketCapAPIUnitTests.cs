@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Dex.Token.Trending;
 using CoinMarketCapDotNet.Models.Enums;
 using CoinMarketCapDotNet.Models.Exceptions;
 using CoinMarketCapDotNet.Models.General;
@@ -446,6 +447,41 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Contains("\"network_slug\":\"ethereum\"", sentBody);
             Assert.DoesNotContain("limit", sentBody);
             Assert.DoesNotContain("sort_field", sentBody);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetTrendingAsync_posts_to_v1_endpoint_with_filter_body()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": [
+                {
+                  "id": "0xabc",
+                  "name": "TestToken",
+                  "symbol": "TEST",
+                  "network_slug": "ethereum",
+                  "price_usd": 1.23,
+                  "volume_24h_usd": 100000.0,
+                  "market_cap_usd": 5000000.0
+                }
+              ]
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var client = new HttpClient(handler);
+            var api = new CoinMarketCapAPI("test-key", client);
+
+            var result = await api.Dex.Token.GetTrendingAsync(networkSlug: "ethereum", limit: 10);
+
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/tokens/trending/list", handler.LastRequest.RequestUri!.ToString());
+            var sentBody = await handler.LastRequest.Content!.ReadAsStringAsync();
+            Assert.Contains("\"network_slug\":\"ethereum\"", sentBody);
+            Assert.Contains("\"limit\":10", sentBody);
+            Assert.NotNull(result.Data);
+            Assert.Single(result.Data!);
+            Assert.Equal("TEST", result.Data![0].Symbol);
         }
     }
 }

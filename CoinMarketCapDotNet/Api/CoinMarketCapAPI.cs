@@ -64,6 +64,7 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Historical.Query;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
+using CoinMarketCapDotNet.Models.Dex.Token.Trending;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical.Query;
 using CoinMarketCapDotNet.Models.FearAndGreed.Latest;
@@ -2646,7 +2647,21 @@ namespace CoinMarketCapDotNet.Api
                     this.coinMarketCapAPI = coinMarketCapAPI;
                 }
 
-                // 14 methods will be added in Tasks 4-7
+                /// <summary>
+                /// Retrieves trending DEX tokens, optionally filtered by network and other criteria.
+                /// </summary>
+                /// <param name="networkSlug">Optional blockchain network slug (e.g. "ethereum", "solana").</param>
+                /// <param name="limit">Optional max number of results.</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<ResponseList<DexTrendingTokenData>> GetTrendingAsync(string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
+                {
+                    var body = new
+                    {
+                        network_slug = networkSlug,
+                        limit
+                    };
+                    return await coinMarketCapAPI.PostDataAsync<ResponseList<DexTrendingTokenData>>(Endpoints.Dex.Token.TrendingList, body, cancellationToken).ConfigureAwait(false);
+                }
             }
         }
     }
