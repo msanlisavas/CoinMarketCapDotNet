@@ -91,19 +91,53 @@ catch (CoinMarketCapException ex)
 }
 ```
 
+### Retries and rate-limit backoff (optional)
+
+The wrapper does not build in a retry policy — the right behavior varies by consumer. If you want automatic retries (e.g. exponential backoff on 429 and 5xx), layer a `DelegatingHandler` onto your `HttpClient` before injecting it. The cleanest way is [Polly](https://www.nuget.org/packages/Polly) via `Microsoft.Extensions.Http.Polly`:
+
+```csharp
+using CoinMarketCapDotNet.Api;
+using CoinMarketCapDotNet.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
+using Polly;
+using Polly.Extensions.Http;
+
+var services = new ServiceCollection();
+
+services.AddHttpClient("CoinMarketCap")
+    .AddPolicyHandler(HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .OrResult(r => (int)r.StatusCode == 429)
+        .WaitAndRetryAsync(3, retry => TimeSpan.FromSeconds(Math.Pow(2, retry))));
+
+services.AddSingleton<CoinMarketCapAPI>(sp =>
+{
+    var factory = sp.GetRequiredService<IHttpClientFactory>();
+    return new CoinMarketCapAPI(
+        new CoinMarketCapOptions { ApiKey = "YOUR_API_KEY" },
+        factory.CreateClient("CoinMarketCap"));
+});
+```
+
+You can layer any `DelegatingHandler` this way — Polly is not a dependency of the wrapper itself.
+
 ## CoinMarketCapAPI
 
 ### Endpoints
 
-- **CryptocurrencyEndpoint**: Provides endpoints related to cryptocurrencies.
-- **FiatEndpoint**: Provides endpoints related to fiat currencies.
-- **ExchangeEndpoint**: Provides endpoints related to exchanges.
-- **GlobalMetricsEndpoint**: Provides endpoints related to global market metrics.
-- **ToolsEndpoint**: Provides miscellaneous tools and utilities.
-- **BlockchainEndpoint**: Provides endpoints related to blockchain statistics.
-- **KeyEndpoint**: Provides endpoints related to API keys.
-- **ContentEndpoint**: Provides endpoints related to content (news, articles, etc.).
-- **CommunityEndpoint**: Provides endpoints related to the community.
+- **CryptocurrencyEndpoint**: Endpoints related to cryptocurrencies.
+- **FiatEndpoint**: Endpoints related to fiat currencies.
+- **ExchangeEndpoint**: Endpoints related to exchanges.
+- **GlobalMetricsEndpoint**: Endpoints related to global market metrics.
+- **ToolsEndpoint**: Miscellaneous tools and utilities.
+- **BlockchainEndpoint**: Endpoints related to blockchain statistics.
+- **KeyEndpoint**: Endpoints related to API keys.
+- **ContentEndpoint**: Endpoints related to content (news, articles, etc.).
+- **CommunityEndpoint**: Endpoints related to the community.
+- **FearAndGreedEndpoint**: CoinMarketCap Fear & Greed Index (added in v2.1.0).
+- **IndexEndpoint**: CMC 100 and CMC 20 market indices (added in v2.1.0).
+- **DexEndpoint**: DEX data — tokens, pairs, platforms, holders, K-line OHLCV (added across v2.2.0–v2.4.0). Has nested sub-endpoints: `Token`, `Pairs`, `Platform`, `Kline`, `Holders`.
 
 ---
 
@@ -130,6 +164,8 @@ catch (CoinMarketCapException ex)
 - **GetQuotesHistoricalV2Async**: Retrieves historical cryptocurrency quotes using V2 endpoint asynchronously.
 - **GetQuotesLatestAsync**: Retrieves the latest cryptocurrency quotes asynchronously.
 - **GetQuotesHistoricalV3Async**: Retrieves historical cryptocurrency quotes using V3 endpoint asynchronously.
+- **GetQuotesLatestV3Async**: Retrieves the latest cryptocurrency quotes using V3 endpoint asynchronously *(v2.1.0)*.
+- **GetListingLatestV3Async**: Retrieves the latest cryptocurrency listings using V3 endpoint asynchronously *(v2.1.0)*.
 
 ---
 
@@ -206,6 +242,82 @@ catch (CoinMarketCapException ex)
 
 ---
 
+## FearAndGreedEndpoint *(v2.1.0)*
+
+### Methods
+
+- **GetLatestAsync**: Retrieves the latest CoinMarketCap Fear & Greed Index value with classification asynchronously.
+- **GetHistoricalAsync**: Retrieves historical Fear & Greed Index values asynchronously.
+
+---
+
+## IndexEndpoint *(v2.1.0)*
+
+### Methods
+
+- **GetCmc100LatestAsync**: Retrieves the latest CMC 100 Index value with its constituent weights asynchronously.
+- **GetCmc100HistoricalAsync**: Retrieves historical CMC 100 Index values at the requested interval asynchronously.
+- **GetCmc20LatestAsync**: Retrieves the latest CMC 20 Index value with its constituent weights asynchronously.
+- **GetCmc20HistoricalAsync**: Retrieves historical CMC 20 Index values at the requested interval asynchronously.
+
+---
+
+## DexEndpoint *(v2.2.0–v2.4.0)*
+
+27 DEX endpoints across 5 nested sub-groups. Access them via `api.Dex.<SubGroup>.<Method>Async(...)`.
+
+### Dex.Token *(v2.2.0, 14 methods)*
+
+Token-level DEX data. Mix of POST and GET.
+
+- **GetTrendingAsync** *(POST)*: Trending DEX tokens, filterable by network.
+- **BatchQueryAsync** *(POST)*: Multi-token query in one request.
+- **BatchPriceAsync** *(POST)*: Multi-token price query.
+- **GetNewListAsync** *(POST)*: Newly launched DEX tokens.
+- **GetMemeListAsync** *(POST)*: DEX meme tokens.
+- **GetGainerLoserAsync** *(POST)*: Top DEX gainers and losers.
+- **GetTokenAsync**: Detailed information for a specific token.
+- **GetPriceAsync**: Current price for a specific token.
+- **GetPoolsAsync**: All liquidity pools for a token.
+- **GetLiquidityAsync**: Current liquidity snapshot.
+- **GetTransactionsAsync**: Recent swap/trade history.
+- **GetSecurityAsync**: Security audit summary (honeypot detection, buy/sell taxes).
+- **SearchAsync**: Search DEX tokens by keyword.
+- **GetLiquidityChangeAsync**: Liquidity change history.
+
+### Dex.Pairs *(v2.3.0, 2 methods)*
+
+DEX trading pair data.
+
+- **GetSpotPairsLatestAsync**: Latest active DEX spot pairs.
+- **GetQuotesLatestAsync**: Latest market quotes for a specific trading pair.
+
+### Dex.Platform *(v2.3.0, 2 methods)*
+
+Blockchain network metadata.
+
+- **GetListAsync**: List of all DEX-supported blockchain platforms.
+- **GetDetailAsync**: Detailed metadata for a specific platform (chain ID, explorer URL, supported DEXs).
+
+### Dex.Kline *(v2.3.0, 2 methods)*
+
+DEX OHLCV chart data.
+
+- **GetPointsAsync**: K-line price points (timestamp + price + volume).
+- **GetCandlesAsync**: K-line OHLCV candles with trader count.
+
+### Dex.Holders *(v2.4.0, 5 methods)*
+
+Wallet distribution and holder classification.
+
+- **GetListAsync** *(POST)*: Paginated holder list with classification, balance, P/L.
+- **GetDetailAsync** *(POST)*: Detailed info for a specific wallet address.
+- **GetTrendListAsync**: Holder metrics trend over time (count + top-N holding ratios).
+- **GetTagCountAsync**: Holder counts grouped by wallet tags (whale, KOL, smart money, bot, etc.).
+- **GetCountAsync**: Total holder count for a token.
+
+---
+
 For example, to get the cryptocurrency map:
 
 ```csharp
@@ -267,6 +379,15 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 MIT License
 
 ## Release Notes
+
+### v2.5.0
+
+- Added `ICoinMarketCapAPI` interface for DI and test-double scenarios. `CoinMarketCapAPI` implements it. Additive — consumers using the concrete type continue to work unchanged.
+- Updated README endpoint reference tables to cover every method added since v2.0.0 (Fear & Greed, CMC Index, v3 cryptocurrency methods, and the entire DEX section with its 5 sub-groups).
+- Added a Retries and rate-limit backoff section to the README showing how to layer Polly onto an injected `HttpClient`.
+- Added XML documentation comments to all `CoinMarketCapOptions` properties.
+- Fixed the `Accepts` request header typo (now correctly `Accept`). No behavioral change — CoinMarketCap's servers ignored the previous header, but the corrected name is standards-compliant.
+- Gitignored local build artifacts (`/artifacts/`, `build_output.txt`, `bash.exe.stackdump`).
 
 ### v2.4.0
 

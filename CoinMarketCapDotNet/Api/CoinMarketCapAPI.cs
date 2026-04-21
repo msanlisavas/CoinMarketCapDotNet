@@ -108,7 +108,7 @@ using CoinMarketCapDotNet.Models.Tools.Query;
 
 namespace CoinMarketCapDotNet.Api
 {
-    public class CoinMarketCapAPI : IDisposable
+    public class CoinMarketCapAPI : ICoinMarketCapAPI
     {
         private static readonly HttpClient _defaultClient = new HttpClient();
         private readonly HttpClient _client;
@@ -233,7 +233,7 @@ namespace CoinMarketCapDotNet.Api
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"{apiBase}{endpoint}");
             request.Headers.Add("X-CMC_PRO_API_KEY", apiKey);
-            request.Headers.Add("Accepts", "application/json");
+            request.Headers.Add("Accept", "application/json");
 
             var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
@@ -244,7 +244,7 @@ namespace CoinMarketCapDotNet.Api
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{apiBase}{endpoint}");
             request.Headers.Add("X-CMC_PRO_API_KEY", apiKey);
-            request.Headers.Add("Accepts", "application/json");
+            request.Headers.Add("Accept", "application/json");
             var json = JsonSerializer.Serialize(body, JsonOptions);
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);

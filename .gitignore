@@ -370,3 +370,8 @@ FodyWeavers.xsd
 
 # Internal planning docs (specs, plans, etc.)
 docs/superpowers/
+
+# Local build artifacts (not committed — produced during pack verification)
+/artifacts/
+build_output.txt
+bash.exe.stackdump
