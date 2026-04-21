@@ -189,6 +189,10 @@ namespace CoinMarketCapDotNet.Api
                 var parsed = JsonSerializer.Deserialize<ResponseDict<Status>>(body, JsonOptions);
                 return (parsed?.Status?.ErrorCode, parsed?.Status?.ErrorMessage);
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch
             {
                 return (null, null);
@@ -243,7 +247,7 @@ namespace CoinMarketCapDotNet.Api
                 var parameters = new AirdropsQueryParameters();
                 parameters.AddId(id);
                 var endpoint = $"{Endpoints.Cryptocurrency.Airdrop}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<Response<AirdropData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<Response<AirdropData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data;
                 return new Response<AirdropData>
                 {
@@ -286,7 +290,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSlug(slug);
                 parameters.AddSymbol(symbol);
                 var endpoint = $"{Endpoints.Cryptocurrency.Airdrops}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<AirdropsData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<AirdropsData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.Data.ToList();
                 return new Response<List<AirdropsData>>
                 {
@@ -329,7 +333,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSymbol(symbol);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Categories}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<CategoriesData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<NestedResponseList<CategoriesData>>(endpoint, cancellationToken).ConfigureAwait(false);
 
                 var data = response?.Data.Data.ToList();
                 return new Response<List<CategoriesData>>
@@ -381,7 +385,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Category}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<CategoryData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<CategoryData>>(endpoint, cancellationToken).ConfigureAwait(false);
 
                 var data = response?.Data?.Values?.ToList();
 
@@ -428,7 +432,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.Add("aux", aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Map}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<MapData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<MapData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<MapData>>
                 {
@@ -476,7 +480,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.Add("aux", aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Info}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<InfoData>>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<InfoData>>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<List<InfoData>>>
                 {
@@ -571,7 +575,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Listing.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<LatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<LatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<LatestData>>
                 {
@@ -637,7 +641,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Listing.Historical}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<HistoricalData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<HistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<HistoricalData>>
                 {
@@ -681,7 +685,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSortDir(sortDir);
                 parameters.AddConvertId(convertId);
                 var endpoint = $"{Endpoints.Cryptocurrency.Listing.New}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<NewData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<NewData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<NewData>>
                 {
@@ -739,7 +743,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSortDir(sortDir);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Trending.GainersLosers}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<GainersLosersData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<GainersLosersData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.ToList();
                 return new Response<List<GainersLosersData>>
                 {
@@ -787,7 +791,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Trending.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.ToList();
                 return new Response<List<TrendingLatestData>>
                 {
@@ -834,7 +838,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Trending.MostVisited}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<MostVisitedData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<MostVisitedData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.ToList();
                 return new Response<List<MostVisitedData>>
                 {
@@ -923,7 +927,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.MarketPairs.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<Response<MarketPairsLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<Response<MarketPairsLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data;
                 return new Response<MarketPairsLatestData>
                 {
@@ -973,7 +977,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSkipInvalid(skipInvalid);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.OHLCV.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<OHLCVLatestData>>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<OHLCVLatestData>>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<List<OHLCVLatestData>>>
                 {
@@ -1053,7 +1057,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSkipInvalid(skipInvalid);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.OHLCV.Historical}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<OHLCVHistoricalData>>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<OHLCVHistoricalData>>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<List<OHLCVHistoricalData>>>
                 {
@@ -1113,7 +1117,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSkipInvalid(skipInvalid);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.PricePerformanceStats.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<PricePerformanceStatsLatestData>>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<PricePerformanceStatsLatestData>>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<List<PricePerformanceStatsLatestData>>>
                 {
@@ -1190,7 +1194,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Quotes.HistoricalV2}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<QuotesHistoricalData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<QuotesHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<QuotesHistoricalData>>
                 {
@@ -1244,7 +1248,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Quotes.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<QuotesLatestData>>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<QuotesLatestData>>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<List<QuotesLatestData>>>
                 {
@@ -1321,7 +1325,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Quotes.HistoricalV3}?{parameters}";
-                return await coinMarketCapAPI.GetDataAsync<ResponseDict<QuotesHistoricalData>>(endpoint, cancellationToken);
+                return await coinMarketCapAPI.GetDataAsync<ResponseDict<QuotesHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
             }
 
 
@@ -1370,7 +1374,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddIncludeMetals(includeMetals);
 
                 var endpoint = $"{Endpoints.Fiat.Map}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<FiatMapData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<FiatMapData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<FiatMapData>>
                 {
@@ -1415,7 +1419,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddId(exchangeId);
 
                 var endpoint = $"{Endpoints.Exchange.Assets}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<AssetsData>>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<List<AssetsData>>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.Values.ToList();
                 return new Response<List<List<AssetsData>>>
                 {
@@ -1457,7 +1461,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.Add("aux", auxiliaryFields);
 
                 var endpoint = $"{Endpoints.Exchange.Info}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeInfoData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeInfoData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<ExchangeInfoData>>
                 {
@@ -1502,7 +1506,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddCryptoId(cryptoId);
 
                 var endpoint = $"{Endpoints.Exchange.Map}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<ExchangeMapData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<ExchangeMapData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<ExchangeMapData>>
                 {
@@ -1569,7 +1573,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Exchange.Listings.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<ExchangeListingLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<ExchangeListingLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<ExchangeListingLatestData>>
                 {
@@ -1647,7 +1651,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Exchange.MarketPairs.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeMarketPairLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeMarketPairLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.Values.FirstOrDefault();
                 return new Response<ExchangeMarketPairLatestData>
                 {
@@ -1718,7 +1722,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Exchange.Quotes.Historical}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeHistoricalData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<ExchangeHistoricalData>>
                 {
@@ -1777,7 +1781,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Exchange.Quotes.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ExchangeLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values?.ToList();
                 return new Response<List<ExchangeLatestData>>
                 {
@@ -1852,7 +1856,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.GlobalMetrics.Quotes.Historical}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<Response<GlobalMetricsHistoricalData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<Response<GlobalMetricsHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data;
                 return new Response<GlobalMetricsHistoricalData>
                 {
@@ -1897,7 +1901,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.GlobalMetrics.Quotes.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<Response<GlobalMetricsLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<Response<GlobalMetricsLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data;
                 return new Response<GlobalMetricsLatestData>
                 {
@@ -1967,7 +1971,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddConvertId(convertId);
 
                 var endpoint = $"{Endpoints.Tools.PriceConversion}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<PriceConversionData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<PriceConversionData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.Values.FirstOrDefault();
                 return new Response<PriceConversionData>
                 {
@@ -2015,7 +2019,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddSlug(slugs);
 
                 var endpoint = $"{Endpoints.Blockchain.Statistics.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<BlockchainData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<BlockchainData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values.ToList();
                 return new Response<List<BlockchainData>>
                 {
@@ -2054,7 +2058,7 @@ namespace CoinMarketCapDotNet.Api
             public async Task<Response<KeyInfoData>> GetKeyInfoAsync(CancellationToken cancellationToken = default)
             {
                 var endpoint = $"{Endpoints.Key.Info}";
-                var response = await coinMarketCapAPI.GetDataAsync<Response<KeyInfoData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<Response<KeyInfoData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data;
                 return new Response<KeyInfoData>
                 {
@@ -2112,7 +2116,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Content.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<ContentLatestData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<ContentLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<ContentLatestData>>
                 {
@@ -2144,7 +2148,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Content.Posts.Comments}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<PostCommentsData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<PostCommentsData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<PostCommentsData>>
                 {
@@ -2182,7 +2186,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Content.Posts.Latest}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ContentPostsListData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ContentPostsListData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values.ToList();
                 return new Response<List<ContentPostsListData>>
                 {
@@ -2220,7 +2224,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Content.Posts.Top}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ContentPostsListData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseDict<ContentPostsListData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data?.Values.ToList();
                 return new Response<List<ContentPostsListData>>
                 {
@@ -2266,7 +2270,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Community.Trending.Token}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingTokenData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingTokenData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<TrendingTokenData>>
                 {
@@ -2302,7 +2306,7 @@ namespace CoinMarketCapDotNet.Api
 
 
                 var endpoint = $"{Endpoints.Community.Trending.Topic}?{parameters}";
-                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingTopicData>>(endpoint, cancellationToken);
+                var response = await coinMarketCapAPI.GetDataAsync<ResponseList<TrendingTopicData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 var data = response?.Data.ToList();
                 return new Response<List<TrendingTopicData>>
                 {
