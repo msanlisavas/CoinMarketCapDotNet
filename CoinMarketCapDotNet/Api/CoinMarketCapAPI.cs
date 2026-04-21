@@ -54,6 +54,7 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
 using CoinMarketCapDotNet.Models.Fiat.Map;
 using CoinMarketCapDotNet.Models.Fiat.Map.Query;
+using CoinMarketCapDotNet.Models.Exceptions;
 using CoinMarketCapDotNet.Models.General;
 using CoinMarketCapDotNet.Models.GlobalMetrics.Historical;
 using CoinMarketCapDotNet.Models.GlobalMetrics.Historical.Query;
@@ -74,7 +75,8 @@ namespace CoinMarketCapDotNet.Api
 {
     public class CoinMarketCapAPI
     {
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient _defaultClient = new HttpClient();
+        private readonly HttpClient _client;
         private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
@@ -86,10 +88,24 @@ namespace CoinMarketCapDotNet.Api
         private readonly string apiBase;
 
         public CoinMarketCapAPI(string apiKey, bool useSandbox = false)
+            : this(apiKey, useSandbox, httpClient: null)
         {
+        }
+
+        public CoinMarketCapAPI(string apiKey, HttpClient? httpClient)
+            : this(apiKey, useSandbox: false, httpClient: httpClient)
+        {
+        }
+
+        private CoinMarketCapAPI(string apiKey, bool useSandbox, HttpClient? httpClient)
+        {
+            if (string.IsNullOrWhiteSpace(apiKey))
+                throw new ArgumentException("apiKey must be provided.", nameof(apiKey));
+
             this.apiKey = apiKey;
             this.apiBase = useSandbox ? "https://sandbox-api.coinmarketcap.com/"
                                       : "https://pro-api.coinmarketcap.com/";
+            _client = httpClient ?? _defaultClient;
 
             Cryptocurrency = new CryptocurrencyEndpoint(this); // Initialize Cryptocurrency instance
             Fiat = new FiatEndpoint(this); // Initialize Fiat instance
@@ -108,32 +124,67 @@ namespace CoinMarketCapDotNet.Api
             request.Headers.Add("X-CMC_PRO_API_KEY", apiKey);
             request.Headers.Add("Accepts", "application/json");
 
-            var response = await client.SendAsync(request);
+            var response = await _client.SendAsync(request);
 
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
                     var content = await response.Content.ReadAsStringAsync();
                     T? result = JsonSerializer.Deserialize<T>(content, JsonOptions);
-                    return result ?? throw new Exception("Failed to deserialize response content.");
+                    return result ?? throw new CoinMarketCapException(
+                        HttpStatusCode.OK, null, null,
+                        "Failed to deserialize response content.");
+
                 case HttpStatusCode.BadRequest:
-                    var badRequestContent = await response.Content.ReadAsStringAsync();
-                    var badRequestStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(badRequestContent, JsonOptions);
-                    throw new Exception($"Bad request: {badRequestStatus?.Status?.ErrorMessage}");
+                    {
+                        var (code, msg) = await ReadStatusAsync(response);
+                        throw new CoinMarketCapBadRequestException(code, msg, $"Bad request: {msg}");
+                    }
+
                 case HttpStatusCode.Unauthorized:
-                    var unauthorizedContent = await response.Content.ReadAsStringAsync();
-                    var unauthorizedStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(unauthorizedContent, JsonOptions);
-                    throw new Exception($"Unauthorized: {unauthorizedStatus?.Status?.ErrorMessage}");
                 case HttpStatusCode.Forbidden:
-                    var forbiddenContent = await response.Content.ReadAsStringAsync();
-                    var forbiddenStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(forbiddenContent, JsonOptions);
-                    throw new Exception($"Forbidden: {forbiddenStatus?.Status?.ErrorMessage}");
+                    {
+                        var (code, msg) = await ReadStatusAsync(response);
+                        throw new CoinMarketCapAuthException(response.StatusCode, code, msg,
+                            $"{response.StatusCode}: {msg}");
+                    }
+
+                case (HttpStatusCode)429:
+                    {
+                        var (code, msg) = await ReadStatusAsync(response);
+                        throw new CoinMarketCapRateLimitException(code, msg, $"Rate limited: {msg}");
+                    }
+
                 case HttpStatusCode.InternalServerError:
-                    var internalServerErrorContent = await response.Content.ReadAsStringAsync();
-                    var internalServerErrorStatus = JsonSerializer.Deserialize<ResponseDict<Status>>(internalServerErrorContent, JsonOptions);
-                    throw new Exception($"Internal Server Error: {internalServerErrorStatus?.Status?.ErrorMessage}");
+                case HttpStatusCode.BadGateway:
+                case HttpStatusCode.ServiceUnavailable:
+                case HttpStatusCode.GatewayTimeout:
+                    {
+                        var (code, msg) = await ReadStatusAsync(response);
+                        throw new CoinMarketCapServerException(response.StatusCode, code, msg,
+                            $"{response.StatusCode}: {msg}");
+                    }
+
                 default:
-                    throw new Exception($"Error: {response.StatusCode}");
+                    {
+                        var (code, msg) = await ReadStatusAsync(response);
+                        throw new CoinMarketCapException(response.StatusCode, code, msg,
+                            $"Unexpected status {response.StatusCode}: {msg}");
+                    }
+            }
+        }
+
+        private static async Task<(int? code, string? message)> ReadStatusAsync(HttpResponseMessage response)
+        {
+            try
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                var parsed = JsonSerializer.Deserialize<ResponseDict<Status>>(body, JsonOptions);
+                return (parsed?.Status?.ErrorCode, parsed?.Status?.ErrorMessage);
+            }
+            catch
+            {
+                return (null, null);
             }
         }
 
