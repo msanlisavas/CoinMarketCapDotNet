@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -209,6 +210,17 @@ namespace CoinMarketCapDotNet.Api
 
             var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
+            return await HandleResponseAsync<T>(response, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<T> PostDataAsync<T>(string endpoint, object body, CancellationToken cancellationToken = default) where T : class
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{apiBase}{endpoint}");
+            request.Headers.Add("X-CMC_PRO_API_KEY", apiKey);
+            request.Headers.Add("Accepts", "application/json");
+            var json = JsonSerializer.Serialize(body, JsonOptions);
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);
             return await HandleResponseAsync<T>(response, cancellationToken).ConfigureAwait(false);
         }
 

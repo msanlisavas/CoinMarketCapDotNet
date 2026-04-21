@@ -6,6 +6,7 @@ using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet.Extensions;
 using CoinMarketCapDotNet.Models.Enums;
 using CoinMarketCapDotNet.Models.Exceptions;
+using CoinMarketCapDotNet.Models.General;
 using CoinMarketCapDotNet_Tests.StubHandlers;
 using Xunit;
 
@@ -401,6 +402,50 @@ namespace CoinMarketCapDotNet_Tests
             await api.Cryptocurrency.GetListingLatestV3Async();
 
             Assert.Contains("/v3/cryptocurrency/listings/latest", handler.LastRequest!.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task PostDataAsync_sends_POST_request_with_JSON_body()
+        {
+            const string okBody = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": []
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, okBody);
+            var client = new HttpClient(handler);
+            var api = new CoinMarketCapAPI("test-key", client);
+
+            var requestBody = new { network_slug = "ethereum", limit = 10 };
+            var result = await api.PostDataAsync<ResponseList<Status>>("v1/dex/test-endpoint", requestBody);
+
+            Assert.NotNull(handler.LastRequest);
+            Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+            Assert.Contains("/v1/dex/test-endpoint", handler.LastRequest.RequestUri!.ToString());
+            Assert.NotNull(handler.LastRequest.Content);
+            var sentBody = await handler.LastRequest.Content!.ReadAsStringAsync();
+            Assert.Contains("\"network_slug\":\"ethereum\"", sentBody);
+            Assert.Contains("\"limit\":10", sentBody);
+        }
+
+        [Fact]
+        public async Task PostDataAsync_omits_null_fields_from_body()
+        {
+            const string okBody = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, okBody);
+            var client = new HttpClient(handler);
+            var api = new CoinMarketCapAPI("test-key", client);
+
+            var requestBody = new { network_slug = "ethereum", limit = (int?)null, sort_field = (string?)null };
+            await api.PostDataAsync<ResponseList<Status>>("v1/dex/test-endpoint", requestBody);
+
+            var sentBody = await handler.LastRequest!.Content!.ReadAsStringAsync();
+            Assert.Contains("\"network_slug\":\"ethereum\"", sentBody);
+            Assert.DoesNotContain("limit", sentBody);
+            Assert.DoesNotContain("sort_field", sentBody);
         }
     }
 }
