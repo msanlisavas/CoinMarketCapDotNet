@@ -326,7 +326,8 @@ On top of that, the API Docs Response Schema is not always the same as the respo
 
 ## Buy me a coffee?
 
-```
-BTC: 1NxUuEQcR4Scw8ge3oto6ykLqBpe9LGikS
-ETH: 0x9cda155f73220073a9f024daaa72eb06b5c06c86
-```
+If this library saves you time, a tip in USDT (TRC20, on Tron) is appreciated:
+
+`TGgenJpoPvTFsd61hCUquyM4yQ9mAmD9hc`
+
+<img src="https://github.com/msanlisavas/CoinMarketCapDotNet/raw/master/assets/usdt-tron-qr.jpg" alt="USDT (TRC20) QR code" width="220" />
