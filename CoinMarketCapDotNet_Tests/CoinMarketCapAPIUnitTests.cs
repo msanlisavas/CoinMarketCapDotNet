@@ -290,5 +290,87 @@ namespace CoinMarketCapDotNet_Tests
             Assert.NotNull(result.Data);
             Assert.Equal(2, result.Data!.Count);
         }
+
+        [Fact]
+        public async Task Index_GetCmc100LatestAsync_calls_v3_endpoint_and_deserializes()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": {
+                "value": 1234.56,
+                "update_time": "2026-04-21T12:00:00.000Z",
+                "constituents": [
+                  { "id": 1, "name": "Bitcoin", "symbol": "BTC", "weight": 0.45 },
+                  { "id": 1027, "name": "Ethereum", "symbol": "ETH", "weight": 0.25 }
+                ]
+              }
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            var result = await api.Index.GetCmc100LatestAsync();
+
+            Assert.Contains("/v3/index/cmc100-latest", handler.LastRequest!.RequestUri!.ToString());
+            Assert.NotNull(result.Data);
+            Assert.Equal(1234.56, result.Data!.Value);
+            Assert.Equal(2, result.Data.Constituents.Count);
+            Assert.Equal("BTC", result.Data.Constituents[0].Symbol);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc100HistoricalAsync_passes_query_params_and_deserializes()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": [
+                { "value": 1200.0, "update_time": "2026-04-20T00:00:00.000Z" },
+                { "value": 1234.56, "update_time": "2026-04-21T00:00:00.000Z" }
+              ]
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            var result = await api.Index.GetCmc100HistoricalAsync(interval: "1d", count: 2);
+
+            var url = handler.LastRequest!.RequestUri!.ToString();
+            Assert.Contains("/v3/index/cmc100-historical", url);
+            Assert.Contains("interval=1d", url);
+            Assert.Contains("count=2", url);
+            Assert.Equal(2, result.Data!.Count);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc20LatestAsync_calls_v3_endpoint()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": { "value": 987.65, "update_time": "2026-04-21T12:00:00.000Z", "constituents": [] }
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            var result = await api.Index.GetCmc20LatestAsync();
+
+            Assert.Contains("/v3/index/cmc20-latest", handler.LastRequest!.RequestUri!.ToString());
+            Assert.Equal(987.65, result.Data!.Value);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc20HistoricalAsync_passes_query_params()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": []
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            await api.Index.GetCmc20HistoricalAsync(interval: "1h", count: 24);
+
+            var url = handler.LastRequest!.RequestUri!.ToString();
+            Assert.Contains("/v3/index/cmc20-historical", url);
+            Assert.Contains("interval=1h", url);
+            Assert.Contains("count=24", url);
+        }
     }
 }

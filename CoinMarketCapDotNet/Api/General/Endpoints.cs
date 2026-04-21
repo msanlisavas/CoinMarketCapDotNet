@@ -94,6 +94,13 @@
             public static string Latest { get; } = $"{Version.V3}/fear-and-greed/latest";
             public static string Historical { get; } = $"{Version.V3}/fear-and-greed/historical";
         }
+        public static class Index
+        {
+            public static string Cmc100Latest { get; } = $"{Version.V3}/index/cmc100-latest";
+            public static string Cmc100Historical { get; } = $"{Version.V3}/index/cmc100-historical";
+            public static string Cmc20Latest { get; } = $"{Version.V3}/index/cmc20-latest";
+            public static string Cmc20Historical { get; } = $"{Version.V3}/index/cmc20-historical";
+        }
         public static class Tools
         {
             public static string PriceConversion { get; } = $"{Version.V2}/tools/price-conversion";

@@ -67,6 +67,10 @@ using CoinMarketCapDotNet.Models.FearAndGreed.Historical;
 using CoinMarketCapDotNet.Models.FearAndGreed.Historical.Query;
 using CoinMarketCapDotNet.Models.FearAndGreed.Latest;
 using CoinMarketCapDotNet.Models.Fiat.Map;
+using CoinMarketCapDotNet.Models.Index;
+using CoinMarketCapDotNet.Models.Index.Historical;
+using CoinMarketCapDotNet.Models.Index.Historical.Query;
+using CoinMarketCapDotNet.Models.Index.Latest;
 using CoinMarketCapDotNet.Models.Fiat.Map.Query;
 using CoinMarketCapDotNet.Models.General;
 using CoinMarketCapDotNet.Models.GlobalMetrics.Historical;
@@ -136,6 +140,7 @@ namespace CoinMarketCapDotNet.Api
             Fiat = new FiatEndpoint(this);
             Exchange = new ExchangeEndpoint(this);
             FearAndGreed = new FearAndGreedEndpoint(this);
+            Index = new IndexEndpoint(this);
             GlobalMetrics = new GlobalMetricsEndpoint(this);
             Tools = new ToolsEndpoint(this);
             Blockchain = new BlockchainEndpoint(this);
@@ -169,6 +174,7 @@ namespace CoinMarketCapDotNet.Api
             Fiat = new FiatEndpoint(this); // Initialize Fiat instance
             Exchange = new ExchangeEndpoint(this); // Initialize Exchange instance
             FearAndGreed = new FearAndGreedEndpoint(this); // Initialize FearAndGreed instance
+            Index = new IndexEndpoint(this); // Initialize Index instance
             GlobalMetrics = new GlobalMetricsEndpoint(this); // Initialize GlobalMetrics instance
             Tools = new ToolsEndpoint(this); // Initialize Tools instance
             Blockchain = new BlockchainEndpoint(this); // Initialize Blockchain instance
@@ -280,6 +286,7 @@ namespace CoinMarketCapDotNet.Api
         public FiatEndpoint Fiat { get; } // Instance of Fiat class
         public ExchangeEndpoint Exchange { get; } // Instance of Exchange class
         public FearAndGreedEndpoint FearAndGreed { get; } // Instance of FearAndGreed class
+        public IndexEndpoint Index { get; } // Instance of Index class
         public GlobalMetricsEndpoint GlobalMetrics { get; } // Instance of GlobalMetrics class
         public ToolsEndpoint Tools { get; } // Instance of Tools class
         public BlockchainEndpoint Blockchain { get; } // Instance of Blockchain class
@@ -1495,6 +1502,69 @@ namespace CoinMarketCapDotNet.Api
                 var parameters = new FearAndGreedHistoricalQueryParameters(start, limit);
                 var endpoint = $"{Endpoints.FearAndGreed.Historical}?{parameters}";
                 return await coinMarketCapAPI.GetDataAsync<ResponseList<FearAndGreedHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
+        }
+        public class IndexEndpoint
+        {
+            private readonly CoinMarketCapAPI coinMarketCapAPI;
+
+            public IndexEndpoint(CoinMarketCapAPI coinMarketCapAPI)
+            {
+                this.coinMarketCapAPI = coinMarketCapAPI;
+            }
+
+            /// <summary>
+            /// Retrieves the latest CMC 100 Index value along with its constituent weights.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response containing the latest CMC 100 Index data.</returns>
+            public async Task<Response<IndexLatestData>> GetCmc100LatestAsync(CancellationToken cancellationToken = default)
+            {
+                var endpoint = Endpoints.Index.Cmc100Latest;
+                return await coinMarketCapAPI.GetDataAsync<Response<IndexLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
+
+            /// <summary>
+            /// Retrieves historical CMC 100 Index values at the requested interval.
+            /// </summary>
+            /// <param name="interval">Interval of time between data points (e.g. "5m", "1h", "1d").</param>
+            /// <param name="start">Optional start offset (1-based).</param>
+            /// <param name="end">Optional end offset.</param>
+            /// <param name="count">Optional number of results to return.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response containing historical CMC 100 Index data points.</returns>
+            public async Task<ResponseList<IndexHistoricalData>> GetCmc100HistoricalAsync(string? interval = null, int? start = null, int? end = null, int? count = null, CancellationToken cancellationToken = default)
+            {
+                var parameters = new IndexHistoricalQueryParameters(interval, start, end, count);
+                var endpoint = $"{Endpoints.Index.Cmc100Historical}?{parameters}";
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<IndexHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
+
+            /// <summary>
+            /// Retrieves the latest CMC 20 Index value along with its constituent weights.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response containing the latest CMC 20 Index data.</returns>
+            public async Task<Response<IndexLatestData>> GetCmc20LatestAsync(CancellationToken cancellationToken = default)
+            {
+                var endpoint = Endpoints.Index.Cmc20Latest;
+                return await coinMarketCapAPI.GetDataAsync<Response<IndexLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
+
+            /// <summary>
+            /// Retrieves historical CMC 20 Index values at the requested interval.
+            /// </summary>
+            /// <param name="interval">Interval of time between data points (e.g. "5m", "1h", "1d").</param>
+            /// <param name="start">Optional start offset (1-based).</param>
+            /// <param name="end">Optional end offset.</param>
+            /// <param name="count">Optional number of results to return.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response containing historical CMC 20 Index data points.</returns>
+            public async Task<ResponseList<IndexHistoricalData>> GetCmc20HistoricalAsync(string? interval = null, int? start = null, int? end = null, int? count = null, CancellationToken cancellationToken = default)
+            {
+                var parameters = new IndexHistoricalQueryParameters(interval, start, end, count);
+                var endpoint = $"{Endpoints.Index.Cmc20Historical}?{parameters}";
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<IndexHistoricalData>>(endpoint, cancellationToken).ConfigureAwait(false);
             }
         }
         public class ExchangeEndpoint
