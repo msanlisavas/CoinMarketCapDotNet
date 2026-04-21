@@ -75,10 +75,11 @@ using System.Threading.Tasks;
 
 namespace CoinMarketCapDotNet.Api
 {
-    public class CoinMarketCapAPI
+    public class CoinMarketCapAPI : IDisposable
     {
         private static readonly HttpClient _defaultClient = new HttpClient();
         private readonly HttpClient _client;
+        private readonly bool _ownsClient;
         private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
@@ -113,16 +114,19 @@ namespace CoinMarketCapDotNet.Api
                 // Consumer brought their own HttpClient; use it as-is and ignore options.Timeout
                 // (mutating an injected HttpClient would surprise the caller).
                 _client = httpClient;
+                _ownsClient = false;
             }
             else if (options.Timeout is { } t)
             {
                 // Per-instance HttpClient so Timeout does not leak across CoinMarketCapAPI instances
                 // or collide with concurrent requests on the shared default client.
                 _client = new HttpClient { Timeout = t };
+                _ownsClient = true;
             }
             else
             {
                 _client = _defaultClient;
+                _ownsClient = false;
             }
 
             Cryptocurrency = new CryptocurrencyEndpoint(this);
@@ -155,6 +159,7 @@ namespace CoinMarketCapDotNet.Api
             this.apiBase = useSandbox ? "https://sandbox-api.coinmarketcap.com/"
                                       : "https://pro-api.coinmarketcap.com/";
             _client = httpClient ?? _defaultClient;
+            _ownsClient = false;
 
             Cryptocurrency = new CryptocurrencyEndpoint(this); // Initialize Cryptocurrency instance
             Fiat = new FiatEndpoint(this); // Initialize Fiat instance
@@ -165,6 +170,24 @@ namespace CoinMarketCapDotNet.Api
             Key = new KeyEndpoint(this); // Initialize Key instance
             Content = new ContentEndpoint(this); // Initialize Content instance
             Community = new CommunityEndpoint(this); // Initialize Community instance
+        }
+
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+            if (disposing && _ownsClient)
+            {
+                _client.Dispose();
+            }
+            _disposed = true;
         }
 
         public async Task<T> GetDataAsync<T>(string endpoint, CancellationToken cancellationToken = default) where T : class

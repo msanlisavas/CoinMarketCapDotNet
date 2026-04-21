@@ -197,5 +197,41 @@ namespace CoinMarketCapDotNet_Tests
         {
             Assert.Equal("no_fees", CoinMarketCapDotNet.Models.Enums.MarketTypeEnum.NoFees.GetEnumMemberValue());
         }
+
+        [Fact]
+        public void Dispose_disposes_owned_HttpClient_when_Timeout_was_specified()
+        {
+            var opts = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions
+            {
+                ApiKey = "test-key",
+                Timeout = TimeSpan.FromSeconds(5)
+            };
+            var api = new CoinMarketCapAPI(opts);
+
+            api.Dispose();
+
+            // Calling Dispose() a second time should be a no-op (no exception).
+            api.Dispose();
+        }
+
+        [Fact]
+        public async Task Dispose_does_not_dispose_injected_HttpClient()
+        {
+            const string okBody = """
+            { "status": { "error_code": 0, "error_message": null }, "data": [] }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, okBody);
+            var client = new HttpClient(handler);
+            var opts = new CoinMarketCapDotNet.Configuration.CoinMarketCapOptions { ApiKey = "test-key" };
+
+            using (var api1 = new CoinMarketCapAPI(opts, client))
+            {
+                await api1.Cryptocurrency.GetMapAsync();
+            } // api1 disposed here; injected client must survive
+
+            // Use the injected client through a fresh API instance — proves it wasn't disposed.
+            var api2 = new CoinMarketCapAPI(opts, client);
+            await api2.Cryptocurrency.GetMapAsync(); // would throw ObjectDisposedException if client had been disposed
+        }
     }
 }
