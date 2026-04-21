@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CoinMarketCapSdk.Models.Cryptocurrency.Categories
+namespace CoinMarketCapDotNet.Models.Cryptocurrency.Categories
 {
     public class CategoriesData
     {
