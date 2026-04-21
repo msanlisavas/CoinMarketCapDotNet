@@ -22,6 +22,7 @@
                 public static string Latest { get; } = $"{Version.V1}/cryptocurrency/listings/latest";
                 public static string Historical { get; } = $"{Version.V1}/cryptocurrency/listings/historical";
                 public static string New { get; } = $"{Version.V1}/cryptocurrency/listings/new";
+                public static string LatestV3 { get; } = $"{Version.V3}/cryptocurrency/listings/latest";
             }
             public static class Trending
             {
@@ -47,6 +48,7 @@
                 public static string HistoricalV2 { get; } = $"{Version.V2}/cryptocurrency/quotes/historical";
                 public static string Latest { get; } = $"{Version.V2}/cryptocurrency/quotes/latest";
                 public static string HistoricalV3 { get; } = $"{Version.V3}/cryptocurrency/quotes/historical";
+                public static string LatestV3 { get; } = $"{Version.V3}/cryptocurrency/quotes/latest";
             }
             // Add more endpoints for the Cryptocurrency category here
         }

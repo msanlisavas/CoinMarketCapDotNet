@@ -372,5 +372,35 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Contains("interval=1h", url);
             Assert.Contains("count=24", url);
         }
+
+        [Fact]
+        public async Task Cryptocurrency_GetQuotesLatestV3Async_calls_v3_endpoint()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": []
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            await api.Cryptocurrency.GetQuotesLatestV3Async();
+
+            Assert.Contains("/v3/cryptocurrency/quotes/latest", handler.LastRequest!.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Cryptocurrency_GetListingLatestV3Async_calls_v3_endpoint()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": []
+            }
+            """;
+            var api = ApiWithStub(HttpStatusCode.OK, body, out var handler);
+            await api.Cryptocurrency.GetListingLatestV3Async();
+
+            Assert.Contains("/v3/cryptocurrency/listings/latest", handler.LastRequest!.RequestUri!.ToString());
+        }
     }
 }

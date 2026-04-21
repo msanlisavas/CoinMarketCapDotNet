@@ -669,6 +669,82 @@ namespace CoinMarketCapDotNet.Api
 
             }
             /// <summary>
+            /// Retrieves the latest cryptocurrency listings via the V3 endpoint, which returns a paginated array.
+            /// </summary>
+            /// <param name="start">Optionally offset the start (1-based index) of the paginated list of items to return. (Default: 1)</param>
+            /// <param name="limit">Optionally specify the number of results to return. (Default: 100)</param>
+            /// <param name="priceMin">Optionally specify a threshold of minimum USD price to filter results by.</param>
+            /// <param name="priceMax">Optionally specify a threshold of maximum USD price to filter results by.</param>
+            /// <param name="marketCapMin">Optionally specify a threshold of minimum market cap to filter results by.</param>
+            /// <param name="marketCapMax">Optionally specify a threshold of maximum market cap to filter results by.</param>
+            /// <param name="volume24hMin">Optionally specify a threshold of minimum 24 hour USD volume to filter results by.</param>
+            /// <param name="volume24hMax">Optionally specify a threshold of maximum 24 hour USD volume to filter results by.</param>
+            /// <param name="circulatingSupplyMin">Optionally specify a threshold of minimum circulating supply to filter results by.</param>
+            /// <param name="circulatingSupplyMax">Optionally specify a threshold of maximum circulating supply to filter results by.</param>
+            /// <param name="percentChange24hMin">Optionally specify a threshold of minimum 24 hour percent change to filter results by.</param>
+            /// <param name="percentChange24hMax">Optionally specify a threshold of maximum 24 hour percent change to filter results by.</param>
+            /// <param name="convert">Optionally calculate market quotes in up to 120 currencies at once.</param>
+            /// <param name="convertId">Optionally calculate market quotes by CoinMarketCap ID instead of symbol.</param>
+            /// <param name="sort">Field to sort the list of cryptocurrencies by.</param>
+            /// <param name="sortDir">Direction in which to order cryptocurrencies.</param>
+            /// <param name="cryptocurrencyType">Optionally specify which type of cryptocurrency to include.</param>
+            /// <param name="tag">Optionally specify one tag to filter the list of cryptocurrencies by.</param>
+            /// <param name="aux">Optionally specify a comma-separated list of supplemental data fields to return.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response list containing a paginated array of the latest cryptocurrency listings.</returns>
+            public async Task<ResponseList<LatestData>> GetListingLatestV3Async
+                (
+                    int start = 1,
+                    int limit = 100,
+                    double? priceMin = null,
+                    double? priceMax = null,
+                    double? marketCapMin = null,
+                    double? marketCapMax = null,
+                    double? volume24hMin = null,
+                    double? volume24hMax = null,
+                    double? circulatingSupplyMin = null,
+                    double? circulatingSupplyMax = null,
+                    double? percentChange24hMin = null,
+                    double? percentChange24hMax = null,
+                    string? convert = null,
+                    string? convertId = null,
+                    SortListingLatestEnum sort = SortListingLatestEnum.MarketCap,
+                    SortDirectionEnum sortDir = SortDirectionEnum.Ascending,
+                    CryptocurrencyTypeEnum cryptocurrencyType = CryptocurrencyTypeEnum.All,
+                    TagEnum tag = TagEnum.All,
+                    string? aux = null,
+                    CancellationToken cancellationToken = default
+                )
+            {
+                if (!string.IsNullOrWhiteSpace(convert) && !string.IsNullOrWhiteSpace(convertId))
+                {
+                    throw new ArgumentException("convert and convert_id cannot be used together.");
+                }
+                var parameters = new LatestQueryParameters();
+                parameters.AddStart(start);
+                parameters.AddLimit(limit);
+                parameters.AddPriceMin(priceMin);
+                parameters.AddPriceMax(priceMax);
+                parameters.AddMarketCapMin(marketCapMin);
+                parameters.AddMarketCapMax(marketCapMax);
+                parameters.AddVolume24hMin(volume24hMin);
+                parameters.AddVolume24hMax(volume24hMax);
+                parameters.AddCirculatingSupplyMin(circulatingSupplyMin);
+                parameters.AddCirculatingSupplyMax(circulatingSupplyMax);
+                parameters.AddPercentChange24hMin(percentChange24hMin);
+                parameters.AddPercentChange24hMax(percentChange24hMax);
+                parameters.AddConvert(convert);
+                parameters.AddConvertId(convertId);
+                parameters.AddSort(sort);
+                parameters.AddSortDir(sortDir);
+                parameters.AddCryptocurrencyType(cryptocurrencyType);
+                parameters.AddTag(tag);
+                parameters.AddAux(aux);
+
+                var endpoint = $"{Endpoints.Cryptocurrency.Listing.LatestV3}?{parameters}";
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<LatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
+            }
+            /// <summary>
             /// Retrieves a ranked and sorted list of all cryptocurrencies for a historical UTC date.
             /// </summary>
             /// <param name="date">The date (Unix or ISO 8601) to reference the day of the snapshot. Only the date portion of the timestamp will be referenced. It is recommended to send an ISO date format like "2019-10-10" without time.</param>
@@ -1340,6 +1416,36 @@ namespace CoinMarketCapDotNet.Api
                     Data = data
                 };
 
+            }
+            /// <summary>
+            /// Retrieves the latest market quote for one or more cryptocurrencies via the V3 endpoint, which returns a paginated array.
+            /// </summary>
+            /// <param name="id">One or more comma-separated CoinMarketCap cryptocurrency IDs.</param>
+            /// <param name="slug">Alternatively, pass a comma-separated list of cryptocurrency slugs.</param>
+            /// <param name="symbol">Alternatively, pass one or more comma-separated cryptocurrency symbols.</param>
+            /// <param name="convert">Optionally calculate market quotes in up to 120 currencies at once.</param>
+            /// <param name="convertId">Optionally calculate market quotes by CoinMarketCap ID instead of symbol.</param>
+            /// <param name="aux">Optionally specify a comma-separated list of supplemental data fields to return.</param>
+            /// <param name="skipInvalid">Pass true to relax request validation rules. (Default: true)</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>A response list containing the latest market quotes for the requested cryptocurrencies.</returns>
+            public async Task<ResponseList<QuotesLatestData>> GetQuotesLatestV3Async(string id = "", string slug = "", string symbol = "", string convert = "", string convertId = "", string aux = "", bool skipInvalid = true, CancellationToken cancellationToken = default)
+            {
+                if (!string.IsNullOrWhiteSpace(convert) && !string.IsNullOrWhiteSpace(convertId))
+                {
+                    throw new ArgumentException("convert and convert_id cannot be used together.");
+                }
+                var parameters = new QuotesLatestQueryParameters();
+                parameters.AddId(id);
+                parameters.AddSymbol(symbol);
+                parameters.AddSlug(slug);
+                parameters.AddConvert(convert);
+                parameters.AddConvertId(convertId);
+                parameters.AddSkipInvalid(skipInvalid);
+                parameters.AddAux(aux);
+
+                var endpoint = $"{Endpoints.Cryptocurrency.Quotes.LatestV3}?{parameters}";
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<QuotesLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
             }
             /// <summary>
             /// Retrieves an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
