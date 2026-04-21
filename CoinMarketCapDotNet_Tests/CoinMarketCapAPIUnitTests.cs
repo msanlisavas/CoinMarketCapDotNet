@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CoinMarketCapDotNet.Api;
 using CoinMarketCapDotNet.Extensions;
+using CoinMarketCapDotNet.Models.Dex.Token.Detail;
 using CoinMarketCapDotNet.Models.Dex.Token.Trending;
 using CoinMarketCapDotNet.Models.Enums;
 using CoinMarketCapDotNet.Models.Exceptions;
@@ -563,6 +564,36 @@ namespace CoinMarketCapDotNet_Tests
 
             Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
             Assert.Contains("/v1/dex/gainer-loser/list", handler.LastRequest.RequestUri!.ToString());
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetTokenAsync_gets_v1_endpoint_with_query()
+        {
+            const string body = """
+            {
+              "status": { "error_code": 0, "error_message": null },
+              "data": {
+                "id": "0xabc",
+                "name": "TestToken",
+                "symbol": "TEST",
+                "network_slug": "ethereum",
+                "price_usd": 1.23,
+                "decimals": 18
+              }
+            }
+            """;
+            var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
+            var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
+
+            var result = await api.Dex.Token.GetTokenAsync(address: "0xabc", networkSlug: "ethereum");
+
+            Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
+            var url = handler.LastRequest.RequestUri!.ToString();
+            Assert.Contains("/v1/dex/token", url);
+            Assert.Contains("address=0xabc", url);
+            Assert.Contains("network_slug=ethereum", url);
+            Assert.Equal("TEST", result.Data!.Symbol);
+            Assert.Equal(18, result.Data.Decimals);
         }
     }
 }

@@ -66,6 +66,7 @@ using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest;
 using CoinMarketCapDotNet.Models.Exchange.Quotes.Latest.Query;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchPrice;
 using CoinMarketCapDotNet.Models.Dex.Token.BatchQuery;
+using CoinMarketCapDotNet.Models.Dex.Token.Detail;
 using CoinMarketCapDotNet.Models.Dex.Token.GainerLoser;
 using CoinMarketCapDotNet.Models.Dex.Token.MemeList;
 using CoinMarketCapDotNet.Models.Dex.Token.NewList;
@@ -2746,6 +2747,19 @@ namespace CoinMarketCapDotNet.Api
                         limit
                     };
                     return await coinMarketCapAPI.PostDataAsync<ResponseList<DexGainerLoserTokenData>>(Endpoints.Dex.Token.GainerLoserList, body, cancellationToken).ConfigureAwait(false);
+                }
+
+                /// <summary>
+                /// Retrieves detailed information for a specific DEX token by address.
+                /// </summary>
+                /// <param name="address">Token contract address.</param>
+                /// <param name="networkSlug">Blockchain network slug (e.g. "ethereum", "bsc").</param>
+                /// <param name="cancellationToken">Cancellation token.</param>
+                public async Task<Response<DexTokenDetailData>> GetTokenAsync(string address, string networkSlug, CancellationToken cancellationToken = default)
+                {
+                    var qs = $"address={Uri.EscapeDataString(address)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var endpoint = $"{Endpoints.Dex.Token.Detail}?{qs}";
+                    return await coinMarketCapAPI.GetDataAsync<Response<DexTokenDetailData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 }
             }
         }
