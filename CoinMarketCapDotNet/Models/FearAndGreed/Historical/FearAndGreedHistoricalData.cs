@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using CoinMarketCapDotNet.Models.General;
 
 namespace CoinMarketCapDotNet.Models.FearAndGreed.Historical
 {
@@ -9,6 +10,7 @@ namespace CoinMarketCapDotNet.Models.FearAndGreed.Historical
         public int? Value { get; set; }
 
         [JsonPropertyName("timestamp")]
+        [JsonConverter(typeof(UnixTimestampDateTimeConverter))]
         public DateTime? Timestamp { get; set; }
 
         [JsonPropertyName("value_classification")]

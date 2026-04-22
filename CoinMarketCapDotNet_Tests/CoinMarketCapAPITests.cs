@@ -616,7 +616,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Content.GetPostTopAsync("", "", "BTC");
             });
@@ -631,7 +631,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Content.GetPostLatestAsync("", "", "BTC");
             });
@@ -646,7 +646,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Content.GetPostCommentsAsync("1");
             });
@@ -661,7 +661,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Community.GetTrendingTopicAsync();
             });
@@ -676,7 +676,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Community.GetTrendingTokenAsync();
             });
@@ -691,7 +691,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Key.GetKeyInfoAsync();
             });
@@ -706,7 +706,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Content.GetContentLatestAsync();
             });
@@ -721,7 +721,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Tools.GetPriceConversionAsync(100, "", "BTC");
             });
@@ -736,7 +736,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.GlobalMetrics.GetQuotesLatestAsync();
             });
@@ -751,7 +751,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.GlobalMetrics.GetQuotesHistoricalAsync();
             });
@@ -766,7 +766,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetQuotesLatestAsync("", "binance");
             });
@@ -781,7 +781,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetQuotesHistoricalAsync("", "binance");
             });
@@ -796,7 +796,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetMarketPairsAsync();
             });
@@ -811,7 +811,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetListingLatestAsync();
             });
@@ -826,7 +826,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetMapAsync("", "binance");
             });
@@ -841,7 +841,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetInfoAsync("", "binance");
             });
@@ -856,7 +856,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Exchange.GetAssetsAsync("270");
             });
@@ -871,7 +871,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetAirdropAsync("1");
             });
@@ -886,7 +886,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetAirdropsAsync();
             });
@@ -901,7 +901,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetCategoriesAsync();
             });
@@ -917,7 +917,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetCategoryAsync("1");
             });
@@ -962,7 +962,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetQuotesLatestAsync("", "", "BTC");
             });
@@ -992,7 +992,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetQuotesHistoricalV2Async("", "BTC");
             });
@@ -1022,7 +1022,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetQuotesHistoricalV3Async("", "BTC");
             });
@@ -1052,7 +1052,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetPricePerformanceStatsLatestAsync("", "", "BTC");
             });
@@ -1083,7 +1083,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetOHCLVHistoricalAsync("", "", "BTC");
             });
@@ -1113,7 +1113,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetOHLCVLatestAsync("", "BTC");
             });
@@ -1143,7 +1143,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetMarketPairsLatestAsync("", "", "BTC");
             });
@@ -1158,7 +1158,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetTrendingMostVisitedAsync();
             });
@@ -1173,7 +1173,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetTrendingLatestAsync();
             });
@@ -1188,7 +1188,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetTrendingGainersLosersAsync();
             });
@@ -1203,7 +1203,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetListingNewAsync();
             });
@@ -1219,7 +1219,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetInfoAsync("", "", "BTC");
             });
@@ -1235,7 +1235,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetMapAsync();
             });
@@ -1250,7 +1250,7 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetListingLatestAsync();
             });
@@ -1265,12 +1265,427 @@ namespace CoinMarketCapDotNet_Tests
             var coinMarketCapAPI = new CoinMarketCapAPI(apiKey);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAnyAsync<Exception>(async () =>
             {
                 await coinMarketCapAPI.Cryptocurrency.GetListingHistoricalAsync(DateTime.UtcNow);
             });
 
             _fixture.Dispose(); // Reset shared fixture after using a different API key
+        }
+
+        // v2.x endpoints (Fear & Greed, CMC indices, V3 variants, DEX) — these are not served by
+        // sandbox-api.coinmarketcap.com, so these tests intentionally hit the production API using
+        // the key configured in CoinMarketCapAPIFixture. Requires a plan that includes each endpoint;
+        // DEX endpoints in particular require Standard+ (v2.2.0+ of this wrapper).
+
+        [Fact]
+        public async Task FearAndGreed_GetLatestAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.FearAndGreed.GetLatestAsync();
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+            Assert.NotNull(result.Data.Value);
+        }
+
+        [Fact]
+        public async Task FearAndGreed_GetHistoricalAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.FearAndGreed.GetHistoricalAsync(limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc100LatestAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Index.GetCmc100LatestAsync();
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+            Assert.NotNull(result.Data.Value);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc100HistoricalAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Index.GetCmc100HistoricalAsync(interval: "daily", count: 7);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc20LatestAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Index.GetCmc20LatestAsync();
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+            Assert.NotNull(result.Data.Value);
+        }
+
+        [Fact]
+        public async Task Index_GetCmc20HistoricalAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Index.GetCmc20HistoricalAsync(interval: "daily", count: 7);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task GetListingLatestV3Async_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Cryptocurrency.GetListingLatestV3Async(limit: 5);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task GetQuotesLatestV3Async_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Cryptocurrency.GetQuotesLatestV3Async(symbol: "BTC");
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        // DEX test inputs — well-known mainnet addresses on Ethereum. CMC's v4 DEX API is case-sensitive
+        // for address lookups and expects lowercase, so these are all kept lowercase.
+        private const string DexNetwork = "ethereum";
+        private const string DexTokenUsdt = "0xdac17f958d2ee523a2206206994597c13d831ec7";       // USDT
+        private const string DexTokenWeth = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";       // WETH
+        private const string DexPairUsdcWeth = "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640";     // Uniswap V3 USDC/WETH 0.05%
+        private const string DexHolderBinanceHot = "0x28c6c06298d514db089934071355e5743bf21d60"; // Binance hot wallet 14
+        private const string DexSlug = "uniswap-v3";
+
+        [Fact]
+        public async Task Dex_Token_GetTrendingAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetTrendingAsync(limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_BatchQueryAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.BatchQueryAsync(new[] { DexTokenUsdt, DexTokenWeth }, DexNetwork);
+
+            // CMC's DEX batch endpoints sometimes return an empty data list even on valid inputs;
+            // the successful-response shape is what we're validating, not presence of rows.
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Token_BatchPriceAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.BatchPriceAsync(new[] { DexTokenUsdt, DexTokenWeth }, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetNewListAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetNewListAsync(limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetMemeListAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetMemeListAsync(limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetGainerLoserAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetGainerLoserAsync(limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetTokenAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetTokenAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetPriceAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetPriceAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetPoolsAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetPoolsAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetLiquidityAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetLiquidityAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetTransactionsAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetTransactionsAsync(DexTokenUsdt, DexNetwork, limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetSecurityAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetSecurityAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Token_SearchAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.SearchAsync("usdt", DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Token_GetLiquidityChangeAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Token.GetLiquidityChangeAsync(DexTokenUsdt, DexNetwork, limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Pairs_GetSpotPairsLatestAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Pairs.GetSpotPairsLatestAsync(dexSlug: DexSlug, networkSlug: DexNetwork, limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Pairs_GetQuotesLatestAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Pairs.GetQuotesLatestAsync(DexPairUsdcWeth, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Platform_GetListAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Platform.GetListAsync();
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Platform_GetDetailAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Platform.GetDetailAsync(DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Kline_GetPointsAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Kline.GetPointsAsync(DexTokenUsdt, DexNetwork, interval: "1d", limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Kline_GetCandlesAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Kline.GetCandlesAsync(DexTokenUsdt, DexNetwork, interval: "1d", limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetListAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Holders.GetListAsync(DexTokenUsdt, DexNetwork, limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetDetailAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Holders.GetDetailAsync(DexTokenUsdt, DexHolderBinanceHot, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetTrendListAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Holders.GetTrendListAsync(DexTokenUsdt, DexNetwork, interval: "1d", limit: 10);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetTagCountAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Holders.GetTagCountAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.True(result.Data.Count > 0);
+        }
+
+        [Fact]
+        public async Task Dex_Holders_GetCountAsync_ReturnsExpectedData()
+        {
+            _fixture.SetSandboxMode(false);
+            var coinMarketCapAPI = _fixture.CoinMarketCapAPI;
+
+            var result = await coinMarketCapAPI.Dex.Holders.GetCountAsync(DexTokenUsdt, DexNetwork);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
         }
         #endregion
     }

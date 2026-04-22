@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using System;
+using CoinMarketCapDotNet.Models.General;
 
 namespace CoinMarketCapDotNet.Models.Exchange.Map
 {
@@ -15,6 +16,7 @@ namespace CoinMarketCapDotNet.Models.Exchange.Map
         public string? Slug { get; set; }
 
         [JsonPropertyName("is_active")]
+        [JsonConverter(typeof(NumericBoolConverter))]
         public bool IsActive { get; set; }
         [JsonPropertyName("status")]
         public string? Status { get; set; }

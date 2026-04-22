@@ -719,11 +719,12 @@ namespace CoinMarketCapDotNet_Tests
             var handler = new StubHttpMessageHandler(HttpStatusCode.OK, body);
             var api = new CoinMarketCapAPI("test-key", new HttpClient(handler));
 
-            await api.Dex.Pairs.GetSpotPairsLatestAsync(networkSlug: "ethereum", limit: 25);
+            await api.Dex.Pairs.GetSpotPairsLatestAsync(dexSlug: "uniswap-v3", networkSlug: "ethereum", limit: 25);
 
             Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
             var url = handler.LastRequest.RequestUri!.ToString();
             Assert.Contains("/v4/dex/spot-pairs/latest", url);
+            Assert.Contains("dex_slug=uniswap-v3", url);
             Assert.Contains("network_slug=ethereum", url);
             Assert.Contains("limit=25", url);
         }
@@ -742,7 +743,7 @@ namespace CoinMarketCapDotNet_Tests
             Assert.Equal(HttpMethod.Get, handler.LastRequest!.Method);
             var url = handler.LastRequest.RequestUri!.ToString();
             Assert.Contains("/v4/dex/pairs/quotes/latest", url);
-            Assert.Contains("pair_address=0xpair", url);
+            Assert.Contains("contract_address=0xpair", url);
             Assert.Contains("network_slug=ethereum", url);
         }
 

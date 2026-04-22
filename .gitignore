@@ -375,3 +375,6 @@ docs/superpowers/
 /artifacts/
 build_output.txt
 bash.exe.stackdump
+
+# Claude Code local workspace settings
+/.claude/

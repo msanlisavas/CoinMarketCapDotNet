@@ -12,7 +12,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
     <PackageId>CoinMarketCapDotNet</PackageId>
-    <Version>2.5.0</Version>
+    <Version>2.5.1</Version>
     <Authors>Murat Sanlisavas</Authors>
     <Description>A modern .NET wrapper for the CoinMarketCap API. Multi-targets netstandard2.0 and net8.0 with zero runtime dependencies on .NET 8.</Description>
     <PackageTags>coinmarketcap;cmc;crypto;cryptocurrency;api;wrapper;sdk</PackageTags>

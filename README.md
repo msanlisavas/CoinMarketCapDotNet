@@ -266,6 +266,8 @@ You can layer any `DelegatingHandler` this way — Polly is not a dependency of 
 
 27 DEX endpoints across 5 nested sub-groups. Access them via `api.Dex.<SubGroup>.<Method>Async(...)`.
 
+> ⚠️ **Unverified endpoints.** Live integration testing for v2.5.1 was done on a CoinMarketCap **Standard**-tier key, which does not grant access to every DEX endpoint. The endpoints below were confirmed working end-to-end against the live API: `Dex.Pairs.GetSpotPairsLatestAsync`, `Dex.Pairs.GetQuotesLatestAsync`, `Dex.Platform.GetListAsync`, `Dex.Platform.GetDetailAsync`. The remaining DEX endpoints either returned `403 Forbidden` (plan-gated — `Dex.Token.GetTrendingAsync`, `GetNewListAsync`, `GetMemeListAsync`, `GetGainerLoserAsync`) or a persistent `error_code: 500 "The system is busy"` response on this tier (which CMC appears to use in place of `403` for some plan-gated endpoints: `Dex.Token.GetTokenAsync`, `GetPriceAsync`, `GetPoolsAsync`, `GetLiquidityAsync`, `GetTransactionsAsync`, `GetSecurityAsync`, `SearchAsync`, `GetLiquidityChangeAsync`, all `Dex.Kline.*`, and the GET-based `Dex.Holders.*` methods). Their wrapper code follows the documented request contract and the unit tests cover URL shape and parameters, but their response-body deserialization has not been exercised against a real response. **If you are on a Professional or Enterprise plan and hit shape mismatches, please [open an issue](https://github.com/msanlisavas/CoinMarketCapDotNet/issues) with the raw response body so we can align the models.**
+
 ### Dex.Token *(v2.2.0, 14 methods)*
 
 Token-level DEX data. Mix of POST and GET.
@@ -379,6 +381,33 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 MIT License
 
 ## Release Notes
+
+### v2.5.1
+
+Bug-fix release hardening the v2.x endpoints against live CoinMarketCap responses. Most users should upgrade.
+
+**Breaking changes** (all in code paths that were broken in v2.5.0, so existing consumers were seeing runtime errors regardless):
+
+- `Cryptocurrency.GetListingLatestV3Async` now returns `ResponseList<LatestV3Data>` (was `ResponseList<LatestData>`). The v3 endpoint returns `quote` as an array, not the V1/V2 dictionary, so a V3-specific model was needed.
+- `Cryptocurrency.GetQuotesLatestV3Async` now returns `ResponseList<QuotesLatestV3Data>` (was `ResponseList<QuotesLatestData>`), for the same reason.
+- `Dex.Pairs.GetSpotPairsLatestAsync` now requires either `dexId` or `dexSlug` — the CMC endpoint rejects requests without one of these. The method signature now exposes both optional parameters and throws `ArgumentException` if neither is provided.
+- `Dex.Pairs.GetQuotesLatestAsync` parameter renamed from `pairAddress` to `contractAddress` and the wire parameter from `pair_address` to `contract_address` to match the live API contract.
+- `Models.Dex.Pairs.Common.DexPairData` rewritten to match the actual v4 response schema — `base_asset_*`/`quote_asset_*` naming, nested `quote` array via new `DexPairQuoteEntry`, and correct field names like `contract_address` and `last_updated`. The old field names (`pair_address`, `base_token_*`, `price_usd`, etc.) never matched live data; code that read those properties was always getting `null`.
+
+**Fixes**:
+
+- V3 `quote` deserialization (fixes `JsonException: could not be converted to Dictionary<String, QuoteData>. Path: $.data[0].quote`). `QuoteData` gained five optional V3-only fields: `Id`, `Symbol`, `CexVolume24h`, `DexVolume24h`, `MintedMarketCap`. They are null on V1/V2 responses.
+- Fear & Greed historical timestamps (fixes `JsonException: not in a supported DateTime format`). CMC returns Unix epoch seconds as a string for this endpoint; a new `UnixTimestampDateTimeConverter` handles it and also tolerates ISO-8601.
+- Numeric `is_active` (fixes `JsonException: Cannot get the value of a token type 'Number' as a boolean. Path: $.data[0].is_active`). Applied to `Cryptocurrency.Map.MapData.IsActive` and `Exchange.Map.ExchangeMapData.IsActive` via a new `NumericBoolConverter` that accepts `true`/`false`, `0`/`1`, or `"0"`/`"1"`/`"true"`/`"false"`.
+- `ResponseList<T>.Data` no longer throws when the server returns `"data": null`. A new `NullTolerantListConverter` collapses it to an empty list so callers can safely iterate `result.Data` without a null check.
+- `HandleResponseAsync` now recognises the pattern CoinMarketCap's v4 DEX endpoints use of returning HTTP 200 with a non-zero `error_code` in the response body and no `data` field. The wrapper now throws a typed `CoinMarketCapException` (BadRequest / Auth / RateLimit / Server depending on the in-body code) instead of letting a confusing `JsonException` leak out.
+
+**Tests**:
+
+- Added 32 integration tests covering the v2.1 and later endpoints (Fear & Greed, CMC 100 / CMC 20 indices, V3 cryptocurrency listings and quotes, and all 25 DEX methods). Tests read the API key from the `CMC_API_KEY` environment variable at construction time with the old placeholder still honoured as a fallback.
+- Replaced 36 stale `Assert.ThrowsAsync<Exception>` calls with `Assert.ThrowsAnyAsync<Exception>`. `Assert.ThrowsAsync` matches the exact exception type; the v2.0 release started throwing typed `CoinMarketCapXException` subclasses, so these assertions had been failing against the live API since v2.0.
+
+See the v2.2.0–v2.4.0 DEX section above for the known DEX endpoint coverage caveat on non-Professional/Enterprise keys.
 
 ### v2.5.0
 

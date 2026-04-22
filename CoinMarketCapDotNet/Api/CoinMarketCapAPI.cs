@@ -261,6 +261,15 @@ namespace CoinMarketCapDotNet.Api
 #else
                     var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 #endif
+                    // Some CMC endpoints (notably v4 DEX) return HTTP 200 with an in-body error status
+                    // and no data payload — e.g. {"status":{"error_code":"500", ...}}. Detect this before
+                    // attempting to deserialize into T, or we'd throw JsonException on the missing/null data.
+                    var inBody = TryReadStatus(content);
+                    if (inBody.code is int c && c != 0)
+                    {
+                        var mappedStatus = MapInBodyErrorCodeToHttpStatus(c);
+                        throw MaterializeException(mappedStatus, c, inBody.message);
+                    }
                     T? result = JsonSerializer.Deserialize<T>(content, JsonOptions);
                     return result ?? throw new InvalidOperationException("Failed to deserialize response content.");
 
@@ -312,8 +321,7 @@ namespace CoinMarketCapDotNet.Api
 #else
                 var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 #endif
-                var parsed = JsonSerializer.Deserialize<ResponseDict<Status>>(body, JsonOptions);
-                return (parsed?.Status?.ErrorCode, parsed?.Status?.ErrorMessage);
+                return TryReadStatus(body);
             }
             catch (OperationCanceledException)
             {
@@ -324,6 +332,51 @@ namespace CoinMarketCapDotNet.Api
                 return (null, null);
             }
         }
+
+        private static (int? code, string? message) TryReadStatus(string body)
+        {
+            try
+            {
+                var parsed = JsonSerializer.Deserialize<ResponseDict<Status>>(body, JsonOptions);
+                return (parsed?.Status?.ErrorCode, parsed?.Status?.ErrorMessage);
+            }
+            catch
+            {
+                return (null, null);
+            }
+        }
+
+        // Maps an in-body CMC error_code to the HTTP status we would have received if CMC returned
+        // a conventional error response. Keeps the thrown exception type consistent whether CMC uses
+        // HTTP-level error codes or embeds them in a 200 body.
+        private static HttpStatusCode MapInBodyErrorCodeToHttpStatus(int errorCode) => errorCode switch
+        {
+            400 => HttpStatusCode.BadRequest,
+            401 => HttpStatusCode.Unauthorized,
+            402 => HttpStatusCode.PaymentRequired,
+            403 => HttpStatusCode.Forbidden,
+            404 => HttpStatusCode.NotFound,
+            429 => (HttpStatusCode)429,
+            500 => HttpStatusCode.InternalServerError,
+            502 => HttpStatusCode.BadGateway,
+            503 => HttpStatusCode.ServiceUnavailable,
+            504 => HttpStatusCode.GatewayTimeout,
+            _ => HttpStatusCode.InternalServerError,
+        };
+
+        private static CoinMarketCapException MaterializeException(HttpStatusCode status, int errorCode, string? message) => status switch
+        {
+            HttpStatusCode.BadRequest =>
+                new CoinMarketCapBadRequestException(status, errorCode, message, $"Bad request: {message}"),
+            HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden =>
+                new CoinMarketCapAuthException(status, errorCode, message, $"{status}: {message}"),
+            (HttpStatusCode)429 =>
+                new CoinMarketCapRateLimitException(status, errorCode, message, $"Rate limited: {message}"),
+            HttpStatusCode.InternalServerError or HttpStatusCode.BadGateway or HttpStatusCode.ServiceUnavailable or HttpStatusCode.GatewayTimeout =>
+                new CoinMarketCapServerException(status, errorCode, message, $"{status}: {message}"),
+            _ =>
+                new CoinMarketCapException(status, errorCode, message, $"Unexpected status {status}: {message}"),
+        };
 
 
         public CryptocurrencyEndpoint Cryptocurrency { get; } // Instance of Cryptocurrency class
@@ -737,7 +790,7 @@ namespace CoinMarketCapDotNet.Api
             /// <param name="aux">Optionally specify a comma-separated list of supplemental data fields to return.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>A response list containing a paginated array of the latest cryptocurrency listings.</returns>
-            public async Task<ResponseList<LatestData>> GetListingLatestV3Async
+            public async Task<ResponseList<LatestV3Data>> GetListingLatestV3Async
                 (
                     int start = 1,
                     int limit = 100,
@@ -787,7 +840,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Listing.LatestV3}?{parameters}";
-                return await coinMarketCapAPI.GetDataAsync<ResponseList<LatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<LatestV3Data>>(endpoint, cancellationToken).ConfigureAwait(false);
             }
             /// <summary>
             /// Retrieves a ranked and sorted list of all cryptocurrencies for a historical UTC date.
@@ -1474,7 +1527,7 @@ namespace CoinMarketCapDotNet.Api
             /// <param name="skipInvalid">Pass true to relax request validation rules. (Default: true)</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>A response list containing the latest market quotes for the requested cryptocurrencies.</returns>
-            public async Task<ResponseList<QuotesLatestData>> GetQuotesLatestV3Async(string id = "", string slug = "", string symbol = "", string convert = "", string convertId = "", string aux = "", bool skipInvalid = true, CancellationToken cancellationToken = default)
+            public async Task<ResponseList<QuotesLatestV3Data>> GetQuotesLatestV3Async(string id = "", string slug = "", string symbol = "", string convert = "", string convertId = "", string aux = "", bool skipInvalid = true, CancellationToken cancellationToken = default)
             {
                 if (!string.IsNullOrWhiteSpace(convert) && !string.IsNullOrWhiteSpace(convertId))
                 {
@@ -1490,7 +1543,7 @@ namespace CoinMarketCapDotNet.Api
                 parameters.AddAux(aux);
 
                 var endpoint = $"{Endpoints.Cryptocurrency.Quotes.LatestV3}?{parameters}";
-                return await coinMarketCapAPI.GetDataAsync<ResponseList<QuotesLatestData>>(endpoint, cancellationToken).ConfigureAwait(false);
+                return await coinMarketCapAPI.GetDataAsync<ResponseList<QuotesLatestV3Data>>(endpoint, cancellationToken).ConfigureAwait(false);
             }
             /// <summary>
             /// Retrieves an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
@@ -2924,37 +2977,54 @@ namespace CoinMarketCapDotNet.Api
                 }
 
                 /// <summary>
-                /// Retrieves the latest active DEX spot pairs, optionally filtered by network.
+                /// Retrieves the latest active DEX spot pairs on a specific DEX. The API requires either
+                /// <paramref name="dexId"/> or <paramref name="dexSlug"/> — passing only
+                /// <paramref name="networkSlug"/> will be rejected with HTTP 400.
                 /// </summary>
-                /// <param name="networkSlug">Optional blockchain network slug.</param>
+                /// <param name="dexId">CMC DEX id (e.g. <c>"1348"</c> for Uniswap V3). Required if <paramref name="dexSlug"/> is not set.</param>
+                /// <param name="dexSlug">CMC DEX slug (e.g. <c>"uniswap-v3"</c>). Required if <paramref name="dexId"/> is not set.</param>
+                /// <param name="networkSlug">Optional blockchain network slug to narrow results (e.g. <c>"ethereum"</c>).</param>
                 /// <param name="limit">Optional max number of results.</param>
                 /// <param name="cancellationToken">Cancellation token.</param>
-                public async Task<ResponseList<DexSpotPairData>> GetSpotPairsLatestAsync(string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
+                public async Task<ResponseList<DexSpotPairData>> GetSpotPairsLatestAsync(string? dexId = null, string? dexSlug = null, string? networkSlug = null, int? limit = null, CancellationToken cancellationToken = default)
                 {
+                    if (string.IsNullOrWhiteSpace(dexId) && string.IsNullOrWhiteSpace(dexSlug))
+                        throw new ArgumentException("Either 'dexId' or 'dexSlug' must be provided.");
+
                     var qs = new System.Text.StringBuilder();
-                    if (!string.IsNullOrWhiteSpace(networkSlug)) qs.Append($"network_slug={Uri.EscapeDataString(networkSlug!)}");
+                    if (!string.IsNullOrWhiteSpace(dexId)) qs.Append($"dex_id={Uri.EscapeDataString(dexId!)}");
+                    if (!string.IsNullOrWhiteSpace(dexSlug))
+                    {
+                        if (qs.Length > 0) qs.Append('&');
+                        qs.Append($"dex_slug={Uri.EscapeDataString(dexSlug!)}");
+                    }
+                    if (!string.IsNullOrWhiteSpace(networkSlug))
+                    {
+                        if (qs.Length > 0) qs.Append('&');
+                        qs.Append($"network_slug={Uri.EscapeDataString(networkSlug!)}");
+                    }
                     if (limit.HasValue)
                     {
                         if (qs.Length > 0) qs.Append('&');
                         qs.Append($"limit={limit.Value}");
                     }
-                    var endpoint = qs.Length > 0 ? $"{Endpoints.Dex.Pairs.SpotPairsLatest}?{qs}" : Endpoints.Dex.Pairs.SpotPairsLatest;
+                    var endpoint = $"{Endpoints.Dex.Pairs.SpotPairsLatest}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<ResponseList<DexSpotPairData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 }
 
                 /// <summary>
-                /// Retrieves the latest market quotes for one or more DEX trading pairs by address.
+                /// Retrieves the latest market quotes for a DEX trading pair by its contract address.
                 /// </summary>
-                /// <param name="pairAddress">Pair contract address.</param>
-                /// <param name="networkSlug">Blockchain network slug.</param>
+                /// <param name="contractAddress">Pair contract address on the target network. CMC expects lowercase hex.</param>
+                /// <param name="networkSlug">Blockchain network slug (e.g. <c>"ethereum"</c>).</param>
                 /// <param name="cancellationToken">Cancellation token.</param>
-                public async Task<ResponseList<DexPairQuoteData>> GetQuotesLatestAsync(string pairAddress, string networkSlug, CancellationToken cancellationToken = default)
+                public async Task<ResponseList<DexPairQuoteData>> GetQuotesLatestAsync(string contractAddress, string networkSlug, CancellationToken cancellationToken = default)
                 {
-                    if (string.IsNullOrWhiteSpace(pairAddress))
-                        throw new ArgumentException("'pairAddress' must be provided.");
+                    if (string.IsNullOrWhiteSpace(contractAddress))
+                        throw new ArgumentException("'contractAddress' must be provided.");
                     if (string.IsNullOrWhiteSpace(networkSlug))
                         throw new ArgumentException("'networkSlug' must be provided.");
-                    var qs = $"pair_address={Uri.EscapeDataString(pairAddress)}&network_slug={Uri.EscapeDataString(networkSlug)}";
+                    var qs = $"contract_address={Uri.EscapeDataString(contractAddress)}&network_slug={Uri.EscapeDataString(networkSlug)}";
                     var endpoint = $"{Endpoints.Dex.Pairs.QuotesLatest}?{qs}";
                     return await coinMarketCapAPI.GetDataAsync<ResponseList<DexPairQuoteData>>(endpoint, cancellationToken).ConfigureAwait(false);
                 }
